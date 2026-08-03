@@ -1,0 +1,519 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'unsafe-inline'; script-src-attr 'none'; style-src 'unsafe-inline'; img-src data:; font-src 'none'; connect-src 'none'; media-src 'none'; object-src 'none'; frame-src 'none'; child-src 'none'; worker-src 'none'; manifest-src 'none'; base-uri 'none'; form-action 'none'">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>13PF · Mathematik · Woche 1 · Absolute und relative Häufigkeit</title>
+<style>
+:root{--ink:#172033;--muted:#526079;--paper:#fff;--soft:#eef5f8;--soft2:#f8fafc;--accent:#0b6b8a;--accent2:#8b4a1f;--line:#bcc9d4;--good:#e8f6ee;--warn:#fff5d9;--teacher:#f3effb;--solution:#eef8f3;--radius:14px;--danger:#9e2f2f}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:#e9eef3;color:var(--ink);font-family:Arial,Helvetica,sans-serif;line-height:1.48;font-size:16px}button,input,select{font:inherit}button{touch-action:manipulation;min-height:44px}
+.appbar{position:sticky;top:0;z-index:20;background:#162434;color:#fff;border-bottom:4px solid var(--accent);box-shadow:0 2px 12px #0003}.appbar .inner{max-width:1180px;margin:auto;padding:.7rem 1rem;display:flex;align-items:center;gap:.6rem;flex-wrap:wrap}.brand{font-weight:800;margin-right:auto}.viewbtn,.printbtn{border:1px solid #ffffff66;background:#ffffff12;color:#fff;border-radius:999px;padding:.48rem .75rem;cursor:pointer}.viewbtn.active{background:#fff;color:#162434}.print-mode{font-size:.84rem;color:#dce8ee;min-width:160px}
+main{max-width:1180px;margin:1.3rem auto 3rem;background:var(--paper);box-shadow:0 12px 35px #1f293733;border-radius:18px;overflow:hidden}.hero{padding:2rem 2.2rem;background:linear-gradient(135deg,#0b6b8a,#193a53);color:#fff}.hero h1{margin:.15rem 0 .55rem;font-size:clamp(1.8rem,4vw,3rem);line-height:1.08}.hero p{max-width:940px;margin:.4rem 0}.kicker{font-size:.82rem;text-transform:uppercase;letter-spacing:.08em;font-weight:800;color:#c7e7f1}.meta{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:.7rem;margin-top:1.2rem}.meta div{background:#ffffff18;border:1px solid #ffffff33;border-radius:12px;padding:.65rem}.meta b{display:block;font-size:.78rem;text-transform:uppercase;letter-spacing:.04em;color:#d9edf4}
+section{padding:1.6rem 2.2rem;border-bottom:1px solid #dde5ec}h2{font-size:1.55rem;margin:.1rem 0 1rem;color:#183b52}h3{font-size:1.18rem;margin:1rem 0 .55rem}h4{margin:.8rem 0 .35rem}p{margin:.45rem 0}ul,ol{margin:.45rem 0 .8rem;padding-left:1.3rem}li{margin:.22rem 0}.grid2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1rem}.grid3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1rem}
+.card{border:1px solid var(--line);border-radius:var(--radius);padding:1rem;background:#fff;break-inside:avoid;page-break-inside:avoid}.card.soft{background:var(--soft2)}.card.problem{border-left:7px solid var(--accent);background:#f4fbfd}.card.teacher{background:var(--teacher);border-color:#cabde5}.card.solution{background:var(--solution);border-color:#a9d4bd}.note{padding:.75rem .9rem;border-radius:10px;background:var(--warn);border-left:5px solid #d69a00}.good{padding:.75rem .9rem;border-radius:10px;background:var(--good);border-left:5px solid #2f8b56}.tag{display:inline-block;padding:.17rem .5rem;border-radius:999px;background:#e3eef3;color:#173e52;font-size:.78rem;font-weight:700;margin:.1rem .12rem .1rem 0}.small{font-size:.9rem;color:var(--muted)}
+table{width:100%;border-collapse:collapse;margin:.7rem 0 1rem;page-break-inside:auto}th,td{border:1px solid #aebbc7;padding:.5rem .58rem;vertical-align:top}th{background:#e7f0f4;text-align:left}tr{break-inside:avoid;page-break-inside:avoid}.timeline th:nth-child(1){width:7%}.timeline th:nth-child(2){width:12%}.timeline th:nth-child(5){width:9%}.timeline th:nth-child(6){width:11%}
+.material{border:2px solid #29475d;border-radius:12px;padding:1rem;background:#fff;break-inside:avoid;page-break-inside:avoid}.protocol-head{display:grid;grid-template-columns:155px 1fr;gap:.25rem .8rem;border-bottom:1px solid #bfcad3;padding-bottom:.55rem;margin-bottom:.7rem;font-size:.94rem}.protocol-head b{color:#34495e}.protocol-mark{display:inline-block;border:2px solid var(--accent);color:var(--accent);font-weight:900;letter-spacing:.06em;padding:.18rem .48rem;margin:.2rem 0 .6rem}.task-with-hints{border-left:5px solid var(--accent2);padding:.72rem .9rem;margin:.85rem 0;background:#fffaf6;break-inside:avoid-page;page-break-inside:auto}.task-with-hints h3{margin:.05rem 0 .45rem}.afb{font-size:.76rem;font-weight:700;background:#efe8df;color:#6d3b19;border-radius:999px;padding:.15rem .42rem;white-space:nowrap}.answerline{border-bottom:1px solid #5f6b76;height:1.25rem;margin:.24rem 0}.answerbox{border:1px dashed #73808c;min-height:3.7rem;margin:.4rem 0;background:#fff}.answerbox.tall{min-height:6.5rem}.answerbox.medium{min-height:8rem}.answerbox.xlarge{min-height:12rem}.compact-table td,.compact-table th{padding:.34rem .4rem}.inline-hints{margin:.55rem 0 .2rem;padding:.25rem .55rem .4rem;border-left:3px solid #d69a00;background:#fffdf5;border-radius:0 10px 10px 0}.inline-hints details{margin:.35rem 0;background:#fff9e8;border:1px solid #d2b977;border-radius:10px;break-inside:avoid;page-break-inside:avoid}.inline-hints summary{cursor:pointer;font-weight:700;padding:.62rem .75rem;color:#5f4512}.inline-hints details>div{padding:0 .75rem .72rem}.sim-task-note{margin:.45rem 0 .2rem;padding:.6rem .75rem;border-left:4px solid var(--accent);background:#eef8fb;border-radius:8px;color:#16465d;break-inside:avoid}.sim-task-note b{color:#0b536d}.sim-link,.sim-button{border:1px solid var(--accent);background:var(--accent);color:#fff;border-radius:999px;padding:.5rem .8rem;cursor:pointer;font-weight:700;margin:.45rem .2rem .05rem 0}.sim-button.secondary{background:#fff;color:var(--accent)}.board{background:#1c2c2b;color:#f5fff9;border:9px solid #8b6a45;border-radius:8px;padding:1rem 1.2rem;box-shadow:inset 0 0 0 2px #5d4530;break-inside:avoid}.board h3{color:#fff;margin-top:0}.formula{font-family:"Cambria Math","Times New Roman",serif;font-weight:700;white-space:nowrap}.pagebreak{break-before:page;page-break-before:always}.student-pagebreak{break-before:auto}.source-list li{margin:.45rem 0}.worksheet-header{display:flex;justify-content:space-between;gap:1rem;border-bottom:2px solid #29475d;padding-bottom:.55rem;margin-bottom:.8rem}.product-sheet{border:2px solid #29475d;border-radius:12px;padding:.85rem;background:#fff}.product-sheet h3{margin-top:0}.criterion-list{display:grid;grid-template-columns:1fr 1fr;gap:.25rem .9rem}.decision-grid{display:grid;grid-template-columns:1fr 1fr;gap:.7rem}.decision-box{border:1px solid #8b99a6;border-radius:10px;padding:.65rem;min-height:5.4rem;background:#fff}.page-note{font-size:.83rem;color:var(--muted)}
+.simulation-only{display:none}[data-view="all"] .simulation-only,[data-view="simulations"] .simulation-only{display:block}[data-view="simulations"] main>section:not(.simulation-only){display:none!important}[data-view="student"] .teacher-only,[data-view="student"] .solution-only,[data-view="student"] .simulation-only{display:none!important}[data-view="teacher"] .student-only,[data-view="teacher"] .solution-only,[data-view="teacher"] .simulation-only{display:none!important}[data-view="solution"] .student-only,[data-view="solution"] .teacher-only,[data-view="solution"] .simulation-only{display:none!important}
+.sim-intro{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1rem;margin:1rem 0}.sim-card{border:1px solid var(--line);border-radius:var(--radius);background:#f8fbfd;padding:1rem;break-inside:avoid}.sim-tag{display:inline-block;padding:.18rem .52rem;border-radius:999px;background:#dceef4;color:#16465d;font-size:.78rem;font-weight:800;margin-bottom:.45rem}.sim-panel{border:1px solid #aebdca;border-radius:14px;background:#fff;padding:1rem;margin:1rem 0;box-shadow:0 6px 18px #1f293710;scroll-margin-top:90px}.sim-panel h3{margin-top:.05rem;color:#183b52}.sim-controls{display:flex;flex-wrap:wrap;align-items:end;gap:.7rem;margin:.75rem 0}.sim-controls label{display:grid;gap:.3rem;font-weight:700;color:#34495e;min-width:205px}.sim-controls select,.sim-controls input{border:1px solid #8797a6;border-radius:9px;padding:.5rem .6rem;background:#fff;color:#172033;min-height:42px}.sim-feedback{min-height:3.2rem;border-left:5px solid #78909c;background:#f3f7f9;border-radius:9px;padding:.65rem .8rem;margin:.65rem 0;color:#253546}.sim-feedback.ok{border-left-color:#2f8b56;background:#e8f6ee}.sim-feedback.warn{border-left-color:#d69a00;background:#fff5d9}.sim-feedback.bad{border-left-color:#b74343;background:#fff0f0}.sim-canvas{display:block;width:100%;height:auto;border:1px solid #aebbc7;border-radius:12px;background:#fff;touch-action:manipulation;margin:.75rem 0}.lab-equation{border:1px solid var(--line);border-radius:10px;background:#f8fafc;padding:.7rem;margin:.55rem 0;font-family:"Cambria Math","Times New Roman",serif;font-weight:700}.range-output{font-weight:800;color:#0b536d}
+.email-card{border:1px solid #9aabb8;border-radius:12px;background:#fff;overflow:hidden;box-shadow:0 6px 18px #1f293715;break-inside:avoid}.email-bar{display:grid;grid-template-columns:92px 1fr;gap:.25rem .75rem;padding:.7rem 1rem;background:#edf3f6;border-bottom:1px solid #b9c6cf;font-size:.93rem}.email-bar b{color:#34495e}.email-body{padding:1rem}.email-body .subject{font-size:1.18rem;font-weight:800;color:#183b52;margin:0 0 .5rem}
+.workpath{counter-reset:path;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:.45rem;margin:.55rem 0}.workpath div{position:relative;border:1px solid var(--line);border-radius:10px;padding:.58rem .52rem .52rem 2rem;background:#f8fafc}.workpath div:before{counter-increment:path;content:counter(path);position:absolute;left:.5rem;top:.5rem;width:1.1rem;height:1.1rem;border-radius:50%;display:grid;place-items:center;background:var(--accent);color:#fff;font-size:.72rem;font-weight:900}
+.ascan-svg{width:100%;height:auto;border:1px solid #aebbc7;border-radius:10px;background:#fff;display:block;margin:.55rem 0}.echo-key{display:flex;flex-wrap:wrap;gap:.45rem;margin:.4rem 0}.echo-key span{border:1px solid var(--line);border-radius:999px;padding:.22rem .52rem;background:#f8fafc;font-size:.86rem}.scan-strip{display:grid;grid-template-columns:48px repeat(8,minmax(54px,1fr));gap:.22rem;align-items:stretch;margin:.5rem 0;overflow-x:auto}.scan-strip>div{border:1px solid #aebbc7;border-radius:7px;min-height:2.2rem;padding:.25rem;display:grid;place-items:center;text-align:center;background:#fff}.scan-strip .head{background:#e7f0f4;font-weight:800;min-height:auto}.scan-strip .rowhead{background:#f0f4f7;font-weight:800}.status-chip{display:inline-block;border-radius:999px;padding:.13rem .4rem;font-size:.76rem;font-weight:800}.status-chip.indication{background:#fff0f0;color:#7e2828}.status-chip.geometry{background:#e8f6ee;color:#245f3d}.status-chip.backwall{background:#eef5f8;color:#264b5e}.evidence-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:.55rem;margin:.55rem 0}.evidence-box{border:1px solid var(--line);border-radius:10px;padding:.58rem;background:#f8fafc}.evidence-box b{display:block;color:#34495e}.formula-strip{display:flex;flex-wrap:wrap;gap:.6rem;align-items:center;padding:.65rem;border:1px solid var(--line);border-radius:10px;background:#f7fbfd}.formula-strip .step{font-weight:800}.formula-strip .arrow{color:var(--accent);font-size:1.2rem}
+@media(max-width:850px){.meta,.grid2,.grid3,.sim-intro,.evidence-grid{grid-template-columns:1fr}.appbar .inner{align-items:flex-start}main{margin:0;border-radius:0}section,.hero{padding:1.2rem}.timeline{font-size:.88rem;display:block;overflow-x:auto}.criterion-list,.decision-grid{grid-template-columns:1fr}.sim-controls label{min-width:min(100%,280px)}.workpath{grid-template-columns:1fr}.scan-strip{grid-template-columns:44px repeat(8,minmax(70px,1fr))}}
+@page{size:A4;margin:11mm}
+@media print{
+ body{background:#fff;font-size:8.8pt;line-height:1.21}.appbar,.no-print,.sim-task-note,.simulation-only{display:none!important}main{max-width:none;margin:0;box-shadow:none;border-radius:0}.hero{background:#fff;color:#111;padding:0 0 4mm;border-bottom:2px solid #111}.hero .kicker{color:#333}.meta div{background:#fff;border:1px solid #999;padding:.25rem}.meta b{color:#333}section{padding:2.2mm 0;border-bottom:0}h2{color:#111;margin-bottom:.38rem;break-after:avoid-page;page-break-after:avoid}h3{margin:.38rem 0 .2rem;break-after:avoid-page;page-break-after:avoid}p{margin:.16rem 0}ul,ol{margin:.16rem 0 .3rem}.card,.material,.task-with-hints,.product-sheet{box-shadow:none}.task-with-hints{margin:.2rem 0;padding:.28rem .42rem}.compact-table td,.compact-table th{padding:.16rem .22rem}.answerline{height:.72rem}.answerbox{min-height:1.7rem;margin:.16rem 0}.answerbox.tall{min-height:3rem}.answerbox.medium{min-height:25mm}.answerbox.xlarge{min-height:48mm}.student-only .inline-hints{display:none!important}body.print-hints .student-only .inline-hints{display:block!important}body.print-hints .student-only .task-with-hints{break-inside:auto;page-break-inside:auto}body.print-hints .student-only .product-sheet{break-inside:avoid-page;page-break-inside:avoid}body.print-hints .student-only .inline-hints details{display:block!important;margin:.14rem 0}body.print-hints .student-only .inline-hints details>div{display:block!important;padding:0 .42rem .3rem}body.print-hints .student-only .inline-hints summary{padding:.28rem .42rem}[data-view="student"] .hero{display:none!important}[data-view="student"] .teacher-only,[data-view="student"] .solution-only{display:none!important}[data-view="teacher"] .student-only,[data-view="teacher"] .solution-only{display:none!important}[data-view="solution"] .student-only,[data-view="solution"] .teacher-only{display:none!important}[data-view="all"] .simulation-only{display:none!important}.pagebreak{break-before:page;page-break-before:always}.student-pagebreak{break-before:page;page-break-before:always}body.print-hints .student-pagebreak{break-before:auto;page-break-before:auto}.worksheet-header{margin-bottom:.25rem}.material{padding:.42rem}.protocol-mark{margin:0 0 .16rem}.protocol-head{margin-bottom:.22rem;padding-bottom:.18rem}.product-sheet{padding:.42rem}.ascan-svg{max-height:42mm;width:100%;margin:.2rem 0}.criterion-list{grid-template-columns:1fr 1fr}.decision-grid{grid-template-columns:1fr 1fr;gap:.35rem}.decision-box{min-height:18mm;padding:.35rem}.email-card{box-shadow:none}.email-bar{padding:.35rem .5rem}.email-body{padding:.45rem}.workpath{grid-template-columns:repeat(4,1fr);gap:.18rem}.workpath div{padding:.26rem .18rem .26rem 1.25rem}.workpath div:before{left:.18rem;top:.22rem}.scan-strip>div{min-height:1.45rem;padding:.14rem}.evidence-grid{grid-template-columns:repeat(3,1fr);gap:.22rem}.evidence-box{padding:.28rem}.formula-strip{padding:.28rem}.page-note{font-size:7.5pt}.timeline{font-size:6.7pt;line-height:1.12;table-layout:fixed;width:100%}.timeline th,.timeline td{padding:.12rem .15rem;overflow-wrap:anywhere}.timeline th:nth-child(1){width:6%}.timeline th:nth-child(2){width:11%}.timeline th:nth-child(3){width:22%}.timeline th:nth-child(4){width:22%}.timeline th:nth-child(5){width:10%}.timeline th:nth-child(6){width:10%}.timeline th:nth-child(7){width:19%}
+}
+
+.data-strip{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:.7rem;margin:.7rem 0}.data-card{border:1px solid var(--line);border-radius:12px;background:#f8fafc;padding:.75rem}.data-card b{display:block;color:#183b52}.data-card strong{display:block;font-size:1.35rem;margin:.15rem 0}.math-box{border:1px solid var(--line);border-radius:12px;background:#f7fbfd;padding:.8rem;margin:.6rem 0}.math-flow{display:flex;flex-wrap:wrap;align-items:center;gap:.45rem}.math-flow span{border:1px solid #b7c7d3;border-radius:9px;background:#fff;padding:.35rem .5rem}.math-flow .arrow{border:0;background:transparent;color:var(--accent);font-weight:900}.protocol-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:.7rem;margin:.6rem 0}.protocol-card{border:1px solid var(--line);border-radius:11px;padding:.65rem;background:#fff}.protocol-card b{display:block;color:#183b52;margin-bottom:.25rem}.checklist{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.28rem .8rem}.result-pill{display:inline-block;border-radius:999px;background:#e7f0f4;color:#183b52;font-weight:800;padding:.18rem .5rem;margin:.1rem}.chart-shell{border:1px solid #aebbc7;border-radius:12px;background:#fff;padding:.5rem;margin:.6rem 0}.chart-shell canvas{display:block;width:100%;height:auto;background:#fff}.metric-live{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:.55rem;margin:.55rem 0}.metric-live div{border:1px solid var(--line);border-radius:10px;background:#f8fafc;padding:.55rem;text-align:center}.metric-live b{display:block;color:#0b536d;font-size:1.25rem}.sim-choice-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:.55rem}.sim-choice-grid button{border-radius:10px;background:#fff;color:#183b52;border:1px solid #8797a6}.sim-choice-grid button.selected{background:#e7f0f4;border-color:var(--accent)}.bar-grid{display:grid;grid-template-columns:70px 1fr 64px;gap:.45rem;align-items:center;margin:.45rem 0}.bar-track{height:26px;border:1px solid #aebbc7;border-radius:999px;overflow:hidden;background:#eef3f6}.bar-fill{height:100%;width:0;background:linear-gradient(90deg,#0b6b8a,#193a53);transition:width .25s}.number-input{max-width:150px}.two-columns-print{display:grid;grid-template-columns:1fr 1fr;gap:.7rem}.rubric-free{border:2px solid #29475d;border-radius:12px;padding:.8rem;background:#fff}.rubric-free h3{margin-top:0}.sentence-starter{font-style:italic;color:#4b5d6d}.source-plain{overflow-wrap:anywhere}.boundary{border-left:5px solid #7b5aa6;background:#f3effb;border-radius:10px;padding:.7rem .85rem}.nowrap{white-space:nowrap}
+@media(max-width:850px){.data-strip,.protocol-grid,.metric-live,.sim-choice-grid,.two-columns-print{grid-template-columns:1fr}.checklist{grid-template-columns:1fr}.bar-grid{grid-template-columns:58px 1fr 54px}}
+@media print{.data-strip,.protocol-grid{grid-template-columns:repeat(3,1fr);gap:.25rem}.data-card,.protocol-card{padding:.28rem}.math-box{padding:.32rem;margin:.2rem 0}.checklist{grid-template-columns:1fr 1fr}.two-columns-print{grid-template-columns:1fr 1fr}.rubric-free{padding:.42rem}.task-with-hints h3{font-size:10.2pt}.task-with-hints p{margin:.1rem 0}.data-card strong{font-size:1rem}.worksheet-header{font-size:8.5pt}}
+</style>
+</head>
+<body data-view="all">
+<nav class="appbar no-print" aria-label="Ansichts- und Drucksteuerung">
+  <div class="inner">
+    <div class="brand">13PF · Mathematik · Woche 1</div>
+    <button type="button" class="viewbtn active" data-view-target="all">Gesamt</button>
+    <button type="button" class="viewbtn" data-view-target="student">Schülerarbeitsblatt</button>
+    <button type="button" class="viewbtn" data-view-target="simulations">Simulationen</button>
+    <button type="button" class="viewbtn" data-view-target="teacher">Lehrkraftfassung</button>
+    <button type="button" class="viewbtn" data-view-target="solution">Musterlösung</button>
+    <button type="button" class="printbtn" id="w1PrintHintToggle">Hilfen beim Drucken: aus</button>
+    <button type="button" class="printbtn" id="w1PrintBtn">Drucken</button>
+    <span class="print-mode" id="w1PrintModeText">Schülerdruck ohne Hilfen</span>
+  </div>
+</nav>
+<main id="w1-main">
+<section class="hero">
+  <div class="kicker">Stochastik · Halbjahr 13.1 · Berufliches Gymnasium D 17</div>
+  <h1>Aus Trefferzahlen wird ein fairer Vergleich</h1>
+  <p>Zwei Lernstunden à 45 Minuten mit gemeinsamem problemorientierten Einstieg: an anonymisierten Daten eines Freizeit-Sporttags absolute und relative Häufigkeiten unterscheiden, Versuchsdokumentationen prüfen und eine mathematisch faire Empfehlung für das Organisationsteam verfassen.</p>
+  <div class="meta">
+    <div><b>Klasse</b>13PF · Freizeitsportleitung</div>
+    <div><b>Woche</b>1 · Datum offen</div>
+    <div><b>Stundenlage</b>2 × 45 Minuten · gemeinsame Lernsequenz</div>
+    <div><b>Handlungsprodukt</b>Auswertungsblatt FT-01 „Fair vergleichen“</div>
+  </div>
+</section>
+
+<section class="teacher-only" id="w1-einordnung">
+  <h2>1. Einordnung, letzter Stand und Lernziele</h2>
+  <div class="grid2">
+    <div class="card">
+      <h3>Curriculare Einordnung</h3>
+      <p><span class="tag">DJP 13.1</span><span class="tag">Halbjahresskript Woche 1</span></p>
+      <p>Das Kursthema führt „vom Experiment zur Wahrscheinlichkeit und Hypothesentests zur Analyse empirischer Daten“. Der erste Teilschritt liegt im Bereich <b>von der relativen Häufigkeit zur Wahrscheinlichkeit</b>. Das Halbjahresskript eröffnet Woche 1 mit der Unterscheidung von absoluter und relativer Häufigkeit und der Frage, wie Rohdaten verschiedener Stichprobenumfänge fair verglichen werden.</p>
+      <p><b>Letzter gesicherter Stand:</b> Start des Halbjahres 13.1; eine fachlich vorangehende Mathematik-Wochen-HTML liegt nicht vor. Daher wird kein Stochastik-Lernstand als behandelt vorausgesetzt.</p>
+      <p><b>Nächster offener Schritt:</b> Trefferzahl <span class="formula">H<sub>n</sub></span>, Versuchszahl <span class="formula">n</span> und relativen Anteil <span class="formula">h<sub>n</sub> = H<sub>n</sub>/n</span> unterscheiden, berechnen und für faire Vergleiche nutzen.</p>
+    </div>
+    <div class="card soft">
+      <h3>Voraussetzungen, Brücke, Grenze und Folgestoff</h3>
+      <p><b>Voraussetzungen:</b> Brüche, Division, Dezimalzahlen und Prozentangaben; Tabellen lesen; Ergebnisse in einem Sachzusammenhang formulieren.</p>
+      <p><b>Didaktische Brücke:</b> Ein kumulatives Trefferprotokoll macht sichtbar, dass sich <span class="formula">H<sub>n</sub></span> und <span class="formula">h<sub>n</sub></span> unterschiedlich verhalten. Es wird noch keine Stabilisierung als Gesetz behauptet.</p>
+      <p><b>Bewusste Grenze:</b> Keine theoretische Wahrscheinlichkeit, kein empirisches Gesetz der großen Zahlen, keine Simulation zur Schätzung von <span class="formula">p</span>, keine Kausal- oder Wirksamkeitsaussage über Trainingsmethoden.</p>
+      <p><b>Folgestoff:</b> Woche 2 „Simulation und empirisches Gesetz der großen Zahlen“: Zufallsexperimente simulieren und Verläufe relativer Häufigkeiten vorsichtig beschreiben.</p>
+      <p><b>Organisatorische Annahme:</b> Da keine abweichende Lage angegeben ist, werden die zwei vorgesehenen Lernstunden als gemeinsame Sequenz von 2 × 45 Minuten geplant; die separate Übungsstunde bleibt ausgeschlossen.</p>
+    </div>
+  </div>
+  <h3>Lernziele</h3>
+  <ul>
+    <li>Die Lernenden unterscheiden Versuchszahl <span class="formula">n</span>, absolute Häufigkeit <span class="formula">H<sub>n</sub></span> und relative Häufigkeit <span class="formula">h<sub>n</sub></span> sprachlich, tabellarisch und rechnerisch.</li>
+    <li>Sie berechnen relative Häufigkeiten als Bruch, Dezimalzahl und Prozentwert und prüfen Wertebereich sowie Bezugsgröße.</li>
+    <li>Sie vergleichen Gruppen mit unterschiedlichen Versuchszahlen anhand relativer statt bloß absoluter Häufigkeiten.</li>
+    <li>Sie prüfen Dokumentationen auf fehlende Nenner, widersprüchliche Prozentangaben und nachvollziehbare Rundung.</li>
+    <li>Sie formulieren eine begrenzte datenbasierte Empfehlung, ohne aus einem Trefferanteil eine kausale Wirksamkeitsaussage abzuleiten.</li>
+  </ul>
+</section>
+
+<section class="teacher-only" id="w1-problem-produkt">
+  <h2>2. Problemsituation und Handlungsprodukt</h2>
+  <div class="email-card">
+    <div class="email-bar">
+      <b>Von</b><span>Lea Aydin · Organisation Freizeit-Sporttag „ParkAktiv“</span>
+      <b>An</b><span>Auswertungsteam 13PF</span>
+      <b>Betreff</b><span>FT-01: Welche Gruppe war an der Zielwurfstation erfolgreicher?</span>
+    </div>
+    <div class="email-body">
+      <p class="subject">Mehr Treffer heißt doch automatisch besser – oder?</p>
+      <p>Für den anonymisierten Abschlussbericht liegen zwei unterschiedlich lange Versuchsrunden derselben Zielwurfstation vor. Gruppe Blau erzielte <b>18 Treffer bei 30 Würfen</b>. Gruppe Orange erzielte <b>24 Treffer bei 50 Würfen</b>. Im Entwurf steht bereits: „Orange war erfolgreicher, weil 24 größer als 18 ist.“</p>
+      <p>Zusätzlich meldet Gruppe Grün nur „21 Treffer“; die Zahl aller Würfe fehlt. Das Organisationsteam möchte die Gruppen fair vergleichen und künftig ein überprüfbares Protokoll verwenden.</p>
+      <p><b>Auftrag:</b> Prüft die Rohdaten, entwickelt einen fairen Vergleich und erstellt das Auswertungsblatt FT-01 mit Rechenweg, Entscheidung, Mindestangaben für künftige Protokolle und einer klaren Aussagegrenze.</p>
+    </div>
+  </div>
+  <p class="small"><span class="tag">didaktisch konstruierte, anonymisierte Daten</span> Veranstaltung, Person, Gruppen und Trefferzahlen sind fiktiv. Es werden keine realen Leistungs- oder Gesundheitsdaten verwendet.</p>
+  <p><b>Untersuchungsfrage:</b> Welche Kennzahl erlaubt bei verschieden vielen Würfen einen fairen Vergleich, welche Daten müssen dokumentiert sein und welche Aussage ist auf Basis der Zahlen zulässig?</p>
+  <div class="grid2">
+    <div class="card problem">
+      <h3>Zwischenergebnis Stunde 1</h3>
+      <p><b>Vergleichsfähige Auswertungstabelle:</b> <span class="formula">n</span>, <span class="formula">H<sub>n</sub></span> und <span class="formula">h<sub>n</sub></span> für Blau und Orange, korrigierter Vergleichssatz und ausgewertetes kumulatives Protokoll.</p>
+    </div>
+    <div class="card solution">
+      <h3>Gesamtprodukt Stunde 2</h3>
+      <p><b>Auswertungsblatt FT-01 „Fair vergleichen“:</b> nachvollziehbare Datentabelle, begründete Empfehlung, Protokollstandard und begrenzte Interpretation.</p>
+    </div>
+  </div>
+  <p><b>Produktkriterien:</b> Bezugsgrößen korrekt benannt · Bruch, Dezimalzahl und Prozent konsistent · unterschiedliche Versuchszahlen berücksichtigt · unvollständige und widersprüchliche Angaben erkannt · Entscheidung mit Zahlen belegt · keine unbegründete Wirksamkeits- oder Kausalaussage.</p>
+</section>
+
+<section class="teacher-only" id="w1-verlauf">
+  <h2>3. Verlaufsplan für beide Stunden</h2>
+  <table class="timeline">
+    <thead><tr><th>Zeit</th><th>Phase</th><th>Lehrkrafthandeln</th><th>Lernendenhandeln</th><th>Sozialform</th><th>Material</th><th>Erwartetes Ergebnis / Produktbezug</th></tr></thead>
+    <tbody>
+      <tr><td>0–7</td><td>Problemöffnung</td><td>Zeigt E-Mail und den Satz „24 &gt; 18, also Orange besser“. Fragt nach fehlender Bezugsgröße.</td><td>Markieren Daten, Behauptung und offene Frage; formulieren erste Vermutungen.</td><td>Plenum → EA</td><td>E-Mail, Datencards</td><td>Konflikt: Absolute Trefferzahlen sind bei verschieden vielen Würfen nicht unmittelbar fair vergleichbar.</td></tr>
+      <tr><td>7–18</td><td>Begriffe modellieren</td><td>Führt Symbolsprache nur aus den Daten heraus ein; fordert Einheiten und Wertebereich.</td><td>Bearbeiten Aufgabe 1: ordnen <span class="formula">n</span>, <span class="formula">H<sub>n</sub></span>, <span class="formula">h<sub>n</sub></span> zu und rechnen Blau/Orange um.</td><td>EA → PA</td><td>AB 1, TR</td><td>Begrifflich und rechnerisch vollständige Vergleichstabelle.</td></tr>
+      <tr><td>18–30</td><td>Fair vergleichen</td><td>Fordert zwei Vergleichssätze: einmal absolut, einmal relativ; stoppt vorschnelle Methodenbewertung.</td><td>Bearbeiten Aufgabe 2, beurteilen den Entwurf und formulieren eine begrenzte Empfehlung.</td><td>PA</td><td>AB 2</td><td>Blau: 60 %, Orange: 48 %; höherer Anteil bei Blau, keine Wirksamkeitsaussage.</td></tr>
+      <tr><td>30–40</td><td>Protokoll auswerten</td><td>Gibt Ergebnisfolge und Rundungsregel; fragt nach dem unterschiedlichen Verhalten der beiden Häufigkeiten.</td><td>Bearbeiten Aufgabe 3 an vier Messpunkten und beschreiben Veränderungen.</td><td>EA → PA</td><td>AB 3</td><td>Kumulatives Protokoll als didaktische Brücke.</td></tr>
+      <tr><td>40–45</td><td>Zwischensicherung</td><td>Gibt Labor 1 erst nach eigener Tabelle frei; sammelt Merksatz.</td><td>Kontrollieren einen selbst erzeugten Verlauf; vervollständigen die Auswertungstabelle.</td><td>PA → Plenum</td><td>Sim 1, Tafel</td><td><b>Zwischenprodukt:</b> vergleichsfähige Auswertungstabelle.</td></tr>
+      <tr><td>45–52</td><td>Reaktivierung</td><td>Stellt drei Kurzprotokolle gegenüber und fragt: vollständig, unvollständig oder widersprüchlich?</td><td>Begründen spontan mit Nenner, Trefferzahl und Prozentwert.</td><td>Think–Pair</td><td>Protokollkarten</td><td>Kriterien für überprüfbare Datendokumentation.</td></tr>
+      <tr><td>52–65</td><td>Datenqualität prüfen</td><td>Fordert Korrektur statt bloßes Ankreuzen; unterstützt aufgabenbezogen.</td><td>Bearbeiten Aufgabe 4, identifizieren fehlende Angaben und korrigieren einen falschen Prozentwert.</td><td>PA</td><td>AB 4</td><td>Protokollstandard: <span class="formula">n</span>, <span class="formula">H<sub>n</sub></span>, <span class="formula">h<sub>n</sub></span>, Rundung, Bedingungen.</td></tr>
+      <tr><td>65–73</td><td>Dynamisch kontrollieren</td><td>Öffnet Labore 2 und 3 nach eigener Klassifikation; fordert je einen schriftlichen Zahlen- oder Datenbeleg.</td><td>Prüfen einen Vergleich und ein Protokoll; notieren nicht nur die Anzeige, sondern ihre Bedeutung.</td><td>PA</td><td>Sim 2–3</td><td>Darstellungswechsel stützt Vergleich und Datenprüfung.</td></tr>
+      <tr><td>73–86</td><td>Handlungsprodukt</td><td>Fordert adressatengerechten Kurzbericht und kontrolliert Aussagegrenze.</td><td>Erstellen Aufgabe 5; prüfen paarweise mit Produktkriterien.</td><td>EA → PA</td><td>Produktblatt</td><td>Vollständiges Auswertungsblatt FT-01.</td></tr>
+      <tr><td>86–90</td><td>Ergebnissicherung</td><td>Vergleicht „Blau hatte den höheren Anteil“ mit „Methode Blau ist besser“.</td><td>Korrigieren Schlussformulierung und übergeben das Produkt.</td><td>Plenum</td><td>Tafelbild</td><td><b>Gesamtprodukt:</b> faire, transparente und begrenzte Empfehlung.</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<section class="teacher-only" id="w1-didaktik">
+  <h2>4. Differenzierung, Hilfesteuerung und typische Reaktionen</h2>
+  <div class="grid3">
+    <div class="card"><h3>Basisweg</h3><p>Vorstrukturierte Tabellen, Formelstreifen, Prozent-Hunderterbezug und frühe Nutzung der Begriffshilfe. In Aufgabe 3 werden die kumulierten Trefferzahlen zuerst markiert; im Produkt stehen Satzstarter bereit.</p></div>
+    <div class="card"><h3>Standardweg</h3><p>Alle Aufgaben mit eigenständiger Umrechnung, Vergleichsbegründung, vollständiger Protokollprüfung und begrenztem Entscheidungstext.</p></div>
+    <div class="card"><h3>Erweiterungsweg</h3><p>Vergleiche zusätzlich 3/5 und 60/100 hinsichtlich gleichen Anteils, aber unterschiedlicher Datenmenge. Erläutere, warum gleiche relative Häufigkeit nicht dieselbe Aussagekraft über langfristige Leistung garantiert und warum hier noch keine Wahrscheinlichkeit geschätzt wird.</p></div>
+  </div>
+  <h3>Aufgabennahe Hilfen steuern</h3>
+  <ul>
+    <li><b>Aufgabe 1:</b> Hilfen lenken auf Nenner, Zähler und Umrechnung. Sie geben nicht beide Gruppenresultate vollständig vor.</li>
+    <li><b>Aufgabe 2:</b> Hilfen trennen absoluten und relativen Vergleich und erinnern an die Aussagegrenze. Die abschließende Empfehlung bleibt offen.</li>
+    <li><b>Aufgabe 3:</b> Hilfen strukturieren das kumulative Zählen und den ersten Messpunkt; die restliche Tabelle bleibt eigenständig.</li>
+    <li><b>Aufgabe 4:</b> Hilfen liefern Prüfkategorien und einen ersten Widerspruchscheck, nicht alle Klassifikationen.</li>
+    <li><b>Aufgabe 5:</b> Hilfen ordnen Produktfelder und geben Satzstarter, formulieren aber nicht den vollständigen AFB-III-Schluss.</li>
+  </ul>
+  <h3>Typische Fehler und mögliche Reaktionen</h3>
+  <table>
+    <thead><tr><th>Beobachtung</th><th>Mögliche Reaktion</th></tr></thead>
+    <tbody>
+      <tr><td><span class="formula">H<sub>n</sub></span> und <span class="formula">h<sub>n</sub></span> werden vertauscht.</td><td>Einheit abfragen: Trefferzahl ist eine Anzahl; relative Häufigkeit ist ein Anteil zwischen 0 und 1 beziehungsweise 0 % und 100 %.</td></tr>
+      <tr><td>Durch Nichttreffer statt durch alle Versuche geteilt.</td><td>Nenner im Sachtext farblich markieren: „bei 30 Würfen“ bedeutet <span class="formula">n = 30</span>.</td></tr>
+      <tr><td>0,6 und 60 % werden als unterschiedliche Ergebnisse behandelt.</td><td>Hunderterbezug herstellen: <span class="formula">0,6 = 60/100 = 60 %</span>.</td></tr>
+      <tr><td>24 Treffer gelten automatisch als besser als 18 Treffer.</td><td>Gedankenexperiment: Was wäre bei 24 Treffern aus 1000 Würfen? Bezugsgröße erzwingt Anteilsvergleich.</td></tr>
+      <tr><td>Ein Prozentwert ohne <span class="formula">n</span> gilt als vollständig dokumentiert.</td><td>Zwischen mathematisch vergleichbarem Anteil und überprüfbarem Versuchsprotokoll unterscheiden.</td></tr>
+      <tr><td>„Blau hat die bessere Trainingsmethode.“</td><td>Beobachtung und Ursache trennen: Die Daten zeigen nur den höheren Trefferanteil dieser anonymisierten Runden.</td></tr>
+    </tbody>
+  </table>
+  <h3>Sprachliche Unterstützung</h3>
+  <p><b>Satzstarter:</b> „Die absolute Häufigkeit beträgt … Treffer.“ · „Die relative Häufigkeit ist …, weil … durch … geteilt wird.“ · „Für einen fairen Vergleich nutze ich …“ · „Das Protokoll ist nicht überprüfbar, weil … fehlt.“ · „Aus den Daten folgt …; nicht belegt ist …“</p>
+</section>
+
+<section class="teacher-only" id="w1-simulationen-lehrkraft">
+  <h2>5. Simulationskonzept und Einsatz</h2>
+  <table>
+    <thead><tr><th>Labor</th><th>Zuordnung</th><th>Mehrwert</th><th>Einsatzzeitpunkt</th><th>Schriftliche Denkhandlung bleibt</th></tr></thead>
+    <tbody>
+      <tr><td>Trefferprotokoll-Labor</td><td>Aufgaben 1 und 3</td><td>Erfasst eigene Treffer/Nichttreffer schrittweise und visualisiert gleichzeitig <span class="formula">n</span>, <span class="formula">H<sub>n</sub></span> und <span class="formula">h<sub>n</sub></span> als Verlauf.</td><td>Nach eigener Begriffsklärung und mindestens einem Tabellenpunkt.</td><td>Rechenweg, Vergleich der Größen und Beschreibung ohne Gesetzesaussage.</td></tr>
+      <tr><td>Vergleichswerkstatt</td><td>Aufgabe 2</td><td>Prüft frei gewählte oder Aufgabendaten bei unterschiedlichen Stichprobenumfängen, zeigt Anteilsbalken und zwingt zu einer Vorhersage.</td><td>Nach eigener Rechnung.</td><td>Adressatengerechte Entscheidung und Aussagegrenze.</td></tr>
+      <tr><td>Protokollcheck</td><td>Aufgaben 4–5</td><td>Klassifiziert einzelne Kurzprotokolle als vollständig, unvollständig oder widersprüchlich und gibt begründete Rückmeldung.</td><td>Nach eigenem Prüfkriterium.</td><td>Korrekturvorschlag und Mindeststandard für FT-01.</td></tr>
+    </tbody>
+  </table>
+  <p class="small">Alle Daten und Rückmeldungen sind didaktisch konstruiert. Die Labore speichern nichts, greifen nicht auf Netzwerke zu und liefern keine sportwissenschaftliche Bewertung.</p>
+</section>
+
+<section class="student-only" id="w1-arbeitsblatt">
+  <div class="worksheet-header">
+    <div><b>13PF · Mathematik · Woche 1</b><br>Schülerarbeitsblatt: Auswertungsblatt FT-01 „Fair vergleichen“</div>
+    <div>Name: ____________________<br>Datum: ____________________</div>
+  </div>
+  <div class="material">
+    <div class="protocol-mark">ORGANISATIONSAUFTRAG · FT-01</div>
+    <div class="protocol-head">
+      <b>Kontext</b><span>anonymisierte Zielwurfstation beim fiktiven Freizeit-Sporttag „ParkAktiv“</span>
+      <b>Rohdaten</b><span>Blau: 18 Treffer bei 30 Würfen · Orange: 24 Treffer bei 50 Würfen · Grün: 21 Treffer, Gesamtzahl fehlt</span>
+      <b>Begriffe</b><span><span class="formula">n</span> = Versuchszahl · <span class="formula">H<sub>n</sub></span> = absolute Trefferhäufigkeit · <span class="formula">h<sub>n</sub> = H<sub>n</sub>/n</span> = relative Trefferhäufigkeit</span>
+      <b>Rundung</b><span>Dezimalzahl auf drei Stellen, Prozentwert auf eine Nachkommastelle, sofern nicht exakt</span>
+      <b>Geltung</b><span>Vergleich dieser dokumentierten Runden; keine Aussage über Ursache, Gesundheit oder allgemeine Wirksamkeit einer Methode</span>
+    </div>
+    <p><b>Arbeitsauftrag:</b> Macht die Rohdaten vergleichbar, prüft die Dokumentation und erstellt eine Empfehlung, die das Organisationsteam mathematisch nachvollziehen kann.</p>
+    <div class="workpath" aria-label="Arbeitsweg"><div>Bezugsgrößen benennen</div><div>Anteile berechnen</div><div>Protokolle prüfen</div><div>Begrenzt empfehlen</div></div>
+  </div>
+
+  <div class="task-with-hints" id="w1-aufgabe-1">
+    <h3>Aufgabe 1 – Von Rohdaten zu Häufigkeiten <span class="afb">AFB I–II</span></h3>
+    <div class="data-strip">
+      <div class="data-card"><b>Gruppe Blau</b><strong>18 Treffer</strong><span>bei 30 Würfen</span></div>
+      <div class="data-card"><b>Gruppe Orange</b><strong>24 Treffer</strong><span>bei 50 Würfen</span></div>
+      <div class="data-card"><b>Gruppe Grün</b><strong>21 Treffer</strong><span>Versuchszahl fehlt</span></div>
+    </div>
+    <p>a) Ordne für Blau und Orange jeweils <span class="formula">n</span> und <span class="formula">H<sub>n</sub></span> zu.</p>
+    <p>b) Berechne <span class="formula">h<sub>n</sub> = H<sub>n</sub>/n</span> als Bruch, Dezimalzahl und Prozentwert.</p>
+    <p>c) Begründe, warum für Grün keine relative Häufigkeit berechnet werden kann.</p>
+    <table class="compact-table">
+      <thead><tr><th>Gruppe</th><th>n</th><th>H<sub>n</sub></th><th>Bruch H<sub>n</sub>/n</th><th>Dezimalzahl</th><th>Prozent</th></tr></thead>
+      <tbody><tr><td>Blau</td><td></td><td></td><td></td><td></td><td></td></tr><tr><td>Orange</td><td></td><td></td><td></td><td></td><td></td></tr><tr><td>Grün</td><td></td><td>21</td><td colspan="3"></td></tr></tbody>
+    </table>
+    <div class="sim-task-note no-print"><b>Optionale Offline-Hilfe zu Aufgabe 1:</b> Löse zuerst eine Gruppe selbst. Erzeuge danach im <b>Trefferprotokoll-Labor</b> eigene Daten und kontrolliere die Rollen von <span class="formula">n</span>, <span class="formula">H<sub>n</sub></span> und <span class="formula">h<sub>n</sub></span>.<br><button type="button" class="sim-link" data-sim-target="sim-protocol">Trefferprotokoll-Labor öffnen</button></div>
+    <div class="inline-hints" aria-label="Hilfen zu Aufgabe 1">
+      <details><summary>Hilfe 1 zu Aufgabe 1: Denkimpuls</summary><div>Welche Zahl zählt alle Würfe, welche nur die Treffer? Der Anteil braucht beide Angaben.</div></details>
+      <details><summary>Hilfe 2 zu Aufgabe 1: Struktur- und Begriffshilfe</summary><div><span class="formula">n</span> steht im Nenner, <span class="formula">H<sub>n</sub></span> im Zähler. Ein Anteil liegt zwischen 0 und 1.</div></details>
+      <details><summary>Hilfe 3 zu Aufgabe 1: erster Zwischenschritt</summary><div>Für Blau gilt: <span class="formula">n = 30</span> und <span class="formula">H<sub>30</sub> = 18</span>. Setze diese Werte in den Bruch ein.</div></details>
+    </div>
+  </div>
+
+  <div class="task-with-hints" id="w1-aufgabe-2">
+    <h3>Aufgabe 2 – Den Entwurf fair beurteilen <span class="afb">AFB II–III</span></h3>
+    <div class="note"><b>Entwurf:</b> „Orange war erfolgreicher, weil 24 Treffer mehr sind als 18 Treffer. Deshalb ist die bei Orange eingesetzte Anleitung besser.“</div>
+    <p>a) Markiere im Entwurf eine mathematisch unfaire Vergleichsstelle und eine unbelegte Ursache-Wirkungs-Aussage.</p>
+    <p>b) Vergleiche Blau und Orange zuerst absolut, dann relativ.</p>
+    <p>c) Formuliere einen korrigierten Satz mit einem Zahlenbeleg und einer Aussagegrenze.</p>
+    <div class="answerbox tall"></div>
+    <div class="sim-task-note no-print"><b>Optionale Offline-Hilfe zu Aufgabe 2:</b> Rechne zuerst selbst. Prüfe danach in der <b>Vergleichswerkstatt</b> deine Anteile und formuliere die Entscheidung außerhalb des Labors.<br><button type="button" class="sim-link" data-sim-target="sim-compare">Vergleichswerkstatt öffnen</button></div>
+    <div class="inline-hints" aria-label="Hilfen zu Aufgabe 2">
+      <details><summary>Hilfe 1 zu Aufgabe 2: Denkimpuls</summary><div>Kann man 18 von 30 und 24 von 50 fair nur über die Trefferzahlen vergleichen?</div></details>
+      <details><summary>Hilfe 2 zu Aufgabe 2: Struktur- und Sprachhilfe</summary><div>Trenne: „absolut mehr Treffer“ · „relativ höherer Trefferanteil“ · „Ursache der Unterschiede“.</div></details>
+      <details><summary>Hilfe 3 zu Aufgabe 2: erster Zwischenschritt</summary><div>Beginne: „Orange hat absolut 6 Treffer mehr. Für den fairen Vergleich berechne ich jedoch …“</div></details>
+    </div>
+  </div>
+
+  <div class="student-pagebreak"></div>
+
+  <div class="task-with-hints" id="w1-aufgabe-3">
+    <h3>Aufgabe 3 – Ein kumulatives Trefferprotokoll lesen <span class="afb">AFB II</span></h3>
+    <p>Eine weitere anonymisierte Runde liefert die Folge <b>T, F, T, T, F, F, T, T, F, T, T, F</b>. Dabei bedeutet T Treffer und F Fehlversuch.</p>
+    <p>a) Bestimme nach dem 3., 6., 9. und 12. Wurf die bis dahin erreichte absolute und relative Häufigkeit. Runde Prozentwerte auf eine Nachkommastelle.</p>
+    <table class="compact-table">
+      <thead><tr><th>Versuchszahl n</th><th>kumulierte Treffer H<sub>n</sub></th><th>h<sub>n</sub> als Bruch</th><th>h<sub>n</sub> in %</th></tr></thead>
+      <tbody><tr><td>3</td><td></td><td></td><td></td></tr><tr><td>6</td><td></td><td></td><td></td></tr><tr><td>9</td><td></td><td></td><td></td></tr><tr><td>12</td><td></td><td></td><td></td></tr></tbody>
+    </table>
+    <p>b) Beschreibe getrennt, wie sich <span class="formula">H<sub>n</sub></span> und <span class="formula">h<sub>n</sub></span> im Verlauf verändern können. Formuliere noch keine Aussage über eine Wahrscheinlichkeit.</p>
+    <div class="answerbox"></div>
+    <div class="sim-task-note no-print"><b>Optionale Offline-Hilfe zu Aufgabe 3:</b> Trage mindestens den Punkt bei n = 3 selbst ein. Erzeuge danach im <b>Trefferprotokoll-Labor</b> einen Verlauf und beobachte beide Größen.<br><button type="button" class="sim-link" data-sim-target="sim-protocol">Trefferprotokoll-Labor öffnen</button></div>
+    <div class="inline-hints" aria-label="Hilfen zu Aufgabe 3">
+      <details><summary>Hilfe 1 zu Aufgabe 3: Denkimpuls</summary><div>Zähle bei jedem Kontrollpunkt alle T von Beginn bis zu diesem Punkt.</div></details>
+      <details><summary>Hilfe 2 zu Aufgabe 3: Strukturhilfe</summary><div>Arbeitsfolge: bis n zählen → Treffer kumulieren → <span class="formula">H<sub>n</sub>/n</span> bilden → in Prozent umrechnen.</div></details>
+      <details><summary>Hilfe 3 zu Aufgabe 3: erster Zwischenschritt</summary><div>Nach drei Würfen lautet die Folge T, F, T. Daher ist <span class="formula">H<sub>3</sub> = 2</span>.</div></details>
+    </div>
+  </div>
+
+  <div class="task-with-hints" id="w1-aufgabe-4">
+    <h3>Aufgabe 4 – Kurzprotokolle prüfen und korrigieren <span class="afb">AFB II–III</span></h3>
+    <div class="protocol-grid">
+      <div class="protocol-card"><b>P1</b>„21 Treffer.“</div>
+      <div class="protocol-card"><b>P2</b>„18 Treffer bei 30 Würfen = 60 %.“</div>
+      <div class="protocol-card"><b>P3</b>„20 Treffer bei 40 Würfen = 60 %.“</div>
+    </div>
+    <p>a) Ordne zu: <b>unvollständig · vollständig und konsistent · widersprüchlich</b>.</p>
+    <p>b) Begründe jede Zuordnung mit einer konkreten Daten- oder Rechenprüfung.</p>
+    <p>c) Korrigiere P3 und notiere vier Mindestangaben für ein künftig überprüfbares Trefferprotokoll.</p>
+    <div class="answerbox tall"></div>
+    <div class="sim-task-note no-print"><b>Optionale Offline-Hilfe zu Aufgabe 4:</b> Prüfe zuerst ein Protokoll selbst. Kontrolliere danach im <b>Protokollcheck</b> genau einen Fall.<br><button type="button" class="sim-link" data-sim-target="sim-check">Protokollcheck öffnen</button></div>
+    <div class="inline-hints" aria-label="Hilfen zu Aufgabe 4">
+      <details><summary>Hilfe 1 zu Aufgabe 4: Denkimpuls</summary><div>Ist der Nenner bekannt? Passt der Prozentwert rechnerisch zum Quotienten?</div></details>
+      <details><summary>Hilfe 2 zu Aufgabe 4: Prüfstruktur</summary><div>Prüfe n, H<sub>n</sub>, Quotient, Prozentwert und Rundung getrennt.</div></details>
+      <details><summary>Hilfe 3 zu Aufgabe 4: erster Zwischenschritt</summary><div>P3: Berechne zuerst <span class="formula">20/40</span> als Dezimalzahl.</div></details>
+    </div>
+  </div>
+
+  <div class="student-pagebreak"></div>
+
+  <div class="task-with-hints" id="w1-aufgabe-5">
+    <h3>Aufgabe 5 – Handlungsprodukt FT-01 erstellen <span class="afb">AFB II–III</span></h3>
+    <div class="rubric-free">
+      <h3>Auswertungsblatt FT-01 „Fair vergleichen“</h3>
+      <p><b>1. Vergleichstabelle:</b> Trage für Blau und Orange n, H<sub>n</sub>, h<sub>n</sub> als Dezimalzahl und Prozentwert ein. Kennzeichne Grün als nicht berechenbar und nenne die fehlende Angabe.</p>
+      <table class="compact-table"><thead><tr><th>Gruppe</th><th>n</th><th>H<sub>n</sub></th><th>h<sub>n</sub></th><th>Prüfhinweis</th></tr></thead><tbody><tr><td>Blau</td><td></td><td></td><td></td><td></td></tr><tr><td>Orange</td><td></td><td></td><td></td><td></td></tr><tr><td>Grün</td><td></td><td>21</td><td></td><td></td></tr></tbody></table>
+      <div class="two-columns-print">
+        <div><p><b>2. Empfehlung an das Organisationsteam:</b></p><div class="answerbox medium"></div></div>
+        <div><p><b>3. Mindeststandard künftiger Protokolle:</b></p><div class="answerbox medium"></div></div>
+      </div>
+      <p><b>4. Aussagegrenze:</b> Was lässt sich aus den Daten nicht schließen?</p><div class="answerbox"></div>
+    </div>
+    <p><b>Selbstprüfung:</b> Sind Bezugsgröße, Rechenweg, Rundung, Entscheidung und Grenze sichtbar? Ist der Text für ein Organisationsteam verständlich?</p>
+    <div class="sim-task-note no-print"><b>Optionale Offline-Kontrolle zu Aufgabe 5:</b> Nutze die Labore nur zur Zahlen- und Protokollkontrolle. Der vollständige Empfehlungstext bleibt dein eigenes Produkt.<br><button type="button" class="sim-link" data-sim-target="sim-compare">Vergleichswerkstatt öffnen</button><button type="button" class="sim-link" data-sim-target="sim-check">Protokollcheck öffnen</button></div>
+    <div class="inline-hints" aria-label="Hilfen zu Aufgabe 5">
+      <details><summary>Hilfe 1 zu Aufgabe 5: Denkimpuls</summary><div>Welche Entscheidung soll das Team treffen, und wie weit tragen genau diese Daten?</div></details>
+      <details><summary>Hilfe 2 zu Aufgabe 5: Struktur- und Sprachhilfe</summary><div>„Blau erreicht … %, Orange … %. Deshalb … . Diese Aussage gilt nur für …; nicht belegt ist …“</div></details>
+      <details><summary>Hilfe 3 zu Aufgabe 5: erster Zwischenschritt</summary><div>Fülle zuerst die Vergleichstabelle vollständig aus. Nutze danach je einen Zahlenbeleg für Empfehlung und Grenze.</div></details>
+    </div>
+  </div>
+  <p class="page-note">Die separate Übungsstunde gehört nicht zu dieser Planung. Das Arbeitsblatt enthält keine Hausaufgabe, keinen Test und kein Bewertungsraster.</p>
+</section>
+
+<section class="simulation-only" id="w1-simulationen">
+  <h2>Simulationen – vollständig lokale Kontrolllabore</h2>
+  <p>Bearbeite die zugehörige Aufgabe zuerst mit einem eigenen Ansatz. Die Labore prüfen Teilgedanken, visualisieren Zusammenhänge und speichern keine Eingaben.</p>
+  <div class="sim-intro">
+    <div class="sim-card"><span class="sim-tag">Labor 1 · Aufgaben 1 und 3</span><h3>Trefferprotokoll</h3><p>Erfasse Treffer und Fehlversuche Schritt für Schritt. Beobachte, wie sich n, H<sub>n</sub> und h<sub>n</sub> gemeinsam verändern.</p></div>
+    <div class="sim-card"><span class="sim-tag">Labor 2 · Aufgabe 2</span><h3>Vergleichswerkstatt</h3><p>Gib zwei vollständige Datensätze ein, triff zuerst eine Vermutung und kontrolliere dann die Trefferanteile.</p></div>
+    <div class="sim-card"><span class="sim-tag">Labor 3 · Aufgaben 4 und 5</span><h3>Protokollcheck</h3><p>Prüfe, ob ein Kurzprotokoll vollständig, unvollständig oder widersprüchlich ist.</p></div>
+  </div>
+
+  <div class="sim-panel" id="sim-protocol">
+    <span class="sim-tag">Labor 1 · Aufgaben 1 und 3</span>
+    <h3>Trefferprotokoll-Labor</h3>
+    <p><b>Auftrag:</b> Lege vor dem ersten Klick fest, wie sich ein Treffer beziehungsweise ein Fehlversuch auf n, H<sub>n</sub> und h<sub>n</sub> auswirken müsste. Erfasse anschließend höchstens 20 Versuche.</p>
+    <p><b>Deutungsfrage:</b> Welche der drei Größen steigt bei jedem Versuch, welche nur bei Treffern und welche kann steigen oder fallen?</p>
+    <div class="sim-controls">
+      <button type="button" class="sim-button" id="protocolHit">Treffer erfassen</button>
+      <button type="button" class="sim-button secondary" id="protocolMiss">Fehlversuch erfassen</button>
+      <button type="button" class="sim-button secondary" id="protocolReset">Labor zurücksetzen</button>
+    </div>
+    <div class="metric-live" aria-label="Aktuelle Kennwerte">
+      <div><span>Versuche n</span><b id="protocolN">0</b></div>
+      <div><span>Treffer Hₙ</span><b id="protocolH">0</b></div>
+      <div><span>Anteil hₙ</span><b id="protocolRel">–</b></div>
+    </div>
+    <div class="chart-shell"><canvas id="protocolCanvas" width="960" height="360" role="img" aria-label="Verlauf der relativen Häufigkeit über der Versuchszahl"></canvas></div>
+    <div class="sim-feedback" id="protocolFeedback" aria-live="polite">Noch kein Versuch erfasst. Beginne mit einer eigenen Prognose.</div>
+  </div>
+
+  <div class="sim-panel" id="sim-compare">
+    <span class="sim-tag">Labor 2 · Aufgabe 2</span>
+    <h3>Vergleichswerkstatt</h3>
+    <p><b>Auftrag:</b> Gib zwei Datensätze ein. Wähle vor dem Prüfen, welche Gruppe nach deiner Rechnung den höheren Trefferanteil hat.</p>
+    <p><b>Deutungsfrage:</b> Kann die Gruppe mit mehr absoluten Treffern trotzdem den kleineren relativen Anteil besitzen?</p>
+    <div class="grid2">
+      <div class="card soft"><h4>Gruppe A</h4><div class="sim-controls"><label>Versuche n<sub>A</sub><input class="number-input" id="compareNA" type="number" min="1" max="1000" step="1" value="30"></label><label>Treffer H<sub>A</sub><input class="number-input" id="compareHA" type="number" min="0" max="1000" step="1" value="18"></label></div></div>
+      <div class="card soft"><h4>Gruppe B</h4><div class="sim-controls"><label>Versuche n<sub>B</sub><input class="number-input" id="compareNB" type="number" min="1" max="1000" step="1" value="50"></label><label>Treffer H<sub>B</sub><input class="number-input" id="compareHB" type="number" min="0" max="1000" step="1" value="24"></label></div></div>
+    </div>
+    <fieldset class="card soft"><legend><b>Eigene Vorhersage</b></legend><div class="sim-choice-grid"><button type="button" data-compare-guess="A">A hat höheren Anteil</button><button type="button" data-compare-guess="B">B hat höheren Anteil</button><button type="button" data-compare-guess="equal">Anteile sind gleich</button></div></fieldset>
+    <div class="sim-controls"><button type="button" class="sim-button" id="compareCheck">Anteile prüfen</button><button type="button" class="sim-button secondary" id="compareReset">Labor zurücksetzen</button></div>
+    <div class="card soft" aria-label="Balkendarstellung der Trefferanteile"><div class="bar-grid"><b>A</b><div class="bar-track"><div class="bar-fill" id="barA"></div></div><span id="barALabel">–</span></div><div class="bar-grid"><b>B</b><div class="bar-track"><div class="bar-fill" id="barB"></div></div><span id="barBLabel">–</span></div></div>
+    <div class="sim-feedback" id="compareFeedback" aria-live="polite">Wähle zuerst eine Vorhersage und prüfe dann die Datensätze.</div>
+  </div>
+
+  <div class="sim-panel" id="sim-check">
+    <span class="sim-tag">Labor 3 · Aufgaben 4 und 5</span>
+    <h3>Protokollcheck</h3>
+    <p><b>Auftrag:</b> Wähle einen Fall, klassifiziere ihn und begründe vor dem Prüfen deine Entscheidung.</p>
+    <p><b>Deutungsfrage:</b> Fehlt eine Bezugsgröße oder widerspricht der Prozentwert dem Quotienten?</p>
+    <div class="sim-controls"><label>Protokollfall<select id="checkCase"><option value="p1">P1 · „21 Treffer.“</option><option value="p2">P2 · „18 Treffer bei 30 Würfen = 60 %.“</option><option value="p3">P3 · „20 Treffer bei 40 Würfen = 60 %.“</option><option value="p4">P4 · „9 Treffer bei 15 Würfen = 0,60.“</option></select></label></div>
+    <fieldset class="card soft"><legend><b>Eigene Klassifikation</b></legend><div class="sim-choice-grid"><button type="button" data-check-guess="incomplete">unvollständig</button><button type="button" data-check-guess="complete">vollständig und konsistent</button><button type="button" data-check-guess="contradictory">widersprüchlich</button></div></fieldset>
+    <div class="sim-controls"><button type="button" class="sim-button" id="checkEvaluate">Klassifikation prüfen</button><button type="button" class="sim-button secondary" id="checkReset">Labor zurücksetzen</button></div>
+    <div class="sim-feedback" id="checkFeedback" aria-live="polite">Wähle einen Fall und eine Klassifikation.</div>
+  </div>
+</section>
+
+<section class="teacher-only" id="w1-sicherung">
+  <h2>6. Ergebnissicherung, Produktkriterien und Übergang</h2>
+  <div class="board">
+    <h3>Tafelbild: Fair vergleichen</h3>
+    <div class="formula-strip">
+      <span class="step">Versuchszahl n</span><span class="arrow">→</span><span class="step">Trefferzahl H<sub>n</sub></span><span class="arrow">→</span><span class="step">relativer Anteil h<sub>n</sub> = H<sub>n</sub>/n</span><span class="arrow">→</span><span class="step">im Kontext deuten</span>
+    </div>
+    <p><b>Blau:</b> 18/30 = 0,60 = 60 % &nbsp;·&nbsp; <b>Orange:</b> 24/50 = 0,48 = 48 %</p>
+    <p><b>Merksatz:</b> Absolute Häufigkeiten zählen Treffer. Relative Häufigkeiten vergleichen Trefferanteile bei unterschiedlichen Versuchszahlen.</p>
+    <p><b>Prüfstandard:</b> n, H<sub>n</sub>, h<sub>n</sub>, Rundung und Versuchsbedingungen dokumentieren.</p>
+    <p><b>Aussagegrenze:</b> Ein höherer Anteil in diesen Runden belegt keine Ursache und keine allgemeine Überlegenheit einer Anleitung.</p>
+  </div>
+  <h3>Produktprüfung ohne Bewertungsraster</h3>
+  <div class="checklist"><span>□ Bezugsgrößen eindeutig</span><span>□ beide Anteile korrekt</span><span>□ Grün als unvollständig markiert</span><span>□ Empfehlung mit Zahlenbeleg</span><span>□ Mindeststandard ausführbar</span><span>□ Aussagegrenze sichtbar</span></div>
+  <h3>Übergang zur separaten Übungsstunde</h3>
+  <p>Die Übungsstunde kann rechnerische Sicherheit mit wechselnden Stichprobenumfängen, Umkehrungen wie <span class="formula">H<sub>n</sub> = h<sub>n</sub> · n</span> und fehlerhaften Datentabellen vertiefen. Sie ist nicht Bestandteil dieser Planung.</p>
+  <h3>Übergang zu Woche 2</h3>
+  <p>Offene Anschlussfrage: Wenn bei wiederholten Versuchen die relative Häufigkeit schwankt, was lässt sich bei sehr vielen Wiederholungen beobachten? Diese Frage wird erst in Woche 2 mit Simulationen und dem empirischen Gesetz der großen Zahlen bearbeitet.</p>
+</section>
+
+<section class="solution-only" id="w1-musterloesung">
+  <h2>7. Vollständige Musterlösung</h2>
+  <div class="card solution">
+    <h3>Aufgabe 1</h3>
+    <table class="compact-table"><thead><tr><th>Gruppe</th><th>n</th><th>H<sub>n</sub></th><th>Bruch</th><th>Dezimalzahl</th><th>Prozent</th></tr></thead><tbody><tr><td>Blau</td><td>30</td><td>18</td><td>18/30 = 3/5</td><td>0,600</td><td>60 %</td></tr><tr><td>Orange</td><td>50</td><td>24</td><td>24/50 = 12/25</td><td>0,480</td><td>48 %</td></tr><tr><td>Grün</td><td>nicht angegeben</td><td>21</td><td colspan="3">nicht berechenbar, weil die Gesamtzahl der Würfe als Nenner fehlt</td></tr></tbody></table>
+    <p><b>Begründung Grün:</b> Die relative Häufigkeit ist ein Quotient aus Treffern und allen Versuchen. Ohne <span class="formula">n</span> ist <span class="formula">21/n</span> nicht bestimmbar.</p>
+  </div>
+  <div class="card solution">
+    <h3>Aufgabe 2</h3>
+    <p><b>Unfaire Stelle:</b> „24 größer als 18“ berücksichtigt nicht, dass Orange 50 und Blau nur 30 Würfe hatte. <b>Unbelegte Kausalaussage:</b> Aus den Anteilen folgt nicht, dass die Anleitung Ursache des Unterschieds ist.</p>
+    <p><b>Absolut:</b> Orange hat 24 − 18 = 6 Treffer mehr. <b>Relativ:</b> Blau erreicht 60 %, Orange 48 %; Blau liegt damit um 12 Prozentpunkte höher.</p>
+    <p><b>Möglicher korrigierter Satz:</b> „In den dokumentierten Runden hatte Gruppe Blau mit 60 % den höheren Trefferanteil als Gruppe Orange mit 48 %, obwohl Orange absolut mehr Treffer erzielte. Daraus lässt sich nicht ableiten, dass eine Anleitung allgemein wirksamer ist.“</p>
+  </div>
+  <div class="card solution">
+    <h3>Aufgabe 3</h3>
+    <table class="compact-table"><thead><tr><th>n</th><th>H<sub>n</sub></th><th>Bruch</th><th>Prozent</th></tr></thead><tbody><tr><td>3</td><td>2</td><td>2/3</td><td>66,7 %</td></tr><tr><td>6</td><td>3</td><td>3/6 = 1/2</td><td>50,0 %</td></tr><tr><td>9</td><td>5</td><td>5/9</td><td>55,6 %</td></tr><tr><td>12</td><td>7</td><td>7/12</td><td>58,3 %</td></tr></tbody></table>
+    <p><span class="formula">H<sub>n</sub></span> kann mit jedem neuen Treffer um 1 steigen und bleibt bei einem Fehlversuch gleich; es sinkt nicht. <span class="formula">h<sub>n</sub></span> wird nach jedem Versuch neu durch den größeren Nenner berechnet und kann deshalb steigen, fallen oder gleich bleiben. Aus diesem einzelnen Verlauf wird noch keine Wahrscheinlichkeit abgeleitet.</p>
+  </div>
+  <div class="card solution">
+    <h3>Aufgabe 4</h3>
+    <p><b>P1 unvollständig:</b> <span class="formula">H<sub>n</sub> = 21</span> ist angegeben, aber <span class="formula">n</span> fehlt; der Anteil ist nicht berechenbar.</p>
+    <p><b>P2 vollständig und konsistent:</b> 18/30 = 0,6 = 60 %.</p>
+    <p><b>P3 widersprüchlich:</b> 20/40 = 0,5 = 50 %, nicht 60 %. Korrektur: „20 Treffer bei 40 Würfen = 50 %.“</p>
+    <p><b>Vier Mindestangaben:</b> Gesamtzahl der Versuche n, Trefferzahl H<sub>n</sub>, berechnete relative Häufigkeit h<sub>n</sub> mit Rundungsregel sowie vergleichbare Versuchsbedingungen beziehungsweise eindeutige Station/Gruppe.</p>
+  </div>
+  <div class="card solution">
+    <h3>Aufgabe 5 – mögliches vollständiges Handlungsprodukt</h3>
+    <table class="compact-table"><thead><tr><th>Gruppe</th><th>n</th><th>H<sub>n</sub></th><th>h<sub>n</sub></th><th>Prüfhinweis</th></tr></thead><tbody><tr><td>Blau</td><td>30</td><td>18</td><td>0,600 = 60 %</td><td>vollständig</td></tr><tr><td>Orange</td><td>50</td><td>24</td><td>0,480 = 48 %</td><td>vollständig</td></tr><tr><td>Grün</td><td>fehlt</td><td>21</td><td>nicht berechenbar</td><td>Versuchszahl nachfordern</td></tr></tbody></table>
+    <p><b>Empfehlung:</b> Für den Bericht soll nicht die absolute Trefferzahl, sondern der relative Trefferanteil verwendet werden. Gruppe Blau hat in diesen Runden den höheren Anteil: 60 % gegenüber 48 % bei Orange. Der Entwurf ist entsprechend zu korrigieren; Grün wird erst nach Ergänzung der Versuchszahl einbezogen.</p>
+    <p><b>Mindeststandard:</b> Jedes Protokoll nennt Gruppe/Station und vergleichbare Bedingungen, Gesamtzahl n, Trefferzahl H<sub>n</sub>, Quotient h<sub>n</sub> sowie Rundung/Prozentwert.</p>
+    <p><b>Aussagegrenze:</b> Die Auswertung beschreibt nur die anonymisierten Runden. Sie beweist weder, dass eine Anleitung Ursache des Unterschieds ist, noch dass eine Gruppe allgemein leistungsfähiger ist.</p>
+  </div>
+</section>
+
+<section class="teacher-only" id="w1-quellen">
+  <h2>8. Quellen, Kennzeichnungen, Annahmen und technische Hinweise</h2>
+  <ul class="source-list source-plain">
+    <li><b>Arbeitsauftrag_Folgewoche.txt:</b> verbindlicher Umfang, Quellenhierarchie, Ein-Datei-HTML, Hilfen, Simulationen, Prüfung und Ausgabe.</li>
+    <li><b>klassenprofil_13PF.md:</b> Bildungsgang D 17, Mathematik 13.1, zwei geplante Lernstunden plus separate Übungsstunde, heterogene Lerngruppe, iPad-/CAS-Ausstattung, Datenschutz und sportbezogene Kontextanforderungen.</li>
+    <li><b>Halbjahresskript_Mathematik_13_1_Stochastik_v2.html:</b> Woche 1 „Zufall beobachten: absolute und relative Häufigkeit“, Definitionen, Lernziele, Stoffgrenze und Anschluss an Woche 2.</li>
+    <li><b>DJP PF - M - 13.1.pdf, Seite 1:</b> Kursthema und Kompetenzbereich „von der relativen Häufigkeit zur Wahrscheinlichkeit“; Simulationen und empirisches Gesetz der großen Zahlen folgen im weiteren Aufbau.</li>
+    <li><b>13NF_Physiktechnik_Woche07_Normalpruefkoepfe_und_Koppeln_mit_Offline_Simulationen.html:</b> ausschließlich Design-, Struktur-, Ansichts-, Offline-, Hilfe-, Simulations- und Druckreferenz; keine Metadaten oder Fachinhalte übernommen.</li>
+  </ul>
+  <div class="note"><b>Annahmen:</b> Datum und Schule bleiben offen. Es sind keine abweichende Stundenlage, besonderen Schwierigkeiten oder zusätzlichen Werkzeuge bestätigt. Daher gilt die heterogene Lerngruppe des Klassenprofils und die Standardausstattung. Die zwei Lernstunden werden didaktisch als gemeinsame Sequenz geplant; die separate Übungsstunde ist ausgeschlossen.</div>
+  <div class="boundary"><b>Fachliche Grenze:</b> Die Woche endet bei der Berechnung, Prüfung und kontextbezogenen Verwendung relativer Häufigkeiten. Theoretische Wahrscheinlichkeit, Stabilisierung bei großen Versuchszahlen und Simulation als Schätzverfahren werden nicht vorweggenommen.</div>
+  <p class="small"><b>Technische Abweichungen von der Masterreferenz:</b> Nur eindeutige Woche-1-IDs, mathematikspezifische Tabellen-/Diagrammklassen, 44-Pixel-Touchziele und simulationsspezifisches lokales JavaScript wurden ergänzt. Farbkonzept, Navigation, Ansichtslogik, aufgabennahe Hilfen, CSP, Inline-Ressourcen und Druckprinzip wurden beibehalten.</p>
+</section>
+</main>
+<script>
+(function(){
+'use strict';
+const body=document.body;
+const viewButtons=Array.from(document.querySelectorAll('[data-view-target]'));
+function setView(view){
+  body.dataset.view=view;
+  viewButtons.forEach(function(btn){btn.classList.toggle('active',btn.dataset.viewTarget===view);});
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+viewButtons.forEach(function(btn){btn.addEventListener('click',function(){setView(btn.dataset.viewTarget);});});
+document.querySelectorAll('[data-sim-target]').forEach(function(btn){
+  btn.addEventListener('click',function(){
+    const id=btn.dataset.simTarget;
+    setView('simulations');
+    requestAnimationFrame(function(){const target=document.getElementById(id);if(target){target.scrollIntoView({behavior:'smooth',block:'start'});}});
+  });
+});
+const printToggle=document.getElementById('w1PrintHintToggle');
+const printModeText=document.getElementById('w1PrintModeText');
+printToggle.addEventListener('click',function(){
+  body.classList.toggle('print-hints');
+  const on=body.classList.contains('print-hints');
+  printToggle.textContent='Hilfen beim Drucken: '+(on?'ein':'aus');
+  printModeText.textContent='Schülerdruck '+(on?'mit aufgabennahen Hilfen':'ohne Hilfen');
+});
+document.getElementById('w1PrintBtn').addEventListener('click',function(){window.print();});
+let printState=[];
+window.addEventListener('beforeprint',function(){
+  printState=Array.from(document.querySelectorAll('.student-only .inline-hints details')).map(function(detail){return detail.open;});
+  if(body.classList.contains('print-hints')){document.querySelectorAll('.student-only .inline-hints details').forEach(function(detail){detail.open=true;});}
+});
+window.addEventListener('afterprint',function(){document.querySelectorAll('.student-only .inline-hints details').forEach(function(detail,index){detail.open=Boolean(printState[index]);});});
+
+function de(value,digits){return Number(value).toFixed(digits).replace('.',',');}
+function setFeedback(el,text,kind){el.textContent=text;el.className='sim-feedback'+(kind?' '+kind:'');}
+
+// Labor 1
+const protocol={results:[]};
+const pCanvas=document.getElementById('protocolCanvas');
+const pCtx=pCanvas.getContext('2d');
+function drawProtocol(){
+  const w=pCanvas.width,h=pCanvas.height;
+  pCtx.clearRect(0,0,w,h);pCtx.fillStyle='#fff';pCtx.fillRect(0,0,w,h);
+  const left=72,right=28,top=24,bottom=55,plotW=w-left-right,plotH=h-top-bottom;
+  pCtx.strokeStyle='#8fa1af';pCtx.lineWidth=2;pCtx.beginPath();pCtx.moveTo(left,top);pCtx.lineTo(left,h-bottom);pCtx.lineTo(w-right,h-bottom);pCtx.stroke();
+  pCtx.fillStyle='#526079';pCtx.font='18px Arial';pCtx.fillText('hₙ',24,34);pCtx.fillText('n',w-24,h-20);
+  [0,0.25,0.5,0.75,1].forEach(function(v){const y=h-bottom-v*plotH;pCtx.strokeStyle='#e0e7ed';pCtx.lineWidth=1;pCtx.beginPath();pCtx.moveTo(left,y);pCtx.lineTo(w-right,y);pCtx.stroke();pCtx.fillStyle='#526079';pCtx.font='15px Arial';pCtx.fillText(Math.round(v*100)+' %',15,y+5);});
+  const n=protocol.results.length;
+  if(!n){pCtx.fillStyle='#526079';pCtx.font='bold 22px Arial';pCtx.textAlign='center';pCtx.fillText('Treffer oder Fehlversuch erfassen',w/2,h/2);pCtx.textAlign='left';return;}
+  let hits=0;const points=[];
+  protocol.results.forEach(function(r,i){if(r===1){hits+=1;}points.push({x:left+((i+1)/Math.max(20,n))*plotW,y:h-bottom-(hits/(i+1))*plotH});});
+  pCtx.strokeStyle='#0b6b8a';pCtx.lineWidth=4;pCtx.beginPath();points.forEach(function(pt,i){if(i===0){pCtx.moveTo(pt.x,pt.y);}else{pCtx.lineTo(pt.x,pt.y);}});pCtx.stroke();
+  pCtx.fillStyle='#0b6b8a';points.forEach(function(pt){pCtx.beginPath();pCtx.arc(pt.x,pt.y,5,0,Math.PI*2);pCtx.fill();});
+  for(let i=5;i<=20;i+=5){const x=left+(i/20)*plotW;pCtx.strokeStyle='#aebbc7';pCtx.beginPath();pCtx.moveTo(x,h-bottom);pCtx.lineTo(x,h-bottom+6);pCtx.stroke();pCtx.fillStyle='#526079';pCtx.font='15px Arial';pCtx.fillText(String(i),x-5,h-bottom+25);}
+}
+function updateProtocol(action){
+  const n=protocol.results.length;const hits=protocol.results.reduce(function(a,b){return a+b;},0);
+  document.getElementById('protocolN').textContent=String(n);document.getElementById('protocolH').textContent=String(hits);document.getElementById('protocolRel').textContent=n?de(hits/n,3)+' = '+de(100*hits/n,1)+' %':'–';
+  drawProtocol();
+  if(!n){setFeedback(document.getElementById('protocolFeedback'),'Noch kein Versuch erfasst. Beginne mit einer eigenen Prognose.','');return;}
+  const effect=action==='hit'?'n und Hₙ sind um 1 gestiegen.':'n ist um 1 gestiegen, Hₙ blieb gleich.';
+  setFeedback(document.getElementById('protocolFeedback'),effect+' Der neue Anteil beträgt '+de(100*hits/n,1)+' %. Beschreibe selbst, ob er gegenüber dem vorigen Wert stieg oder fiel.','ok');
+}
+document.getElementById('protocolHit').addEventListener('click',function(){if(protocol.results.length>=20){setFeedback(document.getElementById('protocolFeedback'),'Maximal 20 Versuche. Setze das Labor zurück, um neu zu beginnen.','warn');return;}protocol.results.push(1);updateProtocol('hit');});
+document.getElementById('protocolMiss').addEventListener('click',function(){if(protocol.results.length>=20){setFeedback(document.getElementById('protocolFeedback'),'Maximal 20 Versuche. Setze das Labor zurück, um neu zu beginnen.','warn');return;}protocol.results.push(0);updateProtocol('miss');});
+document.getElementById('protocolReset').addEventListener('click',function(){protocol.results=[];updateProtocol('reset');});
+
+// Labor 2
+let compareGuess='';
+document.querySelectorAll('[data-compare-guess]').forEach(function(btn){btn.addEventListener('click',function(){compareGuess=btn.dataset.compareGuess;document.querySelectorAll('[data-compare-guess]').forEach(function(b){b.classList.toggle('selected',b===btn);});});});
+function compareValues(){return {nA:Number(document.getElementById('compareNA').value),hA:Number(document.getElementById('compareHA').value),nB:Number(document.getElementById('compareNB').value),hB:Number(document.getElementById('compareHB').value)};}
+function clearCompare(){document.getElementById('barA').style.width='0%';document.getElementById('barB').style.width='0%';document.getElementById('barALabel').textContent='–';document.getElementById('barBLabel').textContent='–';}
+document.getElementById('compareCheck').addEventListener('click',function(){
+  const v=compareValues(),fb=document.getElementById('compareFeedback');
+  if(!compareGuess){setFeedback(fb,'Wähle zuerst eine eigene Vorhersage.','warn');return;}
+  if(!Number.isInteger(v.nA)||!Number.isInteger(v.hA)||!Number.isInteger(v.nB)||!Number.isInteger(v.hB)||v.nA<1||v.nB<1||v.hA<0||v.hB<0||v.hA>v.nA||v.hB>v.nB){setFeedback(fb,'Gib ganze, nichtnegative Werte ein; Treffer dürfen die Versuchszahl nicht überschreiten.','bad');clearCompare();return;}
+  const a=v.hA/v.nA,b=v.hB/v.nB;document.getElementById('barA').style.width=(100*a)+'%';document.getElementById('barB').style.width=(100*b)+'%';document.getElementById('barALabel').textContent=de(100*a,1)+' %';document.getElementById('barBLabel').textContent=de(100*b,1)+' %';
+  const actual=Math.abs(a-b)<1e-12?'equal':(a>b?'A':'B');const correct=actual===compareGuess;const diff=Math.abs(100*(a-b));
+  setFeedback(fb,(correct?'Deine Vorhersage passt. ':'Deine Vorhersage passt noch nicht. ')+'Die Anteile unterscheiden sich um '+de(diff,1)+' Prozentpunkte. Formuliere selbst, welche Gruppe höher liegt und welche Aussage daraus nicht folgt.',correct?'ok':'warn');
+});
+document.getElementById('compareReset').addEventListener('click',function(){document.getElementById('compareNA').value='30';document.getElementById('compareHA').value='18';document.getElementById('compareNB').value='50';document.getElementById('compareHB').value='24';compareGuess='';document.querySelectorAll('[data-compare-guess]').forEach(function(b){b.classList.remove('selected');});clearCompare();setFeedback(document.getElementById('compareFeedback'),'Wähle zuerst eine Vorhersage und prüfe dann die Datensätze.','');});
+
+// Labor 3
+const cases={p1:{answer:'incomplete',reason:'Die Trefferzahl ist genannt, aber die Gesamtzahl der Versuche fehlt.'},p2:{answer:'complete',reason:'18/30 = 0,60; alle drei Angaben passen zusammen.'},p3:{answer:'contradictory',reason:'20/40 = 0,50 und damit 50 %, nicht 60 %.'},p4:{answer:'complete',reason:'9/15 = 0,60; Versuchszahl, Trefferzahl und Anteil sind konsistent.'}};
+let checkGuess='';
+document.querySelectorAll('[data-check-guess]').forEach(function(btn){btn.addEventListener('click',function(){checkGuess=btn.dataset.checkGuess;document.querySelectorAll('[data-check-guess]').forEach(function(b){b.classList.toggle('selected',b===btn);});});});
+document.getElementById('checkEvaluate').addEventListener('click',function(){const fb=document.getElementById('checkFeedback'),key=document.getElementById('checkCase').value;if(!checkGuess){setFeedback(fb,'Wähle zuerst eine Klassifikation.','warn');return;}const item=cases[key],ok=item.answer===checkGuess;setFeedback(fb,(ok?'Passend. ':'Noch nicht passend. ')+item.reason+' Notiere selbst die notwendige Ergänzung oder Korrektur.',ok?'ok':'warn');});
+document.getElementById('checkReset').addEventListener('click',function(){document.getElementById('checkCase').value='p1';checkGuess='';document.querySelectorAll('[data-check-guess]').forEach(function(b){b.classList.remove('selected');});setFeedback(document.getElementById('checkFeedback'),'Wähle einen Fall und eine Klassifikation.','');});
+document.getElementById('checkCase').addEventListener('change',function(){checkGuess='';document.querySelectorAll('[data-check-guess]').forEach(function(b){b.classList.remove('selected');});setFeedback(document.getElementById('checkFeedback'),'Neue Fallkarte gewählt. Klassifiziere sie zuerst selbst.','');});
+
+drawProtocol();clearCompare();
+})();
+</script>
+</body>
+</html>

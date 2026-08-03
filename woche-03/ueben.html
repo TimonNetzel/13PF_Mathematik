@@ -1,0 +1,181 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'unsafe-inline'; script-src-attr 'none'; style-src 'unsafe-inline'; img-src data:; font-src 'none'; connect-src 'none'; media-src 'none'; object-src 'none'; frame-src 'none'; child-src 'none'; worker-src 'none'; manifest-src 'none'; base-uri 'none'; form-action 'none'">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>13PF · Mathematik · Klausurübung Woche 3 · 20 Minuten</title>
+<style>
+:root{--ink:#172033;--muted:#536173;--paper:#fff;--screen:#e9eef3;--nav:#162434;--accent:#0b6b8a;--accent-dark:#183b52;--line:#aebbc7;--soft:#eef5f8;--teacher:#f3effb;--solution:#eef8f3;--notice:#fff4d5;--notice-line:#c38600;--good:#2f8b56}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--screen);color:var(--ink);font-family:Arial,Helvetica,sans-serif;font-size:16px;line-height:1.46}
+button{font:inherit;touch-action:manipulation}
+.appbar{position:sticky;top:0;z-index:20;background:var(--nav);color:#fff;border-bottom:4px solid var(--accent);box-shadow:0 2px 12px #0003}
+.appbar .inner{max-width:1180px;margin:auto;padding:.68rem 1rem;display:flex;align-items:center;gap:.55rem;flex-wrap:wrap}
+.brand{font-weight:800;margin-right:auto}
+.viewbtn,.printbtn{border:1px solid #ffffff66;background:#ffffff12;color:#fff;border-radius:999px;padding:.48rem .76rem;cursor:pointer}
+.viewbtn:hover,.printbtn:hover{background:#ffffff26}
+.viewbtn.active{background:#fff;color:var(--nav)}
+main{max-width:1120px;margin:1.25rem auto 3rem;background:var(--paper);border-radius:18px;box-shadow:0 12px 35px #1f293733;overflow:hidden}
+.hero{padding:2rem 2.2rem 1.7rem;color:#fff;background:linear-gradient(135deg,#0b6b8a,#193a53)}
+.hero h1{font-size:clamp(1.85rem,4vw,2.85rem);line-height:1.08;margin:.18rem 0 .55rem}
+.hero p{max-width:920px;margin:.45rem 0}
+.kicker{font-size:.82rem;text-transform:uppercase;letter-spacing:.08em;font-weight:800;color:#c7e7f1}
+.hero-meta{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:.65rem;margin-top:1.15rem}
+.hero-meta div{background:#ffffff18;border:1px solid #ffffff33;border-radius:11px;padding:.62rem}
+.hero-meta b{display:block;font-size:.76rem;text-transform:uppercase;letter-spacing:.04em;color:#d9edf4}
+section{padding:1.55rem 2.2rem;border-bottom:1px solid #dce4eb}
+h2{font-size:1.52rem;color:var(--accent-dark);margin:.08rem 0 .9rem}
+h3{font-size:1.16rem;margin:.95rem 0 .5rem}
+p{margin:.42rem 0}
+ul{margin:.42rem 0 .75rem;padding-left:1.3rem}
+li{margin:.22rem 0}
+.small{font-size:.9rem;color:var(--muted)}
+.notice{padding:.72rem .85rem;background:var(--notice);border-left:5px solid var(--notice-line);border-radius:9px;font-weight:700;margin:.7rem 0 1rem}
+.hero .notice{background:#fff3;color:#fff;border-left-color:#ffd369;font-size:.92rem}
+.document-head{display:flex;justify-content:space-between;align-items:flex-start;gap:1rem;border-bottom:2px solid #29475d;padding-bottom:.6rem;margin-bottom:.75rem}
+.document-head h2{margin:0;color:#172033}
+.document-mark{border:2px solid var(--accent);color:var(--accent);font-weight:900;letter-spacing:.05em;padding:.2rem .5rem;white-space:nowrap}
+.meta-table{margin:.55rem 0 .9rem}
+.meta-table th{background:#eef4f7}
+.problem{border:2px solid #29475d;border-left:7px solid var(--accent);border-radius:12px;padding:.9rem 1rem;background:#f5fbfd;margin:.65rem 0 1rem}
+.problem-label{display:inline-block;border:2px solid var(--accent);color:var(--accent);font-weight:900;letter-spacing:.06em;padding:.18rem .48rem;margin:0 0 .45rem}
+.material{border:1.7px solid #29475d;border-radius:12px;padding:.9rem 1rem;background:#fff;margin:.8rem 0;break-inside:avoid;page-break-inside:avoid}
+.material h3{margin:.05rem 0 .55rem;color:var(--accent-dark)}
+.formula-box{display:flex;gap:.9rem 1.35rem;align-items:center;flex-wrap:wrap;background:var(--soft);border:1px solid #b9ccd5;border-radius:10px;padding:.62rem .72rem;margin:.55rem 0}
+table{width:100%;border-collapse:collapse;margin:.62rem 0 .9rem;page-break-inside:auto}
+thead{display:table-header-group}
+th,td{border:1px solid var(--line);padding:.48rem .56rem;vertical-align:top}
+th{background:#e7f0f4;text-align:left}
+tr{break-inside:avoid;page-break-inside:avoid}
+.compact th,.compact td{padding:.34rem .42rem}
+.data-table th,.data-table td{text-align:center}
+.data-table th:first-child,.data-table td:first-child{text-align:left}
+.num{width:8%;text-align:center;font-weight:700}
+.points{width:10%;text-align:center;font-weight:700}
+.task-table td:nth-child(2){line-height:1.42}
+.operator{font-weight:800;color:#123e55}
+.afb{display:inline-block;font-size:.76rem;font-weight:800;background:#efe8df;color:#6d3b19;border-radius:999px;padding:.14rem .43rem;margin-left:.28rem;white-space:nowrap}
+.sumrow th,.sumrow td{background:#dce9ef;font-weight:800}
+.grid2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.9rem}
+.card{border:1px solid var(--line);border-radius:12px;padding:.9rem;background:#fff;break-inside:avoid;page-break-inside:avoid}
+.card.teacher{background:var(--teacher);border-color:#c9bce2}
+.card.solution{background:var(--solution);border-color:#a9d4bd}
+.card h3{margin-top:.05rem}
+.source-note{border-left:5px solid var(--accent);background:#eef8fb;border-radius:9px;padding:.68rem .8rem;margin:.7rem 0}
+.rubric th:nth-child(1){width:10%}
+.rubric th:nth-child(3),.rubric th:nth-child(4){width:11%;text-align:center}
+.rubric td:nth-child(3),.rubric td:nth-child(4){text-align:center}
+.solution-step{border-left:5px solid var(--good);background:var(--solution);border-radius:0 10px 10px 0;padding:.72rem .85rem;margin:.72rem 0;break-inside:avoid;page-break-inside:avoid}
+.solution-step h3{margin:.03rem 0 .42rem}
+.equation{margin:.38rem 0;padding:.25rem 0;break-inside:avoid;page-break-inside:avoid}
+.m{display:inline-block;vertical-align:-.28em;max-width:100%;height:auto;overflow:visible;white-space:nowrap}
+.m text{font-family:"Times New Roman",Times,serif;font-size:18px;fill:#172033}
+.m-block{display:block;vertical-align:middle;margin:.18rem 0}
+.no-break{break-inside:avoid;page-break-inside:avoid}
+.view-start{scroll-margin-top:86px}
+[data-view="student"] .teacher-only,[data-view="student"] .solution-only,[data-view="teacher"] .student-only,[data-view="teacher"] .solution-only,[data-view="solution"] .student-only,[data-view="solution"] .teacher-only{display:none!important}
+@media(max-width:820px){main{margin:0;border-radius:0}section,.hero{padding:1.2rem}.hero-meta,.grid2{grid-template-columns:1fr}.document-head{display:block}.document-mark{display:inline-block;margin-top:.45rem}.task-table{font-size:.94rem}.task-table th,.task-table td{padding:.4rem}table{display:block;max-width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch}.formula-box{max-width:100%;overflow-x:auto}}
+@page{size:A4;margin:14mm}
+@media print{body{background:#fff;font-size:9.2pt;line-height:1.27;color:#111}.appbar,.hero{display:none!important}main{max-width:none;margin:0;box-shadow:none;border-radius:0;overflow:visible}section{padding:0 0 3mm;border:0}h2{color:#111;font-size:15pt;margin:0 0 3mm;break-after:avoid-page;page-break-after:avoid}h3{font-size:11pt;margin:2.5mm 0 1.5mm;break-after:avoid-page;page-break-after:avoid}p{margin:1.2mm 0}ul{margin:1.2mm 0 2mm}.notice{padding:2.2mm 2.6mm;margin:2mm 0 3mm}.document-head{margin-bottom:2mm;padding-bottom:2mm}.problem,.material,.card,.solution-step{box-shadow:none}.problem,.material{padding:2.7mm;margin:2mm 0 3mm}.material{break-inside:auto;page-break-inside:auto}.formula-box{padding:2mm;margin:1.5mm 0}table{display:table;max-width:100%;overflow:visible;margin:2mm 0 3mm}th,td{padding:1.55mm 1.75mm}.compact th,.compact td{padding:1.1mm 1.35mm}.m text{font-size:15px}.card{padding:2.5mm}.solution-step{padding:2.2mm 2.8mm;margin:2mm 0}body[data-view="all"] .teacher-start,body[data-view="all"] .solution-start{break-before:page;page-break-before:always}.pagebreak{break-before:page;page-break-before:always}.no-break{break-inside:avoid;page-break-inside:avoid}}
+button:focus-visible{outline:3px solid #8ee3ff;outline-offset:3px}
+</style>
+</head>
+<body data-view="all">
+<nav class="appbar" aria-label="Ansichten und Drucken">
+  <div class="inner">
+    <div class="brand">13PF · Mathematik · Klausurübung Woche 3</div>
+    <button type="button" class="viewbtn active" data-view-target="all" aria-pressed="true">Gesamt</button>
+    <button type="button" class="viewbtn" data-view-target="student" aria-pressed="false">Schülerteil</button>
+    <button type="button" class="viewbtn" data-view-target="teacher" aria-pressed="false">Lehrkraftteil</button>
+    <button type="button" class="viewbtn" data-view-target="solution" aria-pressed="false">Schülerlösung</button>
+    <button type="button" class="printbtn" id="printBtn">Drucken</button>
+  </div>
+</nav>
+<main>
+  <section class="hero">
+    <div class="kicker">Stochastik · Halbjahr 13.1 · Berufliches Gymnasium D 17</div>
+    <h1>Abläufe sicher unterscheiden</h1>
+    <p>Klausurübung zum Stoffstand der Woche 3: einen Ergebnisraum in Mengenschreibweise angeben, Ereignis und Gegenereignis als Teilmengen formulieren, eine Zufallsgröße eindeutig zuordnen und die Grenze zu Wahrscheinlichkeitsaussagen beachten.</p>
+    <div class="notice">KI-unterstützt erstellt – keine amtliche Prüfungsaufgabe. Dieses Dokument ist Übungsmaterial und muss vor dem Einsatz fachlich durch eine Lehrkraft geprüft werden.</div>
+    <div class="hero-meta">
+      <div><b>Kurs</b>13PF · Mathematik</div><div><b>Phase</b>Jahrgangsstufe 13 · Halbjahr 13.1</div><div><b>Bearbeitungszeit</b>20 Minuten</div><div><b>Umfang</b>12 Punkte</div>
+    </div>
+  </section>
+
+  <section class="student-only view-start" id="schuelerteil">
+    <div class="document-head"><div><div class="kicker" style="color:#526079">Unterlagen für die Schülerinnen und Schüler</div><h2>Klausurübung: Zwei Aktivitätsblöcke bei „ParkAktiv“</h2></div><div class="document-mark">SCHÜLERTEIL</div></div>
+    <div class="notice">KI-unterstützt erstellt – keine amtliche Prüfungsaufgabe. Dieses Dokument ist Übungsmaterial und muss vor dem Einsatz fachlich durch eine Lehrkraft geprüft werden.</div>
+    <table class="meta-table"><thead><tr><th>Kurs</th><th>Fach</th><th>Arbeitszeit</th><th>Hilfsmittel</th><th>Punkte</th></tr></thead><tbody><tr><td>13PF · Jahrgangsstufe 13.1</td><td>Mathematik</td><td>20 Minuten</td><td>Wissenschaftlicher Taschenrechner; Schreibgeräte</td><td>12</td></tr></tbody></table>
+
+    <div class="problem"><div class="problem-label">PRÜFAUFTRAG AB-03</div><h3>Ausgangssituation</h3><p>Beim fiktiven Freizeit-Sporttag „ParkAktiv“ erhält jedes Team nacheinander zwei Aktivitätsblöcke. In jedem Block ist entweder „Wurf &amp; Ziel“ oder „Balance &amp; Koordination“ vorgesehen. Für Aufsicht, Material und Wegeplanung muss erkennbar bleiben, welche Aktivitätsart im ersten und welche im zweiten Block stattfindet.</p></div>
+
+    <div class="material"><h3>Material M1 · Planungsmatrix und Entwurf</h3>
+      <div class="formula-box"><span><svg class="m" width="24" height="24" viewBox="0 0 24 24" role="img" aria-label="W, Wurf und Ziel"><text x="1" y="17">W</text></svg> = Wurf &amp; Ziel</span><span><svg class="m" width="24" height="24" viewBox="0 0 24 24" role="img" aria-label="B, Balance und Koordination"><text x="1" y="17">B</text></svg> = Balance &amp; Koordination</span><span><svg class="m" width="24" height="24" viewBox="0 0 24 24" role="img" aria-label="X, Zufallsgröße Anzahl der Wurfblöcke"><text x="1" y="17">X</text></svg> = Anzahl der Wurfblöcke</span></div>
+      <table class="data-table compact"><thead><tr><th>Block 1 \ Block 2</th><th><svg class="m" width="24" height="24" viewBox="0 0 24 24" role="img" aria-label="W, Wurf und Ziel"><text x="1" y="17">W</text></svg></th><th><svg class="m" width="24" height="24" viewBox="0 0 24 24" role="img" aria-label="B, Balance und Koordination"><text x="1" y="17">B</text></svg></th></tr></thead><tbody><tr><th><svg class="m" width="24" height="24" viewBox="0 0 24 24" role="img" aria-label="W, Wurf und Ziel"><text x="1" y="17">W</text></svg></th><td><svg class="m" width="34" height="24" viewBox="0 0 34 24" role="img" aria-label="W W"><text x="1" y="17">WW</text></svg></td><td><svg class="m" width="34" height="24" viewBox="0 0 34 24" role="img" aria-label="W B"><text x="1" y="17">WB</text></svg></td></tr><tr><th><svg class="m" width="24" height="24" viewBox="0 0 24 24" role="img" aria-label="B, Balance und Koordination"><text x="1" y="17">B</text></svg></th><td><svg class="m" width="34" height="24" viewBox="0 0 34 24" role="img" aria-label="B W"><text x="1" y="17">BW</text></svg></td><td><svg class="m" width="34" height="24" viewBox="0 0 34 24" role="img" aria-label="B B"><text x="1" y="17">BB</text></svg></td></tr></tbody></table>
+      <p><b>Ereignis:</b> <svg class="m" width="24" height="24" viewBox="0 0 24 24" role="img" aria-label="E, Ereignis genau ein Wurfblock"><text x="1" y="17">E</text></svg> bedeutet „Der Ablauf enthält genau einen Wurfblock“.</p>
+      <div class="notice" style="font-weight:600">Entwurf des Organisationsteams: „Die Abläufe <svg class="m" width="34" height="24" viewBox="0 0 34 24" role="img" aria-label="W B"><text x="1" y="17">WB</text></svg> und <svg class="m" width="34" height="24" viewBox="0 0 34 24" role="img" aria-label="B W"><text x="1" y="17">BW</text></svg> sind dasselbe Ergebnis, weil die Zufallsgröße bei beiden den Wert eins besitzt. Deshalb gilt <svg class="m" width="91" height="24" viewBox="0 0 91 24" role="img" aria-label="E gleich Menge aus W B"><text x="1" y="17">E = {WB}</text></svg>. Aus den vier Einträgen der Matrix folgt außerdem, dass das Ereignis die Wahrscheinlichkeit <svg class="m" width="44" height="24" viewBox="0 0 44 24" role="img" aria-label="ein Halb"><text x="1" y="17">1/2</text></svg> hat.“</div>
+      <p class="small">Hinweis: Die Matrix beschreibt mögliche Abläufe. Ob diese Abläufe gleich wahrscheinlich sind, ist nicht angegeben.</p>
+    </div>
+
+    <table class="task-table">
+      <thead><tr><th class="num">Nr.</th><th>Aufgabenstellung</th><th class="points">Punkte</th></tr></thead>
+      <tbody>
+        <tr><td class="num">1.1</td><td><span class="operator">Geben Sie</span> den vollständigen Ergebnisraum <svg class="m" width="24" height="24" viewBox="0 0 24 24" role="img" aria-label="Omega, Ergebnisraum"><text x="1" y="17">Ω</text></svg> in Mengenschreibweise <b>an</b>. <span class="afb">AFB I</span></td><td class="points">2</td></tr>
+        <tr><td class="num">1.2</td><td><span class="operator">Formulieren Sie</span> das Ereignis <svg class="m" width="24" height="24" viewBox="0 0 24 24" role="img" aria-label="E, Ereignis genau ein Wurfblock"><text x="1" y="17">E</text></svg> und das Gegenereignis <svg class="m" width="24" height="24" viewBox="0 0 24 24" role="img" aria-label="E quer, Gegenereignis"><text x="1" y="17">Ē</text></svg> jeweils als Teilmenge des Ergebnisraums. <span class="afb">AFB II</span></td><td class="points">3</td></tr>
+        <tr><td class="num">1.3</td><td><span class="operator">Bestimmen Sie</span> die Zufallsgröße <svg class="m" width="24" height="24" viewBox="0 0 24 24" role="img" aria-label="X, Zufallsgröße Anzahl der Wurfblöcke"><text x="1" y="17">X</text></svg> als vollständige Zuordnung der vier Ergebnisse zu Zahlenwerten einschließlich ihrer Wertemenge; aus Ihrer Darstellung muss hervorgehen, dass jedem Ergebnis genau ein Wert zugeordnet wird. <span class="afb">AFB I–II</span></td><td class="points">4</td></tr>
+        <tr><td class="num">1.4</td><td><span class="operator">Beurteilen Sie</span> den Entwurf des Organisationsteams hinsichtlich der Unterscheidung von <svg class="m" width="34" height="24" viewBox="0 0 34 24" role="img" aria-label="W B"><text x="1" y="17">WB</text></svg> und <svg class="m" width="34" height="24" viewBox="0 0 34 24" role="img" aria-label="B W"><text x="1" y="17">BW</text></svg>, der Ereignismenge <svg class="m" width="24" height="24" viewBox="0 0 24 24" role="img" aria-label="E, Ereignis genau ein Wurfblock"><text x="1" y="17">E</text></svg>, der Zuordnung durch <svg class="m" width="24" height="24" viewBox="0 0 24 24" role="img" aria-label="X, Zufallsgröße Anzahl der Wurfblöcke"><text x="1" y="17">X</text></svg> und der Wahrscheinlichkeitsaussage. <span class="afb">AFB II–III</span></td><td class="points">3</td></tr>
+        <tr class="sumrow"><th colspan="2">Punktsumme</th><td class="points">12</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section class="teacher-only view-start teacher-start" id="lehrkraftteil">
+    <div class="document-head"><div><div class="kicker" style="color:#526079">Unterlagen für die Lehrkraft</div><h2>Lehrkraftteil · Einordnung und Bewertung</h2></div><div class="document-mark">LEHRKRAFTTEIL</div></div>
+    <div class="notice">KI-unterstützt erstellt – keine amtliche Prüfungsaufgabe. Dieses Dokument ist Übungsmaterial und muss vor dem Einsatz fachlich durch eine Lehrkraft geprüft werden.</div>
+    <div class="grid2">
+      <div class="card teacher"><h3>Rahmen</h3><p><b>Kurs:</b> 13PF · Freizeitsportleitung</p><p><b>Fach/Phase:</b> Mathematik · Jahrgangsstufe 13 · Halbjahr 13.1</p><p><b>Bearbeitungszeit:</b> 20 Minuten · <b>Gesamt:</b> 12 Punkte</p><p><b>Abiturnähe:</b> nur Klausurdesign; keine proportionale Abitursimulation.</p></div>
+      <div class="card teacher"><h3>Stoffgrenze</h3><p>Belegt durch das Lernmaterial Woche 3: elementare Ergebnisse eines zweistufigen Zufallsexperiments, vollständiger Ergebnisraum <svg class="m" width="24" height="24" viewBox="0 0 24 24" role="img" aria-label="Omega, Ergebnisraum"><text x="1" y="17">Ω</text></svg>, Ereignisse als Teilmengen, Gegenereignis sowie die Zufallsgröße <svg class="m" width="24" height="24" viewBox="0 0 24 24" role="img" aria-label="X, Zufallsgröße Anzahl der Wurfblöcke"><text x="1" y="17">X</text></svg> als eindeutige Zuordnung jedes Ergebnisses zu einem Zahlenwert mit Wertemenge.</p><p>Nicht vorausgesetzt: Berechnung von Ereigniswahrscheinlichkeiten, Laplace-Modell, Vereinigung, Durchschnitt, Differenz, Produktregel, Binomialverteilung oder Hypothesentests.</p></div>
+    </div>
+    <div class="source-note"><b>Knappes Quellen- und Rahmenprotokoll:</b> Stoffbezug nach „13PF · Mathematik · Woche 3 · Ergebnisraum, Ereignis und Zufallsgröße“. Gestaltung und Drucklogik nach der bereitgestellten HTML-Klausurübung aus Woche 1. Aktuelle Webprüfung am 31.07.2026: Standardsicherung NRW und Berufsbildung NRW führen den Kurs im Bildungsgang Allgemeine Hochschulreife Freizeitsportleitung nach APO-BK Anlage D 17, Schwerpunkt Gesundheit. Mathematik ist dort ein Grundkursfach, aber kein schriftliches oder mündliches Abiturprüfungsfach. Deshalb werden nur Klausurdesign sowie allgemein passende Operator- und AFB-Begriffe verwendet; der Unterrichtsstoff wurde durch die Webprüfung nicht erweitert.</div>
+
+    <h3>Punkte und Anforderungsbereiche</h3>
+    <table class="compact"><thead><tr><th>AFB I</th><th>AFB II</th><th>AFB III</th><th>Gesamt</th></tr></thead><tbody><tr><td>3 Punkte</td><td>7 Punkte</td><td>2 Punkte</td><td>12 Punkte</td></tr></tbody></table>
+
+    <h3>Erwartungshorizont</h3>
+    <table class="rubric">
+      <thead><tr><th>Nr.</th><th>Erwartete Leistung und Bepunktung</th><th>AFB</th><th>Punkte</th></tr></thead>
+      <tbody>
+        <tr><td>1.1</td><td>Vollständige Mengennotation <svg class="m" width="218" height="24" viewBox="0 0 218 24" role="img" aria-label="Omega gleich Menge aus W W, W B, B W und B B"><text x="1" y="17">Ω = {WW, WB, BW, BB}</text></svg> (1 P); alle vier Ergebnisse erscheinen genau einmal und <svg class="m" width="34" height="24" viewBox="0 0 34 24" role="img" aria-label="W B"><text x="1" y="17">WB</text></svg> sowie <svg class="m" width="34" height="24" viewBox="0 0 34 24" role="img" aria-label="B W"><text x="1" y="17">BW</text></svg> werden getrennt notiert (1 P).</td><td>I</td><td>2</td></tr>
+        <tr><td>1.2</td><td>Ereignis korrekt: <svg class="m" width="136" height="24" viewBox="0 0 136 24" role="img" aria-label="E gleich Menge aus W B und B W"><text x="1" y="17">E = {WB, BW}</text></svg> (2 P: je ein Punkt pro passendem Ergebnis). Gegenereignis korrekt: <svg class="m" width="136" height="24" viewBox="0 0 136 24" role="img" aria-label="E quer gleich Menge aus W W und B B"><text x="1" y="17">Ē = {WW, BB}</text></svg> (1 P).</td><td>II</td><td>3</td></tr>
+        <tr><td>1.3</td><td>Zuordnung: <svg class="m" width="105" height="24" viewBox="0 0 105 24" role="img" aria-label="X von W W gleich zwei"><text x="1" y="17">X(WW) = 2</text></svg>, <svg class="m" width="105" height="24" viewBox="0 0 105 24" role="img" aria-label="X von W B gleich eins"><text x="1" y="17">X(WB) = 1</text></svg>, <svg class="m" width="105" height="24" viewBox="0 0 105 24" role="img" aria-label="X von B W gleich eins"><text x="1" y="17">X(BW) = 1</text></svg>, <svg class="m" width="105" height="24" viewBox="0 0 105 24" role="img" aria-label="X von B B gleich null"><text x="1" y="17">X(BB) = 0</text></svg> (2 P: je 0,5 P). Wertemenge <svg class="m" width="177" height="24" viewBox="0 0 177 24" role="img" aria-label="Wertemenge von X gleich Menge null, eins, zwei"><text x="1" y="17">W(X) = {0, 1, 2}</text></svg> (1 P). Die Darstellung ist als eindeutige Zuordnung erkennbar, z. B. durch eine vollständige Tabelle oder <svg class="m" width="187" height="24" viewBox="0 0 187 24" role="img" aria-label="X bildet Omega auf die Menge null, eins, zwei ab"><text x="1" y="17">X : Ω → {0, 1, 2}</text></svg> (1 P).</td><td>I: 1<br>II: 3</td><td>4</td></tr>
+        <tr><td>1.4</td><td><svg class="m" width="34" height="24" viewBox="0 0 34 24" role="img" aria-label="W B"><text x="1" y="17">WB</text></svg> und <svg class="m" width="34" height="24" viewBox="0 0 34 24" role="img" aria-label="B W"><text x="1" y="17">BW</text></svg> sind wegen der unterschiedlichen Reihenfolge verschiedene Ergebnisse, erhalten aber beide durch <svg class="m" width="24" height="24" viewBox="0 0 24 24" role="img" aria-label="X, Zufallsgröße Anzahl der Wurfblöcke"><text x="1" y="17">X</text></svg> den Wert eins (1 P). Das Ereignis <svg class="m" width="24" height="24" viewBox="0 0 24 24" role="img" aria-label="E, Ereignis genau ein Wurfblock"><text x="1" y="17">E</text></svg> enthält beide Ergebnisse, also <svg class="m" width="136" height="24" viewBox="0 0 136 24" role="img" aria-label="E gleich Menge aus W B und B W"><text x="1" y="17">E = {WB, BW}</text></svg>; der Entwurf ist an dieser Stelle unvollständig (1 P). Aus der bloßen Anzahl der Matrixeinträge folgt keine Ereigniswahrscheinlichkeit, weil gleiche Wahrscheinlichkeiten der vier Ergebnisse nicht vorausgesetzt sind (1 P).</td><td>II: 1<br>III: 2</td><td>3</td></tr>
+        <tr class="sumrow"><th colspan="3">Gesamt</th><td>12</td></tr>
+      </tbody>
+    </table>
+
+    <div class="grid2">
+      <div class="card teacher"><h3>Alternative Lösungswege</h3><ul><li>Der Ergebnisraum kann aus der Matrix zeilenweise, spaltenweise oder über eine Baumskizze gewonnen werden, sofern jedes geordnete Ergebnis genau einmal erscheint.</li><li>Das Gegenereignis kann durch Streichen der Elemente von <svg class="m" width="24" height="24" viewBox="0 0 24 24" role="img" aria-label="E, Ereignis genau ein Wurfblock"><text x="1" y="17">E</text></svg> aus <svg class="m" width="218" height="24" viewBox="0 0 218 24" role="img" aria-label="Omega gleich Menge aus W W, W B, B W und B B"><text x="1" y="17">Ω = {WW, WB, BW, BB}</text></svg> bestimmt werden.</li><li>Die Zufallsgröße kann als Tabelle, Pfeildiagramm oder durch gruppierte Urbilder dargestellt werden: Wert null für <svg class="m" width="34" height="24" viewBox="0 0 34 24" role="img" aria-label="B B"><text x="1" y="17">BB</text></svg>, Wert eins für <svg class="m" width="34" height="24" viewBox="0 0 34 24" role="img" aria-label="W B"><text x="1" y="17">WB</text></svg> und <svg class="m" width="34" height="24" viewBox="0 0 34 24" role="img" aria-label="B W"><text x="1" y="17">BW</text></svg>, Wert zwei für <svg class="m" width="34" height="24" viewBox="0 0 34 24" role="img" aria-label="W W"><text x="1" y="17">WW</text></svg>.</li><li>Eine sachlich gleichwertige Beurteilung wird anerkannt, wenn Ergebnis, Ereignis, Zufallsgrößenwert und Wahrscheinlichkeitsaussage klar getrennt werden.</li></ul></div>
+      <div class="card teacher"><h3>Typische Fehler und Folgefehlerregeln</h3><ul><li><b><svg class="m" width="34" height="24" viewBox="0 0 34 24" role="img" aria-label="W B"><text x="1" y="17">WB</text></svg> und <svg class="m" width="34" height="24" viewBox="0 0 34 24" role="img" aria-label="B W"><text x="1" y="17">BW</text></svg> zusammengefasst:</b> Der Punkt für die vollständige Ergebnisunterscheidung entfällt. Folgerichtig zugeordnete Werte der Zufallsgröße können weiterhin bewertet werden, wenn die beiden Abläufe in der Zuordnung erkennbar getrennt behandelt werden.</li><li><b>Unvollständiger Ergebnisraum:</b> In 1.2 und 1.3 werden methodisch richtige, konsistente Schritte anerkannt; Punkte für konkret fehlende Ergebnisse oder Zuordnungen entfallen. Die Planungsmatrix in Material M1 ermöglicht eine unabhängige Korrektur.</li><li><b>Gegenereignis nur als sprachliche Negation:</b> Ohne Teilmenge von <svg class="m" width="24" height="24" viewBox="0 0 24 24" role="img" aria-label="Omega, Ergebnisraum"><text x="1" y="17">Ω</text></svg> entfällt der Mengenpunkt. Eine korrekte Aufzählung in Worten kann als sachlich gleichwertig gelten, wenn die Ergebnisse eindeutig bezeichnet sind.</li><li><b>Mehrere Werte für dasselbe Ergebnis:</b> Der Eindeutigkeitspunkt entfällt. Richtige Einzelzuordnungen bleiben anrechenbar.</li><li><b><svg class="m" width="44" height="24" viewBox="0 0 44 24" role="img" aria-label="ein Halb"><text x="1" y="17">1/2</text></svg> allein aus <svg class="m" width="44" height="24" viewBox="0 0 44 24" role="img" aria-label="zwei Viertel"><text x="1" y="17">2/4</text></svg>:</b> Kein Punkt für die Wahrscheinlichkeitsgrenze; Abzählen wäre erst bei ausdrücklich gleich wahrscheinlichen Ergebnissen zulässig.</li></ul></div>
+    </div>
+  </section>
+
+  <section class="solution-only view-start solution-start" id="schuelerloesung">
+    <div class="document-head"><div><div class="kicker" style="color:#526079">Vollständige Lösung für Schülerinnen und Schüler</div><h2>Schülerlösung · Zwei Aktivitätsblöcke bei „ParkAktiv“</h2></div><div class="document-mark">SCHÜLERLÖSUNG</div></div>
+    <div class="notice">KI-unterstützt erstellt – keine amtliche Prüfungsaufgabe. Dieses Dokument ist Übungsmaterial und muss vor dem Einsatz fachlich durch eine Lehrkraft geprüft werden.</div>
+
+    <div class="solution-step"><h3>1.1 Ergebnisraum</h3><p>Die erste Position eines Ergebnisses beschreibt Block 1, die zweite Position Block 2. Aus der Planungsmatrix ergeben sich vier geordnete Abläufe:</p><div class="equation"><svg class="m m-block" width="218" height="24" viewBox="0 0 218 24" role="img" aria-label="Omega gleich Menge aus W W, W B, B W und B B"><text x="1" y="17">Ω = {WW, WB, BW, BB}</text></svg></div><p><svg class="m" width="34" height="24" viewBox="0 0 34 24" role="img" aria-label="W B"><text x="1" y="17">WB</text></svg> und <svg class="m" width="34" height="24" viewBox="0 0 34 24" role="img" aria-label="B W"><text x="1" y="17">BW</text></svg> werden getrennt aufgeführt, weil die Reihenfolge der beiden Aktivitätsarten verschieden ist.</p></div>
+
+    <div class="solution-step"><h3>1.2 Ereignis und Gegenereignis</h3><p>Genau ein Wurfblock liegt vor, wenn einmal <svg class="m" width="24" height="24" viewBox="0 0 24 24" role="img" aria-label="W, Wurf und Ziel"><text x="1" y="17">W</text></svg> und einmal <svg class="m" width="24" height="24" viewBox="0 0 24 24" role="img" aria-label="B, Balance und Koordination"><text x="1" y="17">B</text></svg> vorkommt. Das kann in zwei Reihenfolgen geschehen:</p><div class="equation"><svg class="m m-block" width="136" height="24" viewBox="0 0 136 24" role="img" aria-label="E gleich Menge aus W B und B W"><text x="1" y="17">E = {WB, BW}</text></svg></div><p>Im Gegenereignis kommen nicht genau ein, sondern entweder zwei oder kein Wurfblock vor:</p><div class="equation"><svg class="m m-block" width="136" height="24" viewBox="0 0 136 24" role="img" aria-label="E quer gleich Menge aus W W und B B"><text x="1" y="17">Ē = {WW, BB}</text></svg></div></div>
+
+    <div class="solution-step"><h3>1.3 Zufallsgröße</h3><p>Die Zufallsgröße <svg class="m" width="24" height="24" viewBox="0 0 24 24" role="img" aria-label="X, Zufallsgröße Anzahl der Wurfblöcke"><text x="1" y="17">X</text></svg> zählt die Wurfblöcke in jedem Ablauf:</p><table class="data-table compact"><thead><tr><th>Ergebnis</th><th><svg class="m" width="34" height="24" viewBox="0 0 34 24" role="img" aria-label="W W"><text x="1" y="17">WW</text></svg></th><th><svg class="m" width="34" height="24" viewBox="0 0 34 24" role="img" aria-label="W B"><text x="1" y="17">WB</text></svg></th><th><svg class="m" width="34" height="24" viewBox="0 0 34 24" role="img" aria-label="B W"><text x="1" y="17">BW</text></svg></th><th><svg class="m" width="34" height="24" viewBox="0 0 34 24" role="img" aria-label="B B"><text x="1" y="17">BB</text></svg></th></tr></thead><tbody><tr><th>Wert der Zufallsgröße</th><td><svg class="m" width="24" height="24" viewBox="0 0 24 24" role="img" aria-label="zwei"><text x="1" y="17">2</text></svg></td><td><svg class="m" width="24" height="24" viewBox="0 0 24 24" role="img" aria-label="eins"><text x="1" y="17">1</text></svg></td><td><svg class="m" width="24" height="24" viewBox="0 0 24 24" role="img" aria-label="eins"><text x="1" y="17">1</text></svg></td><td><svg class="m" width="24" height="24" viewBox="0 0 24 24" role="img" aria-label="null"><text x="1" y="17">0</text></svg></td></tr></tbody></table><div class="equation"><svg class="m m-block" width="360" height="24" viewBox="0 0 360 24" role="img" aria-label="X von W W gleich zwei; X von W B gleich eins; X von B W gleich eins; X von B B gleich null"><text x="1" y="17">X(WW)=2; X(WB)=1; X(BW)=1; X(BB)=0</text></svg></div><p>Die Wertemenge lautet:</p><div class="equation"><svg class="m m-block" width="177" height="24" viewBox="0 0 177 24" role="img" aria-label="Wertemenge von X gleich Menge null, eins, zwei"><text x="1" y="17">W(X) = {0, 1, 2}</text></svg></div><p>Jedem Ergebnis ist genau ein Zahlenwert zugeordnet. Verschiedene Ergebnisse dürfen denselben Wert besitzen; deshalb erhalten <svg class="m" width="34" height="24" viewBox="0 0 34 24" role="img" aria-label="W B"><text x="1" y="17">WB</text></svg> und <svg class="m" width="34" height="24" viewBox="0 0 34 24" role="img" aria-label="B W"><text x="1" y="17">BW</text></svg> beide den Wert eins.</p></div>
+
+    <div class="solution-step"><h3>1.4 Beurteilung des Entwurfs</h3><p>Der Entwurf ist in mehreren Punkten zu korrigieren. <svg class="m" width="34" height="24" viewBox="0 0 34 24" role="img" aria-label="W B"><text x="1" y="17">WB</text></svg> und <svg class="m" width="34" height="24" viewBox="0 0 34 24" role="img" aria-label="B W"><text x="1" y="17">BW</text></svg> sind verschiedene Ergebnisse, weil die Reihenfolge der Aktivitätsarten verschieden ist. Richtig ist nur, dass beide durch <svg class="m" width="24" height="24" viewBox="0 0 24 24" role="img" aria-label="X, Zufallsgröße Anzahl der Wurfblöcke"><text x="1" y="17">X</text></svg> denselben Wert eins erhalten.</p><p>Das Ereignis „genau ein Wurfblock“ enthält beide Abläufe. Daher gilt <svg class="m" width="136" height="24" viewBox="0 0 136 24" role="img" aria-label="E gleich Menge aus W B und B W"><text x="1" y="17">E = {WB, BW}</text></svg> und nicht nur eine einelementige Menge.</p><p>Die Aussage zur Wahrscheinlichkeit ist mit den Angaben nicht begründbar. Die Matrix zeigt vier mögliche Ergebnisse, sagt aber nicht, dass diese vier Ergebnisse gleich wahrscheinlich sind. Deshalb darf aus zwei passenden Ergebnissen unter vier möglichen Ergebnissen hier noch keine Ereigniswahrscheinlichkeit abgeleitet werden.</p><p><b>Korrigierter Kurzvermerk:</b> „Die Abläufe <svg class="m" width="34" height="24" viewBox="0 0 34 24" role="img" aria-label="W B"><text x="1" y="17">WB</text></svg> und <svg class="m" width="34" height="24" viewBox="0 0 34 24" role="img" aria-label="B W"><text x="1" y="17">BW</text></svg> sind verschiedene Ergebnisse, besitzen jedoch beide den Zufallsgrößenwert eins. Das Ereignis <svg class="m" width="24" height="24" viewBox="0 0 24 24" role="img" aria-label="E, Ereignis genau ein Wurfblock"><text x="1" y="17">E</text></svg> lautet <svg class="m" width="136" height="24" viewBox="0 0 136 24" role="img" aria-label="E gleich Menge aus W B und B W"><text x="1" y="17">E = {WB, BW}</text></svg>. Eine Wahrscheinlichkeit für <svg class="m" width="24" height="24" viewBox="0 0 24 24" role="img" aria-label="E, Ereignis genau ein Wurfblock"><text x="1" y="17">E</text></svg> kann aus der Planungsmatrix allein nicht bestimmt werden.“</p></div>
+  </section>
+</main>
+<script>
+(function(){'use strict';const body=document.body;const buttons=Array.from(document.querySelectorAll('[data-view-target]'));function setView(view){body.setAttribute('data-view',view);buttons.forEach(function(btn){const active=btn.getAttribute('data-view-target')===view;btn.classList.toggle('active',active);btn.setAttribute('aria-pressed',active?'true':'false')});const target=view==='student'?document.getElementById('schuelerteil'):view==='teacher'?document.getElementById('lehrkraftteil'):view==='solution'?document.getElementById('schuelerloesung'):document.querySelector('.hero');if(target)target.scrollIntoView({behavior:'smooth',block:'start'})}buttons.forEach(function(btn){btn.addEventListener('click',function(){setView(btn.getAttribute('data-view-target'))})});document.getElementById('printBtn').addEventListener('click',function(){window.print()})})();
+</script>
+</body>
+</html>

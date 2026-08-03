@@ -1,0 +1,464 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'unsafe-inline'; script-src-attr 'none'; style-src 'unsafe-inline'; img-src data:; font-src 'none'; connect-src 'none'; media-src 'none'; object-src 'none'; frame-src 'none'; child-src 'none'; worker-src 'none'; manifest-src 'none'; base-uri 'none'; form-action 'none'">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>13PF · Mathematik · Klausurübung Woche 1–2 · 30 Minuten</title>
+<style>
+:root{--ink:#172033;--muted:#536173;--paper:#fff;--screen:#e9eef3;--nav:#162434;--accent:#0b6b8a;--accent-dark:#183b52;--line:#aebbc7;--soft:#eef5f8;--teacher:#f3effb;--solution:#eef8f3;--notice:#fff4d5;--notice-line:#c38600;--good:#2f8b56;--warn:#8b4a1f}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--screen);color:var(--ink);font-family:Arial,Helvetica,sans-serif;font-size:16px;line-height:1.46}
+button{font:inherit;touch-action:manipulation}
+.appbar{position:sticky;top:0;z-index:20;background:var(--nav);color:#fff;border-bottom:4px solid var(--accent);box-shadow:0 2px 12px #0003}
+.appbar .inner{max-width:1180px;margin:auto;padding:.68rem 1rem;display:flex;align-items:center;gap:.55rem;flex-wrap:wrap}
+.brand{font-weight:800;margin-right:auto}
+.viewbtn,.printbtn{border:1px solid #ffffff66;background:#ffffff12;color:#fff;border-radius:999px;padding:.48rem .76rem;cursor:pointer}
+.viewbtn:hover,.printbtn:hover{background:#ffffff26}
+.viewbtn.active{background:#fff;color:var(--nav)}
+main{max-width:1120px;margin:1.25rem auto 3rem;background:var(--paper);border-radius:18px;box-shadow:0 12px 35px #1f293733;overflow:hidden}
+.hero{padding:2rem 2.2rem 1.7rem;color:#fff;background:linear-gradient(135deg,#0b6b8a,#193a53)}
+.hero h1{font-size:clamp(1.85rem,4vw,2.85rem);line-height:1.08;margin:.18rem 0 .55rem}
+.hero p{max-width:920px;margin:.45rem 0}
+.kicker{font-size:.82rem;text-transform:uppercase;letter-spacing:.08em;font-weight:800;color:#c7e7f1}
+.hero-meta{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:.65rem;margin-top:1.15rem}
+.hero-meta div{background:#ffffff18;border:1px solid #ffffff33;border-radius:11px;padding:.62rem}
+.hero-meta b{display:block;font-size:.76rem;text-transform:uppercase;letter-spacing:.04em;color:#d9edf4}
+section{padding:1.55rem 2.2rem;border-bottom:1px solid #dce4eb}
+h2{font-size:1.52rem;color:var(--accent-dark);margin:.08rem 0 .9rem}
+h3{font-size:1.16rem;margin:.95rem 0 .5rem}
+p{margin:.42rem 0}
+ul{margin:.42rem 0 .75rem;padding-left:1.3rem}
+li{margin:.22rem 0}
+.small{font-size:.9rem;color:var(--muted)}
+.notice{padding:.72rem .85rem;background:var(--notice);border-left:5px solid var(--notice-line);border-radius:9px;font-weight:700;margin:.7rem 0 1rem}
+.hero .notice{background:#fff3;color:#fff;border-left-color:#ffd369;font-size:.92rem}
+.document-head{display:flex;justify-content:space-between;align-items:flex-start;gap:1rem;border-bottom:2px solid #29475d;padding-bottom:.6rem;margin-bottom:.75rem}
+.document-head h2{margin:0;color:#172033}
+.document-mark{border:2px solid var(--accent);color:var(--accent);font-weight:900;letter-spacing:.05em;padding:.2rem .5rem;white-space:nowrap}
+.meta-table{margin:.55rem 0 .9rem}
+.meta-table th{background:#eef4f7}
+.problem{border:2px solid #29475d;border-left:7px solid var(--accent);border-radius:12px;padding:.9rem 1rem;background:#f5fbfd;margin:.65rem 0 1rem}
+.problem-label{display:inline-block;border:2px solid var(--accent);color:var(--accent);font-weight:900;letter-spacing:.06em;padding:.18rem .48rem;margin:0 0 .45rem}
+.material{border:1.7px solid #29475d;border-radius:12px;padding:.9rem 1rem;background:#fff;margin:.8rem 0;break-inside:avoid;page-break-inside:avoid}
+.material h3{margin:.05rem 0 .55rem;color:var(--accent-dark)}
+.formula-box{display:flex;gap:.75rem 1.15rem;align-items:center;flex-wrap:wrap;background:var(--soft);border:1px solid #b9ccd5;border-radius:10px;padding:.62rem .72rem;margin:.55rem 0}
+table{width:100%;border-collapse:collapse;margin:.62rem 0 .9rem;page-break-inside:auto}
+thead{display:table-header-group}
+th,td{border:1px solid var(--line);padding:.48rem .56rem;vertical-align:top}
+th{background:#e7f0f4;text-align:left}
+tr{break-inside:avoid;page-break-inside:avoid}
+.compact th,.compact td{padding:.34rem .42rem}
+.data-table th,.data-table td{text-align:center}
+.data-table th:first-child,.data-table td:first-child{text-align:left}
+.num{width:8%;text-align:center;font-weight:700}
+.points{width:10%;text-align:center;font-weight:700}
+.task-table td:nth-child(2){line-height:1.42}
+.operator{font-weight:800;color:#123e55}
+.afb{display:inline-block;font-size:.76rem;font-weight:800;background:#efe8df;color:#6d3b19;border-radius:999px;padding:.14rem .43rem;margin-left:.28rem;white-space:nowrap}
+.sumrow th,.sumrow td{background:#dce9ef;font-weight:800}
+.grid2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.9rem}
+.card{border:1px solid var(--line);border-radius:12px;padding:.9rem;background:#fff;break-inside:avoid;page-break-inside:avoid}
+.card.teacher{background:var(--teacher);border-color:#c9bce2}
+.card.solution{background:var(--solution);border-color:#a9d4bd}
+.card h3{margin-top:.05rem}
+.source-note{border-left:5px solid var(--accent);background:#eef8fb;border-radius:9px;padding:.68rem .8rem;margin:.7rem 0}
+.warning-note{border-left:5px solid var(--warn);background:#fff7f0;border-radius:9px;padding:.68rem .8rem;margin:.7rem 0}
+.rubric th:nth-child(1){width:10%}
+.rubric th:nth-child(3),.rubric th:nth-child(4){width:11%;text-align:center}
+.rubric td:nth-child(3),.rubric td:nth-child(4){text-align:center}
+.solution-step{border-left:5px solid var(--good);background:var(--solution);border-radius:0 10px 10px 0;padding:.72rem .85rem;margin:.72rem 0;break-inside:avoid;page-break-inside:avoid}
+.solution-step h3{margin:.03rem 0 .42rem}
+.equation{margin:.38rem 0;padding:.25rem 0;break-inside:avoid;page-break-inside:avoid}
+.m{display:inline-block;vertical-align:-.28em;max-width:100%;height:auto;overflow:visible;white-space:nowrap}
+.m text{font-family:"Times New Roman",Times,serif;font-size:18px;fill:#172033}
+.m-block{display:block;vertical-align:middle;margin:.18rem 0}
+.chart{display:block;width:100%;height:auto;border:1px solid #b8c5cf;border-radius:10px;background:#fff;margin:.55rem 0}
+.legend{display:flex;gap:1rem;flex-wrap:wrap;font-size:.9rem;color:var(--muted)}
+.legend span::before{content:"";display:inline-block;width:18px;height:3px;background:#0b6b8a;vertical-align:middle;margin-right:.35rem}
+.legend span.model::before{background:#8b4a1f}
+.no-break{break-inside:avoid;page-break-inside:avoid}
+.view-start{scroll-margin-top:86px}
+[data-view="student"] .teacher-only,[data-view="student"] .solution-only,[data-view="teacher"] .student-only,[data-view="teacher"] .solution-only,[data-view="solution"] .student-only,[data-view="solution"] .teacher-only{display:none!important}
+@media(max-width:820px){main{margin:0;border-radius:0}section,.hero{padding:1.2rem}.hero-meta,.grid2{grid-template-columns:1fr}.document-head{display:block}.document-mark{display:inline-block;margin-top:.45rem}.task-table{font-size:.94rem}.task-table th,.task-table td{padding:.4rem}table{display:block;max-width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch}.formula-box{max-width:100%;overflow-x:auto}}
+@page{size:A4;margin:14mm}
+@media print{
+ body{background:#fff;font-size:9.2pt;line-height:1.27;color:#111}
+ .appbar,.hero{display:none!important}
+ main{max-width:none;margin:0;box-shadow:none;border-radius:0;overflow:visible}
+ section{padding:0 0 3mm;border:0}
+ h2{color:#111;font-size:15pt;margin:0 0 3mm;break-after:avoid-page;page-break-after:avoid}
+ h3{font-size:11pt;margin:2.5mm 0 1.5mm;break-after:avoid-page;page-break-after:avoid}
+ p{margin:1.2mm 0}
+ ul{margin:1.2mm 0 2mm}
+ .notice{padding:2.2mm 2.6mm;margin:2mm 0 3mm}
+ .document-head{margin-bottom:2mm;padding-bottom:2mm}
+ .problem,.material,.card,.solution-step{box-shadow:none}
+ .problem,.material{padding:2.7mm;margin:2mm 0 3mm}
+ .material{break-inside:auto;page-break-inside:auto}
+ .formula-box{padding:2mm;margin:1.5mm 0}
+ table{display:table;max-width:100%;overflow:visible;margin:2mm 0 3mm}
+ th,td{padding:1.55mm 1.75mm}
+ .compact th,.compact td{padding:1.1mm 1.35mm}
+ .m text{font-size:15px}
+ .card{padding:2.5mm}
+ .solution-step{padding:2.2mm 2.8mm;margin:2mm 0}
+ .chart{max-height:52mm}
+ body[data-view="all"] .teacher-start,body[data-view="all"] .solution-start{break-before:page;page-break-before:always}
+ .pagebreak{break-before:page;page-break-before:always}
+ .no-break{break-inside:avoid;page-break-inside:avoid}
+}
+button:focus-visible{outline:3px solid #8ee3ff;outline-offset:3px}
+</style>
+</head>
+<body data-view="all">
+<nav class="appbar" aria-label="Ansichten und Drucken">
+  <div class="inner">
+    <div class="brand">13PF · Mathematik · Klausurübung Woche 1–2</div>
+    <button type="button" class="viewbtn active" data-view-target="all" aria-pressed="true">Gesamt</button>
+    <button type="button" class="viewbtn" data-view-target="student" aria-pressed="false">Schülerteil</button>
+    <button type="button" class="viewbtn" data-view-target="teacher" aria-pressed="false">Lehrkraftteil</button>
+    <button type="button" class="viewbtn" data-view-target="solution" aria-pressed="false">Schülerlösung</button>
+    <button type="button" class="printbtn" id="printBtn">Drucken</button>
+  </div>
+</nav>
+
+<main>
+  <section class="hero">
+    <div class="kicker">Stochastik · Halbjahr 13.1 · Berufliches Gymnasium D 17</div>
+    <h1>Zufall fair beurteilen</h1>
+    <p>Klausurübung zum Stoffstand der Wochen 1 und 2: absolute und relative Häufigkeiten berechnen, unvollständige Protokolle ergänzen, Simulationsergebnisse beschreiben und das empirische Gesetz der großen Zahlen fachlich begrenzt anwenden.</p>
+    <div class="notice">KI-unterstützt erstellt – keine amtliche Prüfungsaufgabe. Dieses Dokument ist Übungsmaterial und muss vor dem Einsatz fachlich durch eine Lehrkraft geprüft werden.</div>
+    <div class="hero-meta">
+      <div><b>Kurs</b>13PF · Mathematik</div>
+      <div><b>Phase</b>Jahrgangsstufe 13 · Halbjahr 13.1</div>
+      <div><b>Bearbeitungszeit</b>30 Minuten</div>
+      <div><b>Umfang</b>18 Punkte</div>
+    </div>
+  </section>
+
+  <section class="student-only view-start" id="schuelerteil">
+    <div class="document-head">
+      <div>
+        <div class="kicker" style="color:#526079">Unterlagen für die Schülerinnen und Schüler</div>
+        <h2>Klausurübung: Zuteilungsrad beim Aktivtag</h2>
+      </div>
+      <div class="document-mark">SCHÜLERTEIL</div>
+    </div>
+    <div class="notice">KI-unterstützt erstellt – keine amtliche Prüfungsaufgabe. Dieses Dokument ist Übungsmaterial und muss vor dem Einsatz fachlich durch eine Lehrkraft geprüft werden.</div>
+
+    <table class="meta-table">
+      <thead><tr><th>Kurs</th><th>Fach</th><th>Arbeitszeit</th><th>Hilfsmittel</th><th>Punkte</th></tr></thead>
+      <tbody><tr><td>13PF · Jahrgangsstufe 13.1</td><td>Mathematik</td><td>30 Minuten</td><td>Wissenschaftlicher Taschenrechner; Schreibgeräte</td><td>18</td></tr></tbody>
+    </table>
+
+    <div class="problem">
+      <div class="problem-label">PRÜFAUFTRAG ZR-02</div>
+      <h3>Ausgangssituation</h3>
+      <p>Beim fiktiven Aktivtag „MoveMix“ teilt ein Rad die Teilnehmenden auf zwei Startstationen auf. Das mathematische Modell besitzt zwei gleich große Felder „Nord“ und „Süd“. Jede Drehung wird unabhängig von den vorherigen Drehungen modelliert. Das Organisationsteam möchte Testprotokolle auswerten und eine vorsichtige Aussage zur Zuverlässigkeit eines kurzen Realtests formulieren.</p>
+      <p>Die Simulationen beziehen sich auf das faire Modell. Sie beweisen nicht, dass ein tatsächlich eingesetztes Rad fair ist.</p>
+    </div>
+
+    <div class="material">
+      <h3>Material M1 · Modell und Testprotokolle</h3>
+      <div class="formula-box">
+        <span><svg class="m" width="130" height="25" viewBox="0 0 130 25" role="img" aria-label="p von Nord gleich 0 Komma 5"><text x="2" y="18">p(Nord) = 0,5</text></svg></span>
+        <span><svg class="m" width="122" height="25" viewBox="0 0 122 25" role="img" aria-label="p von Süd gleich 0 Komma 5"><text x="2" y="18">p(Süd) = 0,5</text></svg></span>
+        <span><svg class="m" width="122" height="25" viewBox="0 0 122 25" role="img" aria-label="h Index n gleich H Index n geteilt durch n"><text x="2" y="18">hₙ = Hₙ / n</text></svg></span>
+        <span><svg class="m" width="132" height="25" viewBox="0 0 132 25" role="img" aria-label="d Index n gleich Betrag von h Index n minus p"><text x="2" y="18">dₙ = |hₙ − p|</text></svg></span>
+      </div>
+
+      <h3>Rohdaten der Testblöcke A und B</h3>
+      <table class="data-table compact">
+        <thead>
+          <tr>
+            <th>Testblock</th>
+            <th>Versuchszahl <svg class="m" width="20" height="25" viewBox="0 0 20 25" role="img" aria-label="n, Versuchszahl"><text x="2" y="18">n</text></svg></th>
+            <th>Zuteilungen „Nord“ <svg class="m" width="34" height="25" viewBox="0 0 34 25" role="img" aria-label="H Index n, absolute Häufigkeit"><text x="2" y="18">Hₙ</text></svg></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>A</td><td>40</td><td>26</td></tr>
+          <tr><td>B</td><td>75</td><td>42</td></tr>
+        </tbody>
+      </table>
+
+      <h3>Unvollständige Testblöcke C und D</h3>
+      <table class="data-table compact">
+        <thead>
+          <tr>
+            <th>Testblock</th>
+            <th>Versuchszahl <svg class="m" width="20" height="25" viewBox="0 0 20 25" role="img" aria-label="n, Versuchszahl"><text x="2" y="18">n</text></svg></th>
+            <th>Zuteilungen „Nord“ <svg class="m" width="34" height="25" viewBox="0 0 34 25" role="img" aria-label="H Index n, absolute Häufigkeit"><text x="2" y="18">Hₙ</text></svg></th>
+            <th>Relative Häufigkeit <svg class="m" width="32" height="25" viewBox="0 0 32 25" role="img" aria-label="h Index n, relative Häufigkeit"><text x="2" y="18">hₙ</text></svg></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>C</td><td>nicht dokumentiert</td><td>27</td><td>0,450</td></tr>
+          <tr><td>D</td><td>80</td><td>nicht dokumentiert</td><td>0,550</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="material">
+      <h3>Material M2 · Ein Simulationslauf des fairen Modells</h3>
+      <p>Die Tabelle zeigt ausgewählte Zwischenstände eines Laufs. Die Modellwahrscheinlichkeit bleibt bei jeder Drehung unverändert.</p>
+      <table class="data-table compact">
+        <thead>
+          <tr>
+            <th>Versuchszahl <svg class="m" width="20" height="25" viewBox="0 0 20 25" role="img" aria-label="n, Versuchszahl"><text x="2" y="18">n</text></svg></th>
+            <th>Zuteilungen „Nord“ <svg class="m" width="34" height="25" viewBox="0 0 34 25" role="img" aria-label="H Index n, absolute Häufigkeit"><text x="2" y="18">Hₙ</text></svg></th>
+            <th>Relative Häufigkeit <svg class="m" width="32" height="25" viewBox="0 0 32 25" role="img" aria-label="h Index n, relative Häufigkeit"><text x="2" y="18">hₙ</text></svg></th>
+            <th>Abweichung <svg class="m" width="34" height="25" viewBox="0 0 34 25" role="img" aria-label="d Index n, Abweichung"><text x="2" y="18">dₙ</text></svg></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>10</td><td>7</td><td>0,700</td><td>0,200</td></tr>
+          <tr><td>50</td><td>27</td><td>0,540</td><td>0,040</td></tr>
+          <tr><td>100</td><td>47</td><td>0,470</td><td>0,030</td></tr>
+          <tr><td>200</td><td>108</td><td>0,540</td><td>0,040</td></tr>
+          <tr><td>500</td><td>252</td><td>0,504</td><td>0,004</td></tr>
+          <tr><td>1000</td><td>493</td><td>0,493</td><td>0,007</td></tr>
+        </tbody>
+      </table>
+
+      <svg class="chart" viewBox="0 0 780 270" role="img" aria-label="Liniendiagramm der relativen Häufigkeit bei sechs Versuchszahlen; die Werte schwanken um 0,5 und liegen bei großen Versuchszahlen näher am Modellwert">
+        <rect x="0" y="0" width="780" height="270" fill="#ffffff"/>
+        <g stroke="#d5dde4" stroke-width="1">
+          <line x1="72" y1="52" x2="735" y2="52"/>
+          <line x1="72" y1="105" x2="735" y2="105"/>
+          <line x1="72" y1="157" x2="735" y2="157"/>
+          <line x1="72" y1="210" x2="735" y2="210"/>
+          <line x1="95" y1="30" x2="95" y2="220"/>
+          <line x1="215" y1="30" x2="215" y2="220"/>
+          <line x1="335" y1="30" x2="335" y2="220"/>
+          <line x1="455" y1="30" x2="455" y2="220"/>
+          <line x1="590" y1="30" x2="590" y2="220"/>
+          <line x1="715" y1="30" x2="715" y2="220"/>
+        </g>
+        <g stroke="#26384a" stroke-width="2">
+          <line x1="72" y1="30" x2="72" y2="220"/>
+          <line x1="72" y1="220" x2="735" y2="220"/>
+        </g>
+        <line x1="72" y1="157" x2="735" y2="157" stroke="#8b4a1f" stroke-width="3" stroke-dasharray="9 7"/>
+        <polyline points="95,52 215,136 335,173 455,136 590,155 715,161" fill="none" stroke="#0b6b8a" stroke-width="4" stroke-linejoin="round" stroke-linecap="round"/>
+        <g fill="#0b6b8a">
+          <circle cx="95" cy="52" r="5"/><circle cx="215" cy="136" r="5"/><circle cx="335" cy="173" r="5"/>
+          <circle cx="455" cy="136" r="5"/><circle cx="590" cy="155" r="5"/><circle cx="715" cy="161" r="5"/>
+        </g>
+        <g font-family="Arial,Helvetica,sans-serif" font-size="14" fill="#26384a">
+          <text x="35" y="57">0,70</text><text x="35" y="110">0,60</text><text x="35" y="162">0,50</text><text x="35" y="215">0,40</text>
+          <text x="86" y="244">10</text><text x="204" y="244">50</text><text x="320" y="244">100</text>
+          <text x="440" y="244">200</text><text x="575" y="244">500</text><text x="696" y="244">1000</text>
+          <text x="740" y="242">n</text><text x="24" y="28">hₙ</text>
+        </g>
+      </svg>
+      <div class="legend"><span>relative Häufigkeit</span><span class="model">Modellwert 0,5</span></div>
+    </div>
+
+    <h3>Aufgabenstellung</h3>
+    <table class="task-table">
+      <thead><tr><th class="num">Nr.</th><th>Aufgabenstellung</th><th class="points">Punkte</th></tr></thead>
+      <tbody>
+        <tr>
+          <td class="num">1.1</td>
+          <td><span class="operator">Berechnen Sie</span> für die Testblöcke A und B jeweils die relative Häufigkeit der Zuteilung „Nord“ sowie die absolute Abweichung vom Modellwert.</td>
+          <td class="points">4</td>
+        </tr>
+        <tr>
+          <td class="num">1.2</td>
+          <td><span class="operator">Ergänzen Sie</span> für die Testblöcke C und D die jeweils fehlende Angabe.</td>
+          <td class="points">3</td>
+        </tr>
+        <tr>
+          <td class="num">2.1</td>
+          <td><span class="operator">Beschreiben Sie</span> den Verlauf der relativen Häufigkeit im Simulationslauf aus Material M2.</td>
+          <td class="points">4</td>
+        </tr>
+        <tr>
+          <td class="num">2.2</td>
+          <td><span class="operator">Erklären Sie</span> das empirische Gesetz der großen Zahlen für das gegebene Modell unter Einbezug von Material M2.</td>
+          <td class="points">4</td>
+        </tr>
+        <tr>
+          <td class="num">2.3</td>
+          <td><span class="operator">Bewerten Sie</span> die Aussage des Organisationsteams: „In einem realen Kurztest fielen 7 von 10 Zuteilungen auf Nord. Das Rad ist deshalb unfair und muss ersetzt werden.“</td>
+          <td class="points">3</td>
+        </tr>
+        <tr class="sumrow"><th colspan="2">Punktsumme</th><td class="points">18</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section class="teacher-only teacher-start view-start" id="lehrkraftteil">
+    <div class="document-head">
+      <div>
+        <div class="kicker" style="color:#526079">Unterlagen für die Lehrkraft</div>
+        <h2>Lehrkraftteil · Erwartungshorizont und Bewertung</h2>
+      </div>
+      <div class="document-mark">LEHRKRAFTTEIL</div>
+    </div>
+    <div class="notice">KI-unterstützt erstellt – keine amtliche Prüfungsaufgabe. Dieses Dokument ist Übungsmaterial und muss vor dem Einsatz fachlich durch eine Lehrkraft geprüft werden.</div>
+
+    <div class="grid2">
+      <div class="card teacher">
+        <h3>Rahmen</h3>
+        <p><b>Kurs:</b> 13PF · Freizeitsportleitung</p>
+        <p><b>Fach/Phase:</b> Mathematik · Jahrgangsstufe 13 · Halbjahr 13.1</p>
+        <p><b>Bearbeitungszeit:</b> 30 Minuten · <b>Gesamt:</b> 18 Punkte</p>
+        <p><b>Abiturnähe:</b> nur Klausurdesign; keine proportionale Abitursimulation.</p>
+      </div>
+      <div class="card teacher">
+        <h3>Stoffgrenze</h3>
+        <p>Belegt durch die Lernmaterialien der Wochen 1 und 2: Versuchszahl <svg class="m" width="20" height="25" viewBox="0 0 20 25" role="img" aria-label="n, Versuchszahl"><text x="2" y="18">n</text></svg>, absolute Häufigkeit <svg class="m" width="34" height="25" viewBox="0 0 34 25" role="img" aria-label="H Index n, absolute Häufigkeit"><text x="2" y="18">Hₙ</text></svg>, relative Häufigkeit <svg class="m" width="32" height="25" viewBox="0 0 32 25" role="img" aria-label="h Index n, relative Häufigkeit"><text x="2" y="18">hₙ</text></svg>, faire Vergleiche, unvollständige Protokolle, Modellwahrscheinlichkeit <svg class="m" width="20" height="25" viewBox="0 0 20 25" role="img" aria-label="p, Modellwahrscheinlichkeit"><text x="2" y="18">p</text></svg>, Simulation, Abweichung <svg class="m" width="34" height="25" viewBox="0 0 34 25" role="img" aria-label="d Index n, Abweichung"><text x="2" y="18">dₙ</text></svg> und empirisches Gesetz der großen Zahlen.</p>
+        <p>Nicht vorausgesetzt: Ergebnisräume und Ereignismengen, Binomialverteilung, Hypothesentests, Signifikanzniveau, p-Wert oder Beweis der Fairness eines realen Geräts.</p>
+      </div>
+    </div>
+
+    <div class="source-note"><b>Knappes Quellen- und Rahmenprotokoll:</b> Stoffbezug nach „13PF · Mathematik · Woche 1 · Absolute und relative Häufigkeit“ und „Woche 2 · Simulation und empirisches Gesetz der großen Zahlen“. Gestaltung und Drucklogik nach der bereitgestellten HTML-Klausurübung aus Woche 1. Aktuelle Webprüfung am 30.07.2026: Standardsicherung NRW, Zentralabitur Berufliches Gymnasium, Bildungsgang APO-BK Anlage D 17. Die offizielle Bildungsgangseite weist Mathematik nicht als zentral geprüftes schriftliches Abiturfach aus. Deshalb werden ausschließlich Klausurdesign sowie allgemein passende Operator- und AFB-Begriffe genutzt; der Unterrichtsstoff wurde durch die Webprüfung nicht erweitert.</div>
+
+    <h3>Erwartungshorizont</h3>
+    <table class="rubric">
+      <thead><tr><th>Nr.</th><th>Erwartete Leistung und Bepunktung</th><th>Punkte</th><th>AFB</th></tr></thead>
+      <tbody>
+        <tr>
+          <td>1.1</td>
+          <td>
+            Testblock A: <svg class="m" width="222" height="25" viewBox="0 0 222 25" role="img" aria-label="h Index 40 gleich 26 geteilt durch 40 gleich 0 Komma 650"><text x="2" y="18">h₄₀ = 26 / 40 = 0,650</text></svg> (1 P) und <svg class="m" width="300" height="25" viewBox="0 0 300 25" role="img" aria-label="d Index 40 gleich Betrag aus 0 Komma 650 minus 0 Komma 500 gleich 0 Komma 150"><text x="2" y="18">d₄₀ = |0,650 − 0,500| = 0,150</text></svg> (1 P).<br>
+            Testblock B: <svg class="m" width="222" height="25" viewBox="0 0 222 25" role="img" aria-label="h Index 75 gleich 42 geteilt durch 75 gleich 0 Komma 560"><text x="2" y="18">h₇₅ = 42 / 75 = 0,560</text></svg> (1 P) und <svg class="m" width="300" height="25" viewBox="0 0 300 25" role="img" aria-label="d Index 75 gleich Betrag aus 0 Komma 560 minus 0 Komma 500 gleich 0 Komma 060"><text x="2" y="18">d₇₅ = |0,560 − 0,500| = 0,060</text></svg> (1 P).
+          </td>
+          <td>4</td><td>I</td>
+        </tr>
+        <tr>
+          <td>1.2</td>
+          <td>
+            Testblock C: Ansatz <svg class="m" width="244" height="25" viewBox="0 0 244 25" role="img" aria-label="n gleich H Index n geteilt durch h Index n gleich 27 geteilt durch 0 Komma 450"><text x="2" y="18">n = Hₙ / hₙ = 27 / 0,450</text></svg> (1 P) und Ergebnis <svg class="m" width="65" height="25" viewBox="0 0 65 25" role="img" aria-label="n gleich 60"><text x="2" y="18">n = 60</text></svg> (1 P).<br>
+            Testblock D: <svg class="m" width="225" height="25" viewBox="0 0 225 25" role="img" aria-label="H Index 80 gleich 0 Komma 550 mal 80 gleich 44"><text x="2" y="18">H₈₀ = 0,550 · 80 = 44</text></svg> (1 P).
+          </td>
+          <td>3</td><td>I</td>
+        </tr>
+        <tr>
+          <td>2.1</td>
+          <td>
+            Der Verlauf schwankt um den Modellwert (1 P); bei kleinen Versuchszahlen treten größere Abweichungen auf (1 P); die Annäherung ist nicht monoton, zum Beispiel wächst die Abweichung zwischen 100 und 200 sowie zwischen 500 und 1000 Versuchen (1 P); bei 500 und 1000 Versuchen liegen die Werte dennoch sehr nahe am Modellwert (1 P).
+          </td>
+          <td>4</td><td>II</td>
+        </tr>
+        <tr>
+          <td>2.2</td>
+          <td>
+            Bei vielen unabhängigen Wiederholungen mit unveränderter Modellwahrscheinlichkeit stabilisiert sich die relative Häufigkeit typischerweise in der Nähe des Modellwerts (2 P). Das Gesetz behauptet weder eine monotone Annäherung noch exakte Gleichheit ab einer festen Versuchszahl (1 P). Materialbezug: Die Werte 0,504 und 0,493 liegen bei großen Versuchszahlen nahe bei 0,500, obwohl die Abweichung zwischendurch wieder wachsen kann (1 P).
+          </td>
+          <td>4</td><td>II</td>
+        </tr>
+        <tr>
+          <td>2.3</td>
+          <td>
+            Der Kurztest besitzt die relative Häufigkeit <svg class="m" width="135" height="25" viewBox="0 0 135 25" role="img" aria-label="7 geteilt durch 10 gleich 0 Komma 700"><text x="2" y="18">7 / 10 = 0,700</text></svg> und eine Abweichung von <svg class="m" width="57" height="25" viewBox="0 0 57 25" role="img" aria-label="0 Komma 200"><text x="2" y="18">0,200</text></svg>; solche Abweichungen können in kurzen Reihen auch beim fairen Modell auftreten (1 P). Der Kurztest allein rechtfertigt daher die Feststellung „unfair“ nicht; zugleich beweist die Simulation nicht die Fairness des realen Rads (1 P). Fachlich angemessen ist eine längere und kontrollierte reale Prüfung mit mehreren Versuchsreihen, nicht der sofortige Austausch allein aufgrund dieses Kurztests (1 P).
+          </td>
+          <td>3</td><td>III</td>
+        </tr>
+        <tr class="sumrow"><th colspan="2">Summe</th><td>18</td><td></td></tr>
+      </tbody>
+    </table>
+
+    <h3>AFB-Summen</h3>
+    <table class="compact data-table">
+      <thead><tr><th>Anforderungsbereich I</th><th>Anforderungsbereich II</th><th>Anforderungsbereich III</th><th>Gesamt</th></tr></thead>
+      <tbody><tr><td>7 Punkte</td><td>8 Punkte</td><td>3 Punkte</td><td>18 Punkte</td></tr></tbody>
+    </table>
+
+    <div class="grid2">
+      <div class="card teacher">
+        <h3>Alternative Lösungswege</h3>
+        <ul>
+          <li>Relative Häufigkeiten dürfen als gekürzter Bruch, Dezimalzahl oder Prozentwert berechnet werden, sofern die Darstellung eindeutig ist.</li>
+          <li>Die fehlenden Werte in 1.2 können durch Umstellen der Grundgleichung, durch Dreisatz oder durch eine äquivalente Proportionalitätsrechnung gewonnen werden.</li>
+          <li>In 2.1 ist eine ausschließlich tabellenbasierte Beschreibung gleichwertig zur Nutzung des Diagramms.</li>
+          <li>In 2.3 sind andere vorsichtige Handlungsempfehlungen vollständig anzuerkennen, wenn Kurztest, Modell und reales Rad sachgerecht getrennt werden.</li>
+        </ul>
+      </div>
+      <div class="card teacher">
+        <h3>Typische Fehler und Folgefehlerregeln</h3>
+        <ul>
+          <li>Verwechslung von Versuchszahl und Trefferzahl; Prozentwerte ohne Division durch die Versuchszahl.</li>
+          <li>Dezimalzahl und Prozentzahl werden verwechselt, etwa 0,65 und 65.</li>
+          <li>Das empirische Gesetz wird fälschlich als monotone Annäherung oder als Garantie exakter Gleichheit formuliert.</li>
+          <li>Simulationsergebnisse des Modells werden unzulässig als Beweis für das reale Rad gedeutet.</li>
+          <li>Ein einmalig falscher Zwischenwert wird nicht mehrfach bestraft. Folgerechnungen sind bei konsequenter und fachlich richtiger Weiterverwendung des eigenen Werts zu bepunkten.</li>
+          <li>Abweichungen durch sinnvolle Rundung auf drei Dezimalstellen sind zu akzeptieren; vorzeitiges Runden darf nur einmal berücksichtigt werden.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="warning-note"><b>Bewertungshinweis:</b> Ein schulischer Notenschlüssel ist nicht belegt und wird daher nicht vorgegeben.</div>
+  </section>
+
+  <section class="solution-only solution-start view-start" id="schuelerloesung">
+    <div class="document-head">
+      <div>
+        <div class="kicker" style="color:#526079">Vollständige Schülerlösung</div>
+        <h2>Schülerlösung · Zuteilungsrad beim Aktivtag</h2>
+      </div>
+      <div class="document-mark">SCHÜLERLÖSUNG</div>
+    </div>
+    <div class="notice">KI-unterstützt erstellt – keine amtliche Prüfungsaufgabe. Dieses Dokument ist Übungsmaterial und muss vor dem Einsatz fachlich durch eine Lehrkraft geprüft werden.</div>
+
+    <div class="solution-step">
+      <h3>1.1 Relative Häufigkeiten und Abweichungen</h3>
+      <p>Für jeden Testblock wird zuerst die Trefferzahl durch die Versuchszahl geteilt. Anschließend wird der Abstand zum Modellwert berechnet.</p>
+      <div class="equation"><svg class="m m-block" width="390" height="25" viewBox="0 0 390 25" role="img" aria-label="Testblock A: h Index 40 gleich 26 geteilt durch 40 gleich 0 Komma 650 gleich 65 Prozent"><text x="2" y="18">Testblock A: h₄₀ = 26 / 40 = 0,650 = 65 %</text></svg></div>
+      <div class="equation"><svg class="m m-block" width="505" height="25" viewBox="0 0 505 25" role="img" aria-label="d Index 40 gleich Betrag aus 0 Komma 650 minus 0 Komma 500 gleich 0 Komma 150 gleich 15 Prozentpunkte"><text x="2" y="18">d₄₀ = |0,650 − 0,500| = 0,150 = 15 Prozentpunkte</text></svg></div>
+      <div class="equation"><svg class="m m-block" width="390" height="25" viewBox="0 0 390 25" role="img" aria-label="Testblock B: h Index 75 gleich 42 geteilt durch 75 gleich 0 Komma 560 gleich 56 Prozent"><text x="2" y="18">Testblock B: h₇₅ = 42 / 75 = 0,560 = 56 %</text></svg></div>
+      <div class="equation"><svg class="m m-block" width="485" height="25" viewBox="0 0 485 25" role="img" aria-label="d Index 75 gleich Betrag aus 0 Komma 560 minus 0 Komma 500 gleich 0 Komma 060 gleich 6 Prozentpunkte"><text x="2" y="18">d₇₅ = |0,560 − 0,500| = 0,060 = 6 Prozentpunkte</text></svg></div>
+    </div>
+
+    <div class="solution-step">
+      <h3>1.2 Fehlende Angaben</h3>
+      <p>In Testblock C sind Trefferzahl und relative Häufigkeit bekannt. Deshalb wird die Versuchszahl durch Umstellen berechnet.</p>
+      <div class="equation"><svg class="m m-block" width="290" height="25" viewBox="0 0 290 25" role="img" aria-label="n gleich H Index n geteilt durch h Index n gleich 27 geteilt durch 0 Komma 450 gleich 60"><text x="2" y="18">n = Hₙ / hₙ = 27 / 0,450 = 60</text></svg></div>
+      <p>In Testblock D sind Versuchszahl und relative Häufigkeit bekannt.</p>
+      <div class="equation"><svg class="m m-block" width="330" height="25" viewBox="0 0 330 25" role="img" aria-label="H Index 80 gleich h Index 80 mal 80 gleich 0 Komma 550 mal 80 gleich 44"><text x="2" y="18">H₈₀ = h₈₀ · 80 = 0,550 · 80 = 44</text></svg></div>
+      <p>Damit umfasst Testblock C insgesamt 60 Drehungen; in Testblock D trat „Nord“ 44-mal auf.</p>
+    </div>
+
+    <div class="solution-step">
+      <h3>2.1 Verlauf der Simulation</h3>
+      <p>Die relative Häufigkeit schwankt um den Modellwert 0,500. Zu Beginn ist die Abweichung mit 0,200 groß. Danach liegen die Werte überwiegend näher am Modellwert. Die Annäherung verläuft aber nicht monoton: Von 100 auf 200 Versuche wächst die Abweichung von 0,030 auf 0,040; von 500 auf 1000 Versuche wächst sie von 0,004 auf 0,007. Trotzdem liegen die Werte bei 500 und 1000 Versuchen mit 0,504 und 0,493 sehr nahe am Modellwert.</p>
+    </div>
+
+    <div class="solution-step">
+      <h3>2.2 Empirisches Gesetz der großen Zahlen</h3>
+      <p>Bei vielen unabhängigen Wiederholungen desselben Zufallsversuchs mit unveränderter Modellwahrscheinlichkeit stabilisiert sich die relative Häufigkeit typischerweise in der Nähe der Modellwahrscheinlichkeit. Das bedeutet nicht, dass die Werte Schritt für Schritt immer näher kommen oder ab einer bestimmten Versuchszahl exakt 0,500 betragen. Material M2 zeigt genau dieses Muster: langfristige Nähe zum Modellwert bei weiterhin möglichen kleineren Schwankungen.</p>
+    </div>
+
+    <div class="solution-step">
+      <h3>2.3 Bewertung des Kurztests</h3>
+      <p>Im Kurztest gilt <svg class="m" width="190" height="25" viewBox="0 0 190 25" role="img" aria-label="h Index 10 gleich 7 geteilt durch 10 gleich 0 Komma 700"><text x="2" y="18">h₁₀ = 7 / 10 = 0,700</text></svg>; die Abweichung vom Modellwert beträgt <svg class="m" width="57" height="25" viewBox="0 0 57 25" role="img" aria-label="0 Komma 200"><text x="2" y="18">0,200</text></svg>. Eine solche Abweichung kann bei nur zehn Drehungen auch in einem fairen Modell auftreten. Der Kurztest reicht deshalb nicht aus, um das reale Rad als unfair zu bewerten oder seinen Austausch zu verlangen. Umgekehrt beweist die Simulation auch nicht, dass das reale Rad fair ist. Sinnvoll wären längere, kontrollierte reale Testreihen und der Vergleich mehrerer Läufe.</p>
+    </div>
+  </section>
+</main>
+
+<script>
+(function(){
+  'use strict';
+  var body=document.body;
+  var buttons=Array.prototype.slice.call(document.querySelectorAll('[data-view-target]'));
+  function setView(view){
+    body.setAttribute('data-view',view);
+    buttons.forEach(function(btn){
+      var active=btn.getAttribute('data-view-target')===view;
+      btn.classList.toggle('active',active);
+      btn.setAttribute('aria-pressed',active?'true':'false');
+    });
+    window.scrollTo(0,0);
+  }
+  buttons.forEach(function(btn){
+    btn.addEventListener('click',function(){setView(btn.getAttribute('data-view-target'));});
+  });
+  document.getElementById('printBtn').addEventListener('click',function(){window.print();});
+})();
+</script>
+</body>
+</html>
