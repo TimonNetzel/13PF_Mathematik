@@ -1,0 +1,2415 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="color-scheme" content="light">
+  <meta name="theme-color" content="#111827">
+  <meta name="description" content="Digitale Unterrichtsmaterialien für Physiktechnik">
+
+  <title>Physiktechnik – Unterrichtsmaterialien</title>
+
+  <style>
+
+    :root {
+      --page: #f4f6fb;
+      --surface: rgba(255, 255, 255, 0.92);
+      --surface-solid: #ffffff;
+      --ink: #152033;
+      --muted: #647084;
+      --line: rgba(21, 32, 51, 0.10);
+      --hero-start: #111827;
+      --hero-middle: #1e3a8a;
+      --hero-end: #0f766e;
+      --learn: #3659d9;
+      --learn-soft: #edf1ff;
+      --exercise: #087f73;
+      --exercise-soft: #e8f8f5;
+      --exam: #9a3412;
+      --exam-soft: #fff2e8;
+      --focus: #fbbf24;
+      --radius-xl: 30px;
+      --radius-lg: 22px;
+      --radius-md: 16px;
+      --shadow-lg: 0 28px 70px rgba(17, 24, 39, 0.16);
+      --shadow-md: 0 14px 36px rgba(17, 24, 39, 0.09);
+      --shadow-sm: 0 8px 22px rgba(17, 24, 39, 0.07);
+    }
+
+    * { box-sizing: border-box; }
+
+    html {
+      -webkit-text-size-adjust: 100%;
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      min-height: 100dvh;
+      padding:
+        max(18px, env(safe-area-inset-top))
+        max(16px, env(safe-area-inset-right))
+        max(28px, env(safe-area-inset-bottom))
+        max(16px, env(safe-area-inset-left));
+      color: var(--ink);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      line-height: 1.5;
+      background:
+        radial-gradient(circle at 5% 5%, rgba(54, 89, 217, 0.11), transparent 26rem),
+        radial-gradient(circle at 95% 22%, rgba(8, 127, 115, 0.10), transparent 24rem),
+        var(--page);
+    }
+
+    a, button, input, summary { font: inherit; }
+
+    .page {
+      width: min(1180px, 100%);
+      margin: 0 auto;
+    }
+
+    .hero {
+      position: relative;
+      isolation: isolate;
+      overflow: hidden;
+      padding: clamp(30px, 6vw, 68px);
+      color: #ffffff;
+      background: linear-gradient(128deg, var(--hero-start) 0%, var(--hero-middle) 54%, var(--hero-end) 100%);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: var(--radius-xl);
+      box-shadow: var(--shadow-lg);
+    }
+
+    .hero::before,
+    .hero::after {
+      position: absolute;
+      z-index: -1;
+      width: 260px;
+      height: 260px;
+      content: "";
+      background: rgba(255, 255, 255, 0.10);
+      border-radius: 999px;
+      filter: blur(2px);
+    }
+
+    .hero::before { top: -150px; right: 8%; }
+
+    .hero::after {
+      right: -110px;
+      bottom: -180px;
+      width: 330px;
+      height: 330px;
+      background: rgba(255, 255, 255, 0.08);
+    }
+
+    .hero-content { max-width: 850px; }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      min-height: 34px;
+      padding: 6px 12px;
+      margin: 0 0 18px;
+      font-size: 0.82rem;
+      font-weight: 800;
+      letter-spacing: 0.09em;
+      text-transform: uppercase;
+      background: rgba(255, 255, 255, 0.13);
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      border-radius: 999px;
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+    }
+
+    h1 {
+      max-width: 800px;
+      margin: 0;
+      font-size: clamp(2.35rem, 7vw, 5.2rem);
+      line-height: 0.98;
+      letter-spacing: -0.055em;
+      text-wrap: balance;
+    }
+
+    .intro {
+      max-width: 760px;
+      margin: 22px 0 0;
+      color: rgba(255, 255, 255, 0.88);
+      font-size: clamp(1rem, 2.4vw, 1.22rem);
+    }
+
+    .hero-stats {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 30px;
+    }
+
+    .stat {
+      display: inline-flex;
+      gap: 8px;
+      align-items: center;
+      min-height: 42px;
+      padding: 9px 13px;
+      color: rgba(255, 255, 255, 0.90);
+      font-size: 0.92rem;
+      font-weight: 700;
+      background: rgba(255, 255, 255, 0.10);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: 999px;
+    }
+
+    .stat-dot {
+      width: 8px;
+      height: 8px;
+      background: #86efac;
+      border-radius: 50%;
+      box-shadow: 0 0 0 5px rgba(134, 239, 172, 0.14);
+    }
+
+    .toolbar {
+      position: relative;
+      z-index: 2;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 12px;
+      align-items: end;
+      padding: 16px;
+      margin: -24px 24px 30px;
+      background: var(--surface);
+      border: 1px solid rgba(255, 255, 255, 0.75);
+      border-radius: 20px;
+      box-shadow: var(--shadow-md);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+    }
+
+    .search-wrap { position: relative; min-width: 0; }
+
+    .search-label {
+      display: block;
+      margin: 0 0 7px 4px;
+      font-size: 0.88rem;
+      font-weight: 800;
+      color: #344054;
+    }
+
+    .search-box { position: relative; }
+
+    .search-symbol {
+      position: absolute;
+      top: 50%;
+      left: 16px;
+      color: var(--muted);
+      font-size: 1.18rem;
+      transform: translateY(-50%);
+      pointer-events: none;
+    }
+
+    input[type="search"] {
+      width: 100%;
+      min-height: 56px;
+      padding: 13px 16px 13px 48px;
+      color: var(--ink);
+      background: rgba(246, 248, 252, 0.95);
+      border: 2px solid transparent;
+      border-radius: 14px;
+      outline: none;
+      -webkit-appearance: none;
+      appearance: none;
+    }
+
+    input[type="search"]::placeholder { color: #8993a4; }
+
+    input[type="search"]:focus {
+      background: #ffffff;
+      border-color: var(--learn);
+      box-shadow: 0 0 0 4px rgba(54, 89, 217, 0.13);
+    }
+
+    .clear-button {
+      min-height: 56px;
+      padding: 13px 19px;
+      color: #344054;
+      font-weight: 800;
+      background: #ffffff;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      cursor: pointer;
+      touch-action: manipulation;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .clear-button:hover { background: #f8fafc; box-shadow: var(--shadow-sm); }
+
+    .clear-button:focus-visible,
+    .overview-summary:focus-visible,
+    .material-summary:focus-visible,
+    .format-link:focus-visible,
+    .exam-summary:focus-visible {
+      outline: 4px solid rgba(251, 191, 36, 0.55);
+      outline-offset: 3px;
+    }
+
+    .section-heading {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px 20px;
+      align-items: end;
+      justify-content: space-between;
+      margin: 0 4px 18px;
+    }
+
+    .heading-copy p { margin: 5px 0 0; color: var(--muted); }
+
+    h2 {
+      margin: 0;
+      font-size: clamp(1.65rem, 4vw, 2.45rem);
+      line-height: 1.1;
+      letter-spacing: -0.035em;
+    }
+
+    #result-count {
+      display: inline-flex;
+      align-items: center;
+      min-height: 38px;
+      padding: 7px 12px;
+      margin: 0;
+      color: #344054;
+      font-size: 0.92rem;
+      font-weight: 800;
+      background: rgba(255, 255, 255, 0.78);
+      border: 1px solid var(--line);
+      border-radius: 999px;
+    }
+
+    .weeks-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 18px;
+    }
+
+    .week-card {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      min-width: 0;
+      padding: 22px;
+      overflow: hidden;
+      background: var(--surface-solid);
+      border: 1px solid var(--line);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-sm);
+      transition: transform 180ms ease, box-shadow 180ms ease, border-color 180ms ease;
+    }
+
+    .week-card::after {
+      position: absolute;
+      top: 0;
+      right: 0;
+      left: 0;
+      height: 4px;
+      content: "";
+      background: linear-gradient(90deg, var(--learn), var(--exercise));
+      opacity: 0;
+      transition: opacity 180ms ease;
+    }
+
+    .week-card:hover {
+      border-color: rgba(54, 89, 217, 0.22);
+      box-shadow: 0 20px 44px rgba(17, 24, 39, 0.12);
+      transform: translateY(-3px);
+    }
+
+    .week-card:hover::after { opacity: 1; }
+    .week-card[hidden] { display: none; }
+
+    .card-topline {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      margin-bottom: 16px;
+    }
+
+    .week-badge {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 48px;
+      height: 48px;
+      color: #ffffff;
+      font-weight: 900;
+      background: linear-gradient(135deg, #243b86, var(--learn));
+      border-radius: 15px;
+      box-shadow: 0 9px 18px rgba(54, 89, 217, 0.23);
+    }
+
+    .card-label {
+      color: var(--muted);
+      font-size: 0.78rem;
+      font-weight: 800;
+      letter-spacing: 0.075em;
+      text-transform: uppercase;
+    }
+
+    .week-card h3 {
+      margin: 0;
+      font-size: 1.45rem;
+      line-height: 1.2;
+      letter-spacing: -0.025em;
+    }
+
+    .card-description {
+      margin: 7px 0 20px;
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+
+    .actions {
+      display: grid;
+      gap: 10px;
+      margin-top: auto;
+    }
+
+    .material-group {
+      overflow: hidden;
+      border: 1px solid transparent;
+      border-radius: var(--radius-md);
+      transition: border-color 150ms ease, box-shadow 150ms ease;
+    }
+
+    .material-group.learn { color: #2949bf; background: var(--learn-soft); }
+    .material-group.exercise { color: #067167; background: var(--exercise-soft); }
+
+    .material-group[open] {
+      border-color: currentColor;
+      box-shadow: 0 9px 18px rgba(17, 24, 39, 0.07);
+    }
+
+    .material-summary {
+      display: grid;
+      grid-template-columns: 40px minmax(0, 1fr) auto;
+      gap: 12px;
+      align-items: center;
+      min-height: 64px;
+      padding: 10px 12px;
+      color: inherit;
+      cursor: pointer;
+      list-style: none;
+      touch-action: manipulation;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .material-summary::-webkit-details-marker { display: none; }
+
+    .material-summary:hover { background: rgba(255, 255, 255, 0.34); }
+
+    .link-icon {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 40px;
+      height: 40px;
+      color: #ffffff;
+      font-weight: 900;
+      border-radius: 12px;
+    }
+
+    .learn .link-icon { background: var(--learn); }
+    .exercise .link-icon { background: var(--exercise); }
+
+    .material-summary strong,
+    .material-summary small { display: block; }
+
+    .material-summary strong { color: var(--ink); font-size: 0.98rem; }
+
+    .material-summary small {
+      margin-top: 1px;
+      color: var(--muted);
+      font-size: 0.78rem;
+    }
+
+    .chevron {
+      font-size: 1.15rem;
+      font-weight: 900;
+      transition: transform 150ms ease;
+    }
+
+    .material-group[open] .chevron { transform: rotate(180deg); }
+
+    .format-options {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 9px;
+      padding: 0 10px 10px;
+    }
+
+    .format-link {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 48px;
+      padding: 10px 12px;
+      color: var(--ink);
+      font-size: 0.9rem;
+      font-weight: 850;
+      text-align: center;
+      text-decoration: none;
+      background: rgba(255, 255, 255, 0.78);
+      border: 1px solid rgba(21, 32, 51, 0.10);
+      border-radius: 12px;
+      touch-action: manipulation;
+      -webkit-tap-highlight-color: transparent;
+      transition: transform 150ms ease, box-shadow 150ms ease, background 150ms ease;
+    }
+
+    .format-link:hover {
+      background: #ffffff;
+      box-shadow: 0 7px 16px rgba(17, 24, 39, 0.08);
+      transform: translateY(-1px);
+    }
+
+    .overview-section {
+      margin: 0 0 30px;
+    }
+
+    .overview-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .overview-group {
+      overflow: hidden;
+      color: #5b21b6;
+      background: #f4efff;
+      border: 1px solid rgba(91, 33, 182, 0.14);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-sm);
+      transition: transform 150ms ease, box-shadow 150ms ease, border-color 150ms ease;
+    }
+
+    .overview-group:nth-child(2) {
+      color: #075985;
+      background: #eaf7ff;
+      border-color: rgba(7, 89, 133, 0.14);
+    }
+
+    .overview-group:hover,
+    .overview-group[open] {
+      border-color: currentColor;
+      box-shadow: var(--shadow-md);
+    }
+
+    .overview-group:hover { transform: translateY(-2px); }
+    .overview-group[open] { transform: none; }
+
+    .overview-summary {
+      display: grid;
+      grid-template-columns: 48px minmax(0, 1fr) auto;
+      gap: 14px;
+      align-items: center;
+      min-height: 82px;
+      padding: 14px 16px;
+      color: var(--ink);
+      cursor: pointer;
+      list-style: none;
+      touch-action: manipulation;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .overview-summary::-webkit-details-marker { display: none; }
+    .overview-summary:hover { background: rgba(255, 255, 255, 0.34); }
+
+    .overview-icon,
+    .exam-icon {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 44px;
+      height: 44px;
+      color: #ffffff;
+      font-size: 0.85rem;
+      font-weight: 900;
+      background: currentColor;
+      border-radius: 13px;
+      box-shadow: 0 8px 16px rgba(17, 24, 39, 0.12);
+    }
+
+    .overview-summary strong,
+    .overview-summary small { display: block; }
+
+    .overview-summary strong {
+      font-size: 1.05rem;
+      line-height: 1.2;
+    }
+
+    .overview-summary small {
+      margin-top: 3px;
+      color: var(--muted);
+      font-size: 0.8rem;
+    }
+
+    .overview-group[open] .chevron { transform: rotate(180deg); }
+
+    .empty-state {
+      padding: 34px 22px;
+      text-align: center;
+      color: var(--muted);
+      background: rgba(255, 255, 255, 0.82);
+      border: 1px dashed rgba(21, 32, 51, 0.20);
+      border-radius: var(--radius-lg);
+    }
+
+    .exam-section {
+      margin-top: 44px;
+      padding: clamp(22px, 4vw, 34px);
+      background: rgba(255, 255, 255, 0.86);
+      border: 1px solid var(--line);
+      border-radius: var(--radius-xl);
+      box-shadow: var(--shadow-md);
+    }
+
+    .exam-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+      gap: 12px;
+      margin-top: 20px;
+    }
+
+    .exam-group {
+      overflow: hidden;
+      color: var(--exam);
+      background: var(--exam-soft);
+      border: 1px solid rgba(154, 52, 18, 0.13);
+      border-radius: var(--radius-md);
+      transition: transform 150ms ease, box-shadow 150ms ease, border-color 150ms ease;
+    }
+
+    .exam-group:hover,
+    .exam-group[open] {
+      border-color: var(--exam);
+      box-shadow: 0 10px 20px rgba(154, 52, 18, 0.10);
+    }
+
+    .exam-group:hover { transform: translateY(-2px); }
+    .exam-group[open] { transform: none; }
+
+    .exam-summary {
+      display: grid;
+      grid-template-columns: 42px minmax(0, 1fr) auto;
+      gap: 12px;
+      align-items: center;
+      min-height: 68px;
+      padding: 12px 14px;
+      color: var(--ink);
+      cursor: pointer;
+      list-style: none;
+      touch-action: manipulation;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .exam-summary::-webkit-details-marker { display: none; }
+    .exam-summary:hover { background: rgba(255, 255, 255, 0.34); }
+
+    .exam-summary strong,
+    .exam-summary small { display: block; }
+
+    .exam-summary strong { line-height: 1.2; }
+
+    .exam-summary small {
+      margin-top: 2px;
+      color: var(--muted);
+      font-size: 0.78rem;
+    }
+
+    .exam-group[open] .chevron { transform: rotate(180deg); }
+
+    .exam-file-list {
+      display: grid;
+      gap: 9px;
+      padding: 0 10px 10px;
+    }
+
+    .exam-file-set {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) repeat(2, minmax(88px, 0.7fr));
+      gap: 8px;
+      align-items: stretch;
+      padding: 8px;
+      background: rgba(255, 255, 255, 0.48);
+      border: 1px solid rgba(154, 52, 18, 0.10);
+      border-radius: 13px;
+    }
+
+    .exam-file-label {
+      display: flex;
+      align-items: center;
+      padding: 8px 10px;
+      color: #7c2d12;
+      font-size: 0.82rem;
+      font-weight: 850;
+      line-height: 1.25;
+    }
+
+    .exam-file-set .format-link {
+      min-height: 44px;
+      padding: 8px 10px;
+      font-size: 0.84rem;
+    }
+
+    footer {
+      margin-top: 36px;
+      padding: 20px 4px 4px;
+      color: var(--muted);
+      text-align: center;
+      font-size: 0.92rem;
+    }
+
+    @media (max-width: 720px) {
+      .toolbar {
+        grid-template-columns: 1fr;
+        margin-right: 10px;
+        margin-left: 10px;
+      }
+
+      .clear-button { width: 100%; }
+      .overview-grid { grid-template-columns: 1fr; }
+      .exam-file-set { grid-template-columns: minmax(0, 1fr) repeat(2, minmax(80px, 0.65fr)); }
+    }
+
+    @media (max-width: 420px) {
+      body {
+        padding-right: max(12px, env(safe-area-inset-right));
+        padding-left: max(12px, env(safe-area-inset-left));
+      }
+
+      .hero { border-radius: 24px; }
+      .weeks-grid { grid-template-columns: 1fr; }
+      .week-card { padding: 18px; }
+      .format-options { grid-template-columns: 1fr; }
+      .exam-file-set { grid-template-columns: 1fr 1fr; }
+      .exam-file-label { grid-column: 1 / -1; }
+    }
+
+    @media (hover: none) {
+      .week-card:hover,
+      .format-link:hover,
+      .exam-group:hover {
+        box-shadow: var(--shadow-sm);
+        transform: none;
+      }
+
+      .week-card::after { opacity: 1; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+
+      *, *::before, *::after {
+        scroll-behavior: auto !important;
+        transition-duration: 0.01ms !important;
+      }
+    }
+
+    @media print {
+      body { background: #ffffff; }
+
+      .hero {
+        color: #000000;
+        background: #ffffff;
+        border: 2px solid #000000;
+        box-shadow: none;
+      }
+
+      .intro, .stat { color: #000000; }
+      .toolbar, .format-options { display: none; }
+      .weeks-grid { grid-template-columns: repeat(2, 1fr); }
+      .week-card, .overview-section, .exam-section { break-inside: avoid; box-shadow: none; }
+    }
+
+  </style>
+</head>
+
+<body>
+  <main class="page">
+    <header class="hero">
+      <div class="hero-content">
+        <!-- Titel, Fach und Schuljahr kannst du hier anpassen. -->
+        <p class="eyebrow">Digitale Unterrichtsmaterialien</p>
+        <h1>Physiktechnik</h1>
+        <p class="intro">
+          Starte mit der Lernlandkarte oder dem Halbjahresskript und wähle anschließend
+          deine Unterrichtswoche. Alle Materialien stehen als HTML- und PDF-Version bereit.
+        </p>
+        <div class="hero-stats" aria-label="Übersicht">
+          <span class="stat"><span class="stat-dot" aria-hidden="true"></span>40 Wochen</span>
+          <span class="stat">Lernlandkarte und Halbjahresskript</span>
+          <span class="stat">Lernen und Übung</span>
+          <span class="stat">HTML und PDF</span>
+          <span class="stat">Für iPad optimiert</span>
+        </div>
+      </div>
+    </header>
+
+    <section class="toolbar" aria-label="Wochen durchsuchen">
+      <div class="search-wrap">
+        <label class="search-label" for="week-search">Woche suchen</label>
+        <div class="search-box">
+          <span class="search-symbol" aria-hidden="true">⌕</span>
+          <input
+            id="week-search"
+            type="search"
+            inputmode="numeric"
+            placeholder="Zum Beispiel 7 oder Woche 7"
+            autocomplete="off"
+            aria-describedby="search-help"
+          >
+        </div>
+        <span id="search-help" hidden>Gib eine Wochennummer zwischen 1 und 40 ein.</span>
+      </div>
+      <button class="clear-button" id="clear-search" type="button">Suche löschen</button>
+    </section>
+
+    <section aria-labelledby="weeks-heading">
+      <div class="section-heading">
+        <div class="heading-copy">
+          <h2 id="weeks-heading">Wochenübersicht</h2>
+          <p>Tippe auf „Lernen“ oder „Übung“ und wähle danach HTML oder PDF.</p>
+        </div>
+        <p id="result-count" aria-live="polite">40 Wochen</p>
+      </div>
+
+      <section class="overview-section" aria-label="Übergeordnete Materialien">
+        <!--
+          Die beiden Reiter erwarten folgende Dateien:
+
+          materialien/lernlandkarte.html
+          materialien/lernlandkarte.pdf
+          materialien/halbjahresskript.html
+          materialien/halbjahresskript.pdf
+        -->
+        <div class="overview-grid">
+          <details class="overview-group">
+            <summary class="overview-summary">
+              <span class="overview-icon" aria-hidden="true">LL</span>
+              <span><strong>Lernlandkarte</strong><small>HTML oder PDF auswählen</small></span>
+              <span class="chevron" aria-hidden="true">⌄</span>
+            </summary>
+            <div class="format-options">
+              <a class="format-link" href="materialien/lernlandkarte.html">HTML öffnen</a>
+              <a class="format-link" href="materialien/lernlandkarte.pdf">PDF öffnen</a>
+            </div>
+          </details>
+
+          <details class="overview-group">
+            <summary class="overview-summary">
+              <span class="overview-icon" aria-hidden="true">HS</span>
+              <span><strong>Halbjahresskript</strong><small>HTML oder PDF auswählen</small></span>
+              <span class="chevron" aria-hidden="true">⌄</span>
+            </summary>
+            <div class="format-options">
+              <a class="format-link" href="materialien/halbjahresskript.html">HTML öffnen</a>
+              <a class="format-link" href="materialien/halbjahresskript.pdf">PDF öffnen</a>
+            </div>
+          </details>
+        </div>
+      </section>
+
+      <div class="weeks-grid" id="weeks-grid">
+        <!--
+          Die Wochenlinks erwarten diese Dateinamen:
+
+          woche-01/lernen.html
+          woche-01/lernen.pdf
+          woche-01/ueben.html
+          woche-01/ueben.pdf
+
+          Danach entsprechend woche-02 bis woche-40.
+        -->
+        <article class="week-card" data-week="1">
+          <div class="card-topline">
+            <span class="week-badge" aria-hidden="true">01</span>
+            <span class="card-label">Unterrichtswoche</span>
+          </div>
+          <h3>Woche 1</h3>
+          <p class="card-description">Wähle zuerst den Bereich und anschließend das gewünschte Dateiformat.</p>
+          <div class="actions" aria-label="Materialien für Woche 1">
+            <details class="material-group learn">
+              <summary class="material-summary">
+                <span class="link-icon" aria-hidden="true">L</span>
+                <span><strong>Lernen</strong><small>HTML oder PDF auswählen</small></span>
+                <span class="chevron" aria-hidden="true">⌄</span>
+              </summary>
+              <div class="format-options">
+                <a class="format-link" href="woche-01/lernen.html">HTML öffnen</a>
+                <a class="format-link" href="woche-01/lernen.pdf">PDF öffnen</a>
+              </div>
+            </details>
+
+            <details class="material-group exercise">
+              <summary class="material-summary">
+                <span class="link-icon" aria-hidden="true">Ü</span>
+                <span><strong>Übung</strong><small>HTML oder PDF auswählen</small></span>
+                <span class="chevron" aria-hidden="true">⌄</span>
+              </summary>
+              <div class="format-options">
+                <a class="format-link" href="woche-01/ueben.html">HTML öffnen</a>
+                <a class="format-link" href="woche-01/ueben.pdf">PDF öffnen</a>
+              </div>
+            </details>
+          </div>
+        </article>
+        <article class="week-card" data-week="2">
+          <div class="card-topline">
+            <span class="week-badge" aria-hidden="true">02</span>
+            <span class="card-label">Unterrichtswoche</span>
+          </div>
+          <h3>Woche 2</h3>
+          <p class="card-description">Wähle zuerst den Bereich und anschließend das gewünschte Dateiformat.</p>
+          <div class="actions" aria-label="Materialien für Woche 2">
+            <details class="material-group learn">
+              <summary class="material-summary">
+                <span class="link-icon" aria-hidden="true">L</span>
+                <span><strong>Lernen</strong><small>HTML oder PDF auswählen</small></span>
+                <span class="chevron" aria-hidden="true">⌄</span>
+              </summary>
+              <div class="format-options">
+                <a class="format-link" href="woche-02/lernen.html">HTML öffnen</a>
+                <a class="format-link" href="woche-02/lernen.pdf">PDF öffnen</a>
+              </div>
+            </details>
+
+            <details class="material-group exercise">
+              <summary class="material-summary">
+                <span class="link-icon" aria-hidden="true">Ü</span>
+                <span><strong>Übung</strong><small>HTML oder PDF auswählen</small></span>
+                <span class="chevron" aria-hidden="true">⌄</span>
+              </summary>
+              <div class="format-options">
+                <a class="format-link" href="woche-02/ueben.html">HTML öffnen</a>
+                <a class="format-link" href="woche-02/ueben.pdf">PDF öffnen</a>
+              </div>
+            </details>
+          </div>
+        </article>
+        <article class="week-card" data-week="3">
+          <div class="card-topline">
+            <span class="week-badge" aria-hidden="true">03</span>
+            <span class="card-label">Unterrichtswoche</span>
+          </div>
+          <h3>Woche 3</h3>
+          <p class="card-description">Wähle zuerst den Bereich und anschließend das gewünschte Dateiformat.</p>
+          <div class="actions" aria-label="Materialien für Woche 3">
+            <details class="material-group learn">
+              <summary class="material-summary">
+                <span class="link-icon" aria-hidden="true">L</span>
+                <span><strong>Lernen</strong><small>HTML oder PDF auswählen</small></span>
+                <span class="chevron" aria-hidden="true">⌄</span>
+              </summary>
+              <div class="format-options">
+                <a class="format-link" href="woche-03/lernen.html">HTML öffnen</a>
+                <a class="format-link" href="woche-03/lernen.pdf">PDF öffnen</a>
+              </div>
+            </details>
+
+            <details class="material-group exercise">
+              <summary class="material-summary">
+                <span class="link-icon" aria-hidden="true">Ü</span>
+                <span><strong>Übung</strong><small>HTML oder PDF auswählen</small></span>
+                <span class="chevron" aria-hidden="true">⌄</span>
+              </summary>
+              <div class="format-options">
+                <a class="format-link" href="woche-03/ueben.html">HTML öffnen</a>
+                <a class="format-link" href="woche-03/ueben.pdf">PDF öffnen</a>
+              </div>
+            </details>
+          </div>
+        </article>
+        <article class="week-card" data-week="4">
+          <div class="card-topline">
+            <span class="week-badge" aria-hidden="true">04</span>
+            <span class="card-label">Unterrichtswoche</span>
+          </div>
+          <h3>Woche 4</h3>
+          <p class="card-description">Wähle zuerst den Bereich und anschließend das gewünschte Dateiformat.</p>
+          <div class="actions" aria-label="Materialien für Woche 4">
+            <details class="material-group learn">
+              <summary class="material-summary">
+                <span class="link-icon" aria-hidden="true">L</span>
+                <span><strong>Lernen</strong><small>HTML oder PDF auswählen</small></span>
+                <span class="chevron" aria-hidden="true">⌄</span>
+              </summary>
+              <div class="format-options">
+                <a class="format-link" href="woche-04/lernen.html">HTML öffnen</a>
+                <a class="format-link" href="woche-04/lernen.pdf">PDF öffnen</a>
+              </div>
+            </details>
+
+            <details class="material-group exercise">
+              <summary class="material-summary">
+                <span class="link-icon" aria-hidden="true">Ü</span>
+                <span><strong>Übung</strong><small>HTML oder PDF auswählen</small></span>
+                <span class="chevron" aria-hidden="true">⌄</span>
+              </summary>
+              <div class="format-options">
+                <a class="format-link" href="woche-04/ueben.html">HTML öffnen</a>
+                <a class="format-link" href="woche-04/ueben.pdf">PDF öffnen</a>
+              </div>
+            </details>
+          </div>
+        </article>
+        <article class="week-card" data-week="5">
+          <div class="card-topline">
+            <span class="week-badge" aria-hidden="true">05</span>
+            <span class="card-label">Unterrichtswoche</span>
+          </div>
+          <h3>Woche 5</h3>
+          <p class="card-description">Wähle zuerst den Bereich und anschließend das gewünschte Dateiformat.</p>
+          <div class="actions" aria-label="Materialien für Woche 5">
+            <details class="material-group learn">
+              <summary class="material-summary">
+                <span class="link-icon" aria-hidden="true">L</span>
+                <span><strong>Lernen</strong><small>HTML oder PDF auswählen</small></span>
+                <span class="chevron" aria-hidden="true">⌄</span>
+              </summary>
+              <div class="format-options">
+                <a class="format-link" href="woche-05/lernen.html">HTML öffnen</a>
+                <a class="format-link" href="woche-05/lernen.pdf">PDF öffnen</a>
+              </div>
+            </details>
+
+            <details class="material-group exercise">
+              <summary class="material-summary">
+                <span class="link-icon" aria-hidden="true">Ü</span>
+                <span><strong>Übung</strong><small>HTML oder PDF auswählen</small></span>
+                <span class="chevron" aria-hidden="true">⌄</span>
+              </summary>
+              <div class="format-options">
+                <a class="format-link" href="woche-05/ueben.html">HTML öffnen</a>
+                <a class="format-link" href="woche-05/ueben.pdf">PDF öffnen</a>
+              </div>
+            </details>
+          </div>
+        </article>
+        <article class="week-card" data-week="6">
+          <div class="card-topline">
+            <span class="week-badge" aria-hidden="true">06</span>
+            <span class="card-label">Unterrichtswoche</span>
+          </div>
+          <h3>Woche 6</h3>
+          <p class="card-description">Wähle zuerst den Bereich und anschließend das gewünschte Dateiformat.</p>
+          <div class="actions" aria-label="Materialien für Woche 6">
+            <details class="material-group learn">
+              <summary class="material-summary">
+                <span class="link-icon" aria-hidden="true">L</span>
+                <span><strong>Lernen</strong><small>HTML oder PDF auswählen</small></span>
+                <span class="chevron" aria-hidden="true">⌄</span>
+              </summary>
+              <div class="format-options">
+                <a class="format-link" href="woche-06/lernen.html">HTML öffnen</a>
+                <a class="format-link" href="woche-06/lernen.pdf">PDF öffnen</a>
+              </div>
+            </details>
+
+            <details class="material-group exercise">
+              <summary class="material-summary">
+                <span class="link-icon" aria-hidden="true">Ü</span>
+                <span><strong>Übung</strong><small>HTML oder PDF auswählen</small></span>
+                <span class="chevron" aria-hidden="true">⌄</span>
+              </summary>
+              <div class="format-options">
+                <a class="format-link" href="woche-06/ueben.html">HTML öffnen</a>
+                <a class="format-link" href="woche-06/ueben.pdf">PDF öffnen</a>
+              </div>
+            </details>
+          </div>
+        </article>
+        <article class="week-card" data-week="7">
+          <div class="card-topline">
+            <span class="week-badge" aria-hidden="true">07</span>
+            <span class="card-label">Unterrichtswoche</span>
+          </div>
+          <h3>Woche 7</h3>
+          <p class="card-description">Wähle zuerst den Bereich und anschließend das gewünschte Dateiformat.</p>
+          <div class="actions" aria-label="Materialien für Woche 7">
+            <details class="material-group learn">
+              <summary class="material-summary">
+                <span class="link-icon" aria-hidden="true">L</span>
+                <span><strong>Lernen</strong><small>HTML oder PDF auswählen</small></span>
+                <span class="chevron" aria-hidden="true">⌄</span>
+              </summary>
+              <div class="format-options">
+                <a class="format-link" href="woche-07/lernen.html">HTML öffnen</a>
+                <a class="format-link" href="woche-07/lernen.pdf">PDF öffnen</a>
+              </div>
+            </details>
+
+            <details class="material-group exercise">
+              <summary class="material-summary">
+                <span class="link-icon" aria-hidden="true">Ü</span>
+                <span><strong>Übung</strong><small>HTML oder PDF auswählen</small></span>
+                <span class="chevron" aria-hidden="true">⌄</span>
+              </summary>
+              <div class="format-options">
+                <a class="format-link" href="woche-07/ueben.html">HTML öffnen</a>
+                <a class="format-link" href="woche-07/ueben.pdf">PDF öffnen</a>
+              </div>
+            </details>
+          </div>
+        </article>
+        <article class="week-card" data-week="8">
+          <div class="card-topline">
+            <span class="week-badge" aria-hidden="true">08</span>
+            <span class="card-label">Unterrichtswoche</span>
+          </div>
+          <h3>Woche 8</h3>
+          <p class="card-description">Wähle zuerst den Bereich und anschließend das gewünschte Dateiformat.</p>
+          <div class="actions" aria-label="Materialien für Woche 8">
+            <details class="material-group learn">
+              <summary class="material-summary">
+                <span class="link-icon" aria-hidden="true">L</span>
+                <span><strong>Lernen</strong><small>HTML oder PDF auswählen</small></span>
+                <span class="chevron" aria-hidden="true">⌄</span>
+              </summary>
+              <div class="format-options">
+                <a class="format-link" href="woche-08/lernen.html">HTML öffnen</a>
+                <a class="format-link" href="woche-08/lernen.pdf">PDF öffnen</a>
+              </div>
+            </details>
+
+            <details class="material-group exercise">
+              <summary class="material-summary">
+                <span class="link-icon" aria-hidden="true">Ü</span>
+                <span><strong>Übung</strong><small>HTML oder PDF auswählen</small></span>
+                <span class="chevron" aria-hidden="true">⌄</span>
+              </summary>
+              <div class="format-options">
+                <a class="format-link" href="woche-08/ueben.html">HTML öffnen</a>
+                <a class="format-link" href="woche-08/ueben.pdf">PDF öffnen</a>
+              </div>
+            </details>
+          </div>
+        </article>
+        <article class="week-card" data-week="9">
+          <div class="card-topline">
+            <span class="week-badge" aria-hidden="true">09</span>
+            <span class="card-label">Unterrichtswoche</span>
+          </div>
+          <h3>Woche 9</h3>
+          <p class="card-description">Wähle zuerst den Bereich und anschließend das gewünschte Dateiformat.</p>
+          <div class="actions" aria-label="Materialien für Woche 9">
+            <details class="material-group learn">
+              <summary class="material-summary">
+                <span class="link-icon" aria-hidden="true">L</span>
+                <span><strong>Lernen</strong><small>HTML oder PDF auswählen</small></span>
+                <span class="chevron" aria-hidden="true">⌄</span>
+              </summary>
+              <div class="format-options">
+                <a class="format-link" href="woche-09/lernen.html">HTML öffnen</a>
+                <a class="format-link" href="woche-09/lernen.pdf">PDF öffnen</a>
+              </div>
+            </details>
+
+            <details class="material-group exercise">
+              <summary class="material-summary">
+                <span class="link-icon" aria-hidden="true">Ü</span>
+                <span><strong>Übung</strong><small>HTML oder PDF auswählen</small></span>
+                <span class="chevron" aria-hidden="true">⌄</span>
+              </summary>
+              <div class="format-options">
+                <a class="format-link" href="woche-09/ueben.html">HTML öffnen</a>
+                <a class="format-link" href="woche-09/ueben.pdf">PDF öffnen</a>
+              </div>
+            </details>
+          </div>
+        </article>
+        <article class="week-card" data-week="10">
+          <div class="card-topline">
+            <span class="week-badge" aria-hidden="true">10</span>
+            <span class="card-label">Unterrichtswoche</span>
+          </div>
+          <h3>Woche 10</h3>
+          <p class="card-description">Wähle zuerst den Bereich und anschließend das gewünschte Dateiformat.</p>
+          <div class="actions" aria-label="Materialien für Woche 10">
+            <details class="material-group learn">
+              <summary class="material-summary">
+                <span class="link-icon" aria-hidden="true">L</span>
+                <span><strong>Lernen</strong><small>HTML oder PDF auswählen</small></span>
+                <span class="chevron" aria-hidden="true">⌄</span>
+              </summary>
+              <div class="format-options">
+                <a class="format-link" href="woche-10/lernen.html">HTML öffnen</a>
+                <a class="format-link" href="woche-10/lernen.pdf">PDF öffnen</a>
+              </div>
+            </details>
+
+            <details class="material-group exercise">
+              <summary class="material-summary">
+                <span class="link-icon" aria-hidden="true">Ü</span>
+                <span><strong>Übung</strong><small>HTML oder PDF auswählen</small></span>
+                <span class="chevron" aria-hidden="true">⌄</span>
+              </summary>
+              <div class="format-options">
+                <a class="format-link" href="woche-10/ueben.html">HTML öffnen</a>
+                <a class="format-link" href="woche-10/ueben.pdf">PDF öffnen</a>
+              </div>
+            </details>
+          </div>
+        </article>
+        <article class="week-card" data-week="11">
+          <div class="card-topline">
+            <span class="week-badge" aria-hidden="true">11</span>
+            <span class="card-label">Unterrichtswoche</span>
+          </div>
+          <h3>Woche 11</h3>
+          <p class="card-description">Wähle zuerst den Bereich und anschließend das gewünschte Dateiformat.</p>
+          <div class="actions" aria-label="Materialien für Woche 11">
+            <details class="material-group learn">
+              <summary class="material-summary">
+                <span class="link-icon" aria-hidden="true">L</span>
+                <span><strong>Lernen</strong><small>HTML oder PDF auswählen</small></span>
+                <span class="chevron" aria-hidden="true">⌄</span>
+              </summary>
+              <div class="format-options">
+                <a class="format-link" href="woche-11/lernen.html">HTML öffnen</a>
+                <a class="format-link" href="woche-11/lernen.pdf">PDF öffnen</a>
+              </div>
+            </details>
+
+            <details class="material-group exercise">
+              <summary class="material-summary">
+                <span class="link-icon" aria-hidden="true">Ü</span>
+                <span><strong>Übung</strong><small>HTML oder PDF auswählen</small></span>
+                <span class="chevron" aria-hidden="true">⌄</span>
+              </summary>
+              <div class="format-options">
+                <a class="format-link" href="woche-11/ueben.html">HTML öffnen</a>
+                <a class="format-link" href="woche-11/ueben.pdf">PDF öffnen</a>
+              </div>
+            </details>
+          </div>
+        </article>
+        <article class="week-card" data-week="12">
+          <div class="card-topline">
+            <span class="week-badge" aria-hidden="true">12</span>
+            <span class="card-label">Unterrichtswoche</span>
+          </div>
+          <h3>Woche 12</h3>
+          <p class="card-description">Wähle zuerst den Bereich und anschließend das gewünschte Dateiformat.</p>
+          <div class="actions" aria-label="Materialien für Woche 12">
+            <details class="material-group learn">
+              <summary class="material-summary">
+                <span class="link-icon" aria-hidden="true">L</span>
+                <span><strong>Lernen</strong><small>HTML oder PDF auswählen</small></span>
+                <span class="chevron" aria-hidden="true">⌄</span>
+              </summary>
+              <div class="format-options">
+                <a class="format-link" href="woche-12/lernen.html">HTML öffnen</a>
+                <a class="format-link" href="woche-12/lernen.pdf">PDF öffnen</a>
+              </div>
+            </details>
+
+            <details class="material-group exercise">
+              <summary class="material-summary">
+                <span class="link-icon" aria-hidden="true">Ü</span>
+                <span><strong>Übung</strong><small>HTML oder PDF auswählen</small></span>
+                <span class="chevron" aria-hidden="true">⌄</span>
+              </summary>
+              <div class="format-options">
+                <a class="format-link" href="woche-12/ueben.html">HTML öffnen</a>
+                <a class="format-link" href="woche-12/ueben.pdf">PDF öffnen</a>
+              </div>
+            </details>
+          </div>
+        </article>
+        <article class="week-card" data-week="13">
+          <div class="card-topline">
+            <span class="week-badge" aria-hidden="true">13</span>
+            <span class="card-label">Unterrichtswoche</span>
+          </div>
+          <h3>Woche 13</h3>
+          <p class="card-description">Wähle zuerst den Bereich und anschließend das gewünschte Dateiformat.</p>
+          <div class="actions" aria-label="Materialien für Woche 13">
+            <details class="material-group learn">
+              <summary class="material-summary">
+                <span class="link-icon" aria-hidden="true">L</span>
+                <span><strong>Lernen</strong><small>HTML oder PDF auswählen</small></span>
+                <span class="chevron" aria-hidden="true">⌄</span>
+              </summary>
+              <div class="format-options">
+                <a class="format-link" href="woche-13/lernen.html">HTML öffnen</a>
+                <a class="format-link" href="woche-13/lernen.pdf">PDF öffnen</a>
+              </div>
+            </details>
+
+            <details class="material-group exercise">
+              <summary class="material-summary">
+                <span class="link-icon" aria-hidden="true">Ü</span>
+                <span><strong>Übung</strong><small>HTML oder PDF auswählen</small></span>
+                <span class="chevron" aria-hidden="true">⌄</span>
+              </summary>
+              <div class="format-options">
+                <a class="format-link" href="woche-13/ueben.html">HTML öffnen</a>
+                <a class="format-link" href="woche-13/ueben.pdf">PDF öffnen</a>
+              </div>
+            </details>
+          </div>
+        </article>
+        <article class="week-card" data-week="14">
+          <div class="card-topline">
+            <span class="week-badge" aria-hidden="true">14</span>
+            <span class="card-label">Unterrichtswoche</span>
+          </div>
+          <h3>Woche 14</h3>
+          <p class="card-description">Wähle zuerst den Bereich und anschließend das gewünschte Dateiformat.</p>
+          <div class="actions" aria-label="Materialien für Woche 14">
+            <details class="material-group learn">
+              <summary class="material-summary">
+                <span class="link-icon" aria-hidden="true">L</span>
+                <span><strong>Lernen</strong><small>HTML oder PDF auswählen</small></span>
+                <span class="chevron" aria-hidden="true">⌄</span>
+              </summary>
+              <div class="format-options">
+                <a class="format-link" href="woche-14/lernen.html">HTML öffnen</a>
+                <a class="format-link" href="woche-14/lernen.pdf">PDF öffnen</a>
+              </div>
+            </details>
+
+            <details class="material-group exercise">
+              <summary class="material-summary">
+                <span class="link-icon" aria-hidden="true">Ü</span>
+                <span><strong>Übung</strong><small>HTML oder PDF auswählen</small></span>
+                <span class="chevron" aria-hidden="true">⌄</span>
+              </summary>
+              <div class="format-options">
+                <a class="format-link" href="woche-14/ueben.html">HTML öffnen</a>
+                <a class="format-link" href="woche-14/ueben.pdf">PDF öffnen</a>
+              </div>
+            </details>
+          </div>
+        </article>
+        <article class="week-card" data-week="15">
+          <div class="card-topline">
+            <span class="week-badge" aria-hidden="true">15</span>
+            <span class="card-label">Unterrichtswoche</span>
+          </div>
+          <h3>Woche 15</h3>
+          <p class="card-description">Wähle zuerst den Bereich und anschließend das gewünschte Dateiformat.</p>
+          <div class="actions" aria-label="Materialien für Woche 15">
+            <details class="material-group learn">
+              <summary class="material-summary">
+                <span class="link-icon" aria-hidden="true">L</span>
+                <span><strong>Lernen</strong><small>HTML oder PDF auswählen</small></span>
+                <span class="chevron" aria-hidden="true">⌄</span>
+              </summary>
+              <div class="format-options">
+                <a class="format-link" href="woche-15/lernen.html">HTML öffnen</a>
+                <a class="format-link" href="woche-15/lernen.pdf">PDF öffnen</a>
+              </div>
+            </details>
+
+            <details class="material-group exercise">
+              <summary class="material-summary">
+                <span class="link-icon" aria-hidden="true">Ü</span>
+                <span><strong>Übung</strong><small>HTML oder PDF auswählen</small></span>
+                <span class="chevron" aria-hidden="true">⌄</span>
+              </summary>
+              <div class="format-options">
+                <a class="format-link" href="woche-15/ueben.html">HTML öffnen</a>
+                <a class="format-link" href="woche-15/ueben.pdf">PDF öffnen</a>
+              </div>
+            </details>
+          </div>
+        </article>
+        <article class="week-card" data-week="16">
+          <div class="card-topline">
+            <span class="week-badge" aria-hidden="true">16</span>
+            <span class="card-label">Unterrichtswoche</span>
+          </div>
+          <h3>Woche 16</h3>
+          <p class="card-description">Wähle zuerst den Bereich und anschließend das gewünschte Dateiformat.</p>
+          <div class="actions" aria-label="Materialien für Woche 16">
+            <details class="material-group learn">
+              <summary class="material-summary">
+                <span class="link-icon" aria-hidden="true">L</span>
+                <span><strong>Lernen</strong><small>HTML oder PDF auswählen</small></span>
+                <span class="chevron" aria-hidden="true">⌄</span>
+              </summary>
+              <div class="format-options">
+                <a class="format-link" href="woche-16/lernen.html">HTML öffnen</a>
+                <a class="format-link" href="woche-16/lernen.pdf">PDF öffnen</a>
+              </div>
+            </details>
+
+            <details class="material-group exercise">
+              <summary class="material-summary">
+                <span class="link-icon" aria-hidden="true">Ü</span>
+                <span><strong>Übung</strong><small>HTML oder PDF auswählen</small></span>
+                <span class="chevron" aria-hidden="true">⌄</span>
+              </summary>
+              <div class="format-options">
+                <a class="format-link" href="woche-16/ueben.html">HTML öffnen</a>
+                <a class="format-link" href="woche-16/ueben.pdf">PDF öffnen</a>
+              </div>
+            </details>
+          </div>
+        </article>
+        <article class="week-card" data-week="17">
+          <div class="card-topline">
+            <span class="week-badge" aria-hidden="true">17</span>
+            <span class="card-label">Unterrichtswoche</span>
+          </div>
+          <h3>Woche 17</h3>
+          <p class="card-description">Wähle zuerst den Bereich und anschließend das gewünschte Dateiformat.</p>
+          <div class="actions" aria-label="Materialien für Woche 17">
+            <details class="material-group learn">
+              <summary class="material-summary">
+                <span class="link-icon" aria-hidden="true">L</span>
+                <span><strong>Lernen</strong><small>HTML oder PDF auswählen</small></span>
+                <span class="chevron" aria-hidden="true">⌄</span>
+              </summary>
+              <div class="format-options">
+                <a class="format-link" href="woche-17/lernen.html">HTML öffnen</a>
+                <a class="format-link" href="woche-17/lernen.pdf">PDF öffnen</a>
+              </div>
+            </details>
+
+            <details class="material-group exercise">
+              <summary class="material-summary">
+                <span class="link-icon" aria-hidden="true">Ü</span>
+                <span><strong>Übung</strong><small>HTML oder PDF auswählen</small></span>
+                <span class="chevron" aria-hidden="true">⌄</span>
+              </summary>
+              <div class="format-options">
+                <a class="format-link" href="woche-17/ueben.html">HTML öffnen</a>
+                <a class="format-link" href="woche-17/ueben.pdf">PDF öffnen</a>
+              </div>
+            </details>
+          </div>
+        </article>
+        <article class="week-card" data-week="18">
+          <div class="card-topline">
+            <span class="week-badge" aria-hidden="true">18</span>
+            <span class="card-label">Unterrichtswoche</span>
+          </div>
+          <h3>Woche 18</h3>
+          <p class="card-description">Wähle zuerst den Bereich und anschließend das gewünschte Dateiformat.</p>
+          <div class="actions" aria-label="Materialien für Woche 18">
+            <details class="material-group learn">
+              <summary class="material-summary">
+                <span class="link-icon" aria-hidden="true">L</span>
+                <span><strong>Lernen</strong><small>HTML oder PDF auswählen</small></span>
+                <span class="chevron" aria-hidden="true">⌄</span>
+              </summary>
+              <div class="format-options">
+                <a class="format-link" href="woche-18/lernen.html">HTML öffnen</a>
+                <a class="format-link" href="woche-18/lernen.pdf">PDF öffnen</a>
+              </div>
+            </details>
+
+            <details class="material-group exercise">
+              <summary class="material-summary">
+                <span class="link-icon" aria-hidden="true">Ü</span>
+                <span><strong>Übung</strong><small>HTML oder PDF auswählen</small></span>
+                <span class="chevron" aria-hidden="true">⌄</span>
+              </summary>
+              <div class="format-options">
+                <a class="format-link" href="woche-18/ueben.html">HTML öffnen</a>
+                <a class="format-link" href="woche-18/ueben.pdf">PDF öffnen</a>
+              </div>
+            </details>
+          </div>
+        </article>
+        <article class="week-card" data-week="19">
+          <div class="card-topline">
+            <span class="week-badge" aria-hidden="true">19</span>
+            <span class="card-label">Unterrichtswoche</span>
+          </div>
+          <h3>Woche 19</h3>
+          <p class="card-description">Wähle zuerst den Bereich und anschließend das gewünschte Dateiformat.</p>
+          <div class="actions" aria-label="Materialien für Woche 19">
+            <details class="material-group learn">
+              <summary class="material-summary">
+                <span class="link-icon" aria-hidden="true">L</span>
+                <span><strong>Lernen</strong><small>HTML oder PDF auswählen</small></span>
+                <span class="chevron" aria-hidden="true">⌄</span>
+              </summary>
+              <div class="format-options">
+                <a class="format-link" href="woche-19/lernen.html">HTML öffnen</a>
+                <a class="format-link" href="woche-19/lernen.pdf">PDF öffnen</a>
+              </div>
+            </details>
+
+            <details class="material-group exercise">
+              <summary class="material-summary">
+                <span class="link-icon" aria-hidden="true">Ü</span>
+                <span><strong>Übung</strong><small>HTML oder PDF auswählen</small></span>
+                <span class="chevron" aria-hidden="true">⌄</span>
+              </summary>
+              <div class="format-options">
+                <a class="format-link" href="woche-19/ueben.html">HTML öffnen</a>
+                <a class="format-link" href="woche-19/ueben.pdf">PDF öffnen</a>
+              </div>
+            </details>
+          </div>
+        </article>
+        <article class="week-card" data-week="20">
+          <div class="card-topline">
+            <span class="week-badge" aria-hidden="true">20</span>
+            <span class="card-label">Unterrichtswoche</span>
+          </div>
+          <h3>Woche 20</h3>
+          <p class="card-description">Wähle zuerst den Bereich und anschließend das gewünschte Dateiformat.</p>
+          <div class="actions" aria-label="Materialien für Woche 20">
+            <details class="material-group learn">
+              <summary class="material-summary">
+                <span class="link-icon" aria-hidden="true">L</span>
+                <span><strong>Lernen</strong><small>HTML oder PDF auswählen</small></span>
+                <span class="chevron" aria-hidden="true">⌄</span>
+              </summary>
+              <div class="format-options">
+                <a class="format-link" href="woche-20/lernen.html">HTML öffnen</a>
+                <a class="format-link" href="woche-20/lernen.pdf">PDF öffnen</a>
+              </div>
+            </details>
+
+            <details class="material-group exercise">
+              <summary class="material-summary">
+                <span class="link-icon" aria-hidden="true">Ü</span>
+                <span><strong>Übung</strong><small>HTML oder PDF auswählen</small></span>
+                <span class="chevron" aria-hidden="true">⌄</span>
+              </summary>
+              <div class="format-options">
+                <a class="format-link" href="woche-20/ueben.html">HTML öffnen</a>
+                <a class="format-link" href="woche-20/ueben.pdf">PDF öffnen</a>
+              </div>
+            </details>
+          </div>
+        </article>
+        <article class="week-card" data-week="21">
+          <div class="card-topline">
+            <span class="week-badge" aria-hidden="true">21</span>
+            <span class="card-label">Unterrichtswoche</span>
+          </div>
+          <h3>Woche 21</h3>
+          <p class="card-description">Wähle zuerst den Bereich und anschließend das gewünschte Dateiformat.</p>
+          <div class="actions" aria-label="Materialien für Woche 21">
+            <details class="material-group learn">
+              <summary class="material-summary">
+                <span class="link-icon" aria-hidden="true">L</span>
+                <span><strong>Lernen</strong><small>HTML oder PDF auswählen</small></span>
+                <span class="chevron" aria-hidden="true">⌄</span>
+              </summary>
+              <div class="format-options">
+                <a class="format-link" href="woche-21/lernen.html">HTML öffnen</a>
+                <a class="format-link" href="woche-21/lernen.pdf">PDF öffnen</a>
+              </div>
+            </details>
+
+            <details class="material-group exercise">
+              <summary class="material-summary">
+                <span class="link-icon" aria-hidden="true">Ü</span>
+                <span><strong>Übung</strong><small>HTML oder PDF auswählen</small></span>
+                <span class="chevron" aria-hidden="true">⌄</span>
+              </summary>
+              <div class="format-options">
+                <a class="format-link" href="woche-21/ueben.html">HTML öffnen</a>
+                <a class="format-link" href="woche-21/ueben.pdf">PDF öffnen</a>
+              </div>
+            </details>
+          </div>
+        </article>
+        <article class="week-card" data-week="22">
+          <div class="card-topline">
+            <span class="week-badge" aria-hidden="true">22</span>
+            <span class="card-label">Unterrichtswoche</span>
+          </div>
+          <h3>Woche 22</h3>
+          <p class="card-description">Wähle zuerst den Bereich und anschließend das gewünschte Dateiformat.</p>
+          <div class="actions" aria-label="Materialien für Woche 22">
+            <details class="material-group learn">
+              <summary class="material-summary">
+                <span class="link-icon" aria-hidden="true">L</span>
+                <span><strong>Lernen</strong><small>HTML oder PDF auswählen</small></span>
+                <span class="chevron" aria-hidden="true">⌄</span>
+              </summary>
+              <div class="format-options">
+                <a class="format-link" href="woche-22/lernen.html">HTML öffnen</a>
+                <a class="format-link" href="woche-22/lernen.pdf">PDF öffnen</a>
+              </div>
+            </details>
+
+            <details class="material-group exercise">
+              <summary class="material-summary">
+                <span class="link-icon" aria-hidden="true">Ü</span>
+                <span><strong>Übung</strong><small>HTML oder PDF auswählen</small></span>
+                <span class="chevron" aria-hidden="true">⌄</span>
+              </summary>
+              <div class="format-options">
+                <a class="format-link" href="woche-22/ueben.html">HTML öffnen</a>
+                <a class="format-link" href="woche-22/ueben.pdf">PDF öffnen</a>
+              </div>
+            </details>
+          </div>
+        </article>
+        <article class="week-card" data-week="23">
+          <div class="card-topline">
+            <span class="week-badge" aria-hidden="true">23</span>
+            <span class="card-label">Unterrichtswoche</span>
+          </div>
+          <h3>Woche 23</h3>
+          <p class="card-description">Wähle zuerst den Bereich und anschließend das gewünschte Dateiformat.</p>
+          <div class="actions" aria-label="Materialien für Woche 23">
+            <details class="material-group learn">
+              <summary class="material-summary">
+                <span class="link-icon" aria-hidden="true">L</span>
+                <span><strong>Lernen</strong><small>HTML oder PDF auswählen</small></span>
+                <span class="chevron" aria-hidden="true">⌄</span>
+              </summary>
+              <div class="format-options">
+                <a class="format-link" href="woche-23/lernen.html">HTML öffnen</a>
+                <a class="format-link" href="woche-23/lernen.pdf">PDF öffnen</a>
+              </div>
+            </details>
+
+            <details class="material-group exercise">
+              <summary class="material-summary">
+                <span class="link-icon" aria-hidden="true">Ü</span>
+                <span><strong>Übung</strong><small>HTML oder PDF auswählen</small></span>
+                <span class="chevron" aria-hidden="true">⌄</span>
+              </summary>
+              <div class="format-options">
+                <a class="format-link" href="woche-23/ueben.html">HTML öffnen</a>
+                <a class="format-link" href="woche-23/ueben.pdf">PDF öffnen</a>
+              </div>
+            </details>
+          </div>
+        </article>
+        <article class="week-card" data-week="24">
+          <div class="card-topline">
+            <span class="week-badge" aria-hidden="true">24</span>
+            <span class="card-label">Unterrichtswoche</span>
+          </div>
+          <h3>Woche 24</h3>
+          <p class="card-description">Wähle zuerst den Bereich und anschließend das gewünschte Dateiformat.</p>
+          <div class="actions" aria-label="Materialien für Woche 24">
+            <details class="material-group learn">
+              <summary class="material-summary">
+                <span class="link-icon" aria-hidden="true">L</span>
+                <span><strong>Lernen</strong><small>HTML oder PDF auswählen</small></span>
+                <span class="chevron" aria-hidden="true">⌄</span>
+              </summary>
+              <div class="format-options">
+                <a class="format-link" href="woche-24/lernen.html">HTML öffnen</a>
+                <a class="format-link" href="woche-24/lernen.pdf">PDF öffnen</a>
+              </div>
+            </details>
+
+            <details class="material-group exercise">
+              <summary class="material-summary">
+                <span class="link-icon" aria-hidden="true">Ü</span>
+                <span><strong>Übung</strong><small>HTML oder PDF auswählen</small></span>
+                <span class="chevron" aria-hidden="true">⌄</span>
+              </summary>
+              <div class="format-options">
+                <a class="format-link" href="woche-24/ueben.html">HTML öffnen</a>
+                <a class="format-link" href="woche-24/ueben.pdf">PDF öffnen</a>
+              </div>
+            </details>
+          </div>
+        </article>
+        <article class="week-card" data-week="25">
+          <div class="card-topline">
+            <span class="week-badge" aria-hidden="true">25</span>
+            <span class="card-label">Unterrichtswoche</span>
+          </div>
+          <h3>Woche 25</h3>
+          <p class="card-description">Wähle zuerst den Bereich und anschließend das gewünschte Dateiformat.</p>
+          <div class="actions" aria-label="Materialien für Woche 25">
+            <details class="material-group learn">
+              <summary class="material-summary">
+                <span class="link-icon" aria-hidden="true">L</span>
+                <span><strong>Lernen</strong><small>HTML oder PDF auswählen</small></span>
+                <span class="chevron" aria-hidden="true">⌄</span>
+              </summary>
+              <div class="format-options">
+                <a class="format-link" href="woche-25/lernen.html">HTML öffnen</a>
+                <a class="format-link" href="woche-25/lernen.pdf">PDF öffnen</a>
+              </div>
+            </details>
+
+            <details class="material-group exercise">
+              <summary class="material-summary">
+                <span class="link-icon" aria-hidden="true">Ü</span>
+                <span><strong>Übung</strong><small>HTML oder PDF auswählen</small></span>
+                <span class="chevron" aria-hidden="true">⌄</span>
+              </summary>
+              <div class="format-options">
+                <a class="format-link" href="woche-25/ueben.html">HTML öffnen</a>
+                <a class="format-link" href="woche-25/ueben.pdf">PDF öffnen</a>
+              </div>
+            </details>
+          </div>
+        </article>
+        <article class="week-card" data-week="26">
+          <div class="card-topline">
+            <span class="week-badge" aria-hidden="true">26</span>
+            <span class="card-label">Unterrichtswoche</span>
+          </div>
+          <h3>Woche 26</h3>
+          <p class="card-description">Wähle zuerst den Bereich und anschließend das gewünschte Dateiformat.</p>
+          <div class="actions" aria-label="Materialien für Woche 26">
+            <details class="material-group learn">
+              <summary class="material-summary">
+                <span class="link-icon" aria-hidden="true">L</span>
+                <span><strong>Lernen</strong><small>HTML oder PDF auswählen</small></span>
+                <span class="chevron" aria-hidden="true">⌄</span>
+              </summary>
+              <div class="format-options">
+                <a class="format-link" href="woche-26/lernen.html">HTML öffnen</a>
+                <a class="format-link" href="woche-26/lernen.pdf">PDF öffnen</a>
+              </div>
+            </details>
+
+            <details class="material-group exercise">
+              <summary class="material-summary">
+                <span class="link-icon" aria-hidden="true">Ü</span>
+                <span><strong>Übung</strong><small>HTML oder PDF auswählen</small></span>
+                <span class="chevron" aria-hidden="true">⌄</span>
+              </summary>
+              <div class="format-options">
+                <a class="format-link" href="woche-26/ueben.html">HTML öffnen</a>
+                <a class="format-link" href="woche-26/ueben.pdf">PDF öffnen</a>
+              </div>
+            </details>
+          </div>
+        </article>
+        <article class="week-card" data-week="27">
+          <div class="card-topline">
+            <span class="week-badge" aria-hidden="true">27</span>
+            <span class="card-label">Unterrichtswoche</span>
+          </div>
+          <h3>Woche 27</h3>
+          <p class="card-description">Wähle zuerst den Bereich und anschließend das gewünschte Dateiformat.</p>
+          <div class="actions" aria-label="Materialien für Woche 27">
+            <details class="material-group learn">
+              <summary class="material-summary">
+                <span class="link-icon" aria-hidden="true">L</span>
+                <span><strong>Lernen</strong><small>HTML oder PDF auswählen</small></span>
+                <span class="chevron" aria-hidden="true">⌄</span>
+              </summary>
+              <div class="format-options">
+                <a class="format-link" href="woche-27/lernen.html">HTML öffnen</a>
+                <a class="format-link" href="woche-27/lernen.pdf">PDF öffnen</a>
+              </div>
+            </details>
+
+            <details class="material-group exercise">
+              <summary class="material-summary">
+                <span class="link-icon" aria-hidden="true">Ü</span>
+                <span><strong>Übung</strong><small>HTML oder PDF auswählen</small></span>
+                <span class="chevron" aria-hidden="true">⌄</span>
+              </summary>
+              <div class="format-options">
+                <a class="format-link" href="woche-27/ueben.html">HTML öffnen</a>
+                <a class="format-link" href="woche-27/ueben.pdf">PDF öffnen</a>
+              </div>
+            </details>
+          </div>
+        </article>
+        <article class="week-card" data-week="28">
+          <div class="card-topline">
+            <span class="week-badge" aria-hidden="true">28</span>
+            <span class="card-label">Unterrichtswoche</span>
+          </div>
+          <h3>Woche 28</h3>
+          <p class="card-description">Wähle zuerst den Bereich und anschließend das gewünschte Dateiformat.</p>
+          <div class="actions" aria-label="Materialien für Woche 28">
+            <details class="material-group learn">
+              <summary class="material-summary">
+                <span class="link-icon" aria-hidden="true">L</span>
+                <span><strong>Lernen</strong><small>HTML oder PDF auswählen</small></span>
+                <span class="chevron" aria-hidden="true">⌄</span>
+              </summary>
+              <div class="format-options">
+                <a class="format-link" href="woche-28/lernen.html">HTML öffnen</a>
+                <a class="format-link" href="woche-28/lernen.pdf">PDF öffnen</a>
+              </div>
+            </details>
+
+            <details class="material-group exercise">
+              <summary class="material-summary">
+                <span class="link-icon" aria-hidden="true">Ü</span>
+                <span><strong>Übung</strong><small>HTML oder PDF auswählen</small></span>
+                <span class="chevron" aria-hidden="true">⌄</span>
+              </summary>
+              <div class="format-options">
+                <a class="format-link" href="woche-28/ueben.html">HTML öffnen</a>
+                <a class="format-link" href="woche-28/ueben.pdf">PDF öffnen</a>
+              </div>
+            </details>
+          </div>
+        </article>
+        <article class="week-card" data-week="29">
+          <div class="card-topline">
+            <span class="week-badge" aria-hidden="true">29</span>
+            <span class="card-label">Unterrichtswoche</span>
+          </div>
+          <h3>Woche 29</h3>
+          <p class="card-description">Wähle zuerst den Bereich und anschließend das gewünschte Dateiformat.</p>
+          <div class="actions" aria-label="Materialien für Woche 29">
+            <details class="material-group learn">
+              <summary class="material-summary">
+                <span class="link-icon" aria-hidden="true">L</span>
+                <span><strong>Lernen</strong><small>HTML oder PDF auswählen</small></span>
+                <span class="chevron" aria-hidden="true">⌄</span>
+              </summary>
+              <div class="format-options">
+                <a class="format-link" href="woche-29/lernen.html">HTML öffnen</a>
+                <a class="format-link" href="woche-29/lernen.pdf">PDF öffnen</a>
+              </div>
+            </details>
+
+            <details class="material-group exercise">
+              <summary class="material-summary">
+                <span class="link-icon" aria-hidden="true">Ü</span>
+                <span><strong>Übung</strong><small>HTML oder PDF auswählen</small></span>
+                <span class="chevron" aria-hidden="true">⌄</span>
+              </summary>
+              <div class="format-options">
+                <a class="format-link" href="woche-29/ueben.html">HTML öffnen</a>
+                <a class="format-link" href="woche-29/ueben.pdf">PDF öffnen</a>
+              </div>
+            </details>
+          </div>
+        </article>
+        <article class="week-card" data-week="30">
+          <div class="card-topline">
+            <span class="week-badge" aria-hidden="true">30</span>
+            <span class="card-label">Unterrichtswoche</span>
+          </div>
+          <h3>Woche 30</h3>
+          <p class="card-description">Wähle zuerst den Bereich und anschließend das gewünschte Dateiformat.</p>
+          <div class="actions" aria-label="Materialien für Woche 30">
+            <details class="material-group learn">
+              <summary class="material-summary">
+                <span class="link-icon" aria-hidden="true">L</span>
+                <span><strong>Lernen</strong><small>HTML oder PDF auswählen</small></span>
+                <span class="chevron" aria-hidden="true">⌄</span>
+              </summary>
+              <div class="format-options">
+                <a class="format-link" href="woche-30/lernen.html">HTML öffnen</a>
+                <a class="format-link" href="woche-30/lernen.pdf">PDF öffnen</a>
+              </div>
+            </details>
+
+            <details class="material-group exercise">
+              <summary class="material-summary">
+                <span class="link-icon" aria-hidden="true">Ü</span>
+                <span><strong>Übung</strong><small>HTML oder PDF auswählen</small></span>
+                <span class="chevron" aria-hidden="true">⌄</span>
+              </summary>
+              <div class="format-options">
+                <a class="format-link" href="woche-30/ueben.html">HTML öffnen</a>
+                <a class="format-link" href="woche-30/ueben.pdf">PDF öffnen</a>
+              </div>
+            </details>
+          </div>
+        </article>
+        <article class="week-card" data-week="31">
+          <div class="card-topline">
+            <span class="week-badge" aria-hidden="true">31</span>
+            <span class="card-label">Unterrichtswoche</span>
+          </div>
+          <h3>Woche 31</h3>
+          <p class="card-description">Wähle zuerst den Bereich und anschließend das gewünschte Dateiformat.</p>
+          <div class="actions" aria-label="Materialien für Woche 31">
+            <details class="material-group learn">
+              <summary class="material-summary">
+                <span class="link-icon" aria-hidden="true">L</span>
+                <span><strong>Lernen</strong><small>HTML oder PDF auswählen</small></span>
+                <span class="chevron" aria-hidden="true">⌄</span>
+              </summary>
+              <div class="format-options">
+                <a class="format-link" href="woche-31/lernen.html">HTML öffnen</a>
+                <a class="format-link" href="woche-31/lernen.pdf">PDF öffnen</a>
+              </div>
+            </details>
+
+            <details class="material-group exercise">
+              <summary class="material-summary">
+                <span class="link-icon" aria-hidden="true">Ü</span>
+                <span><strong>Übung</strong><small>HTML oder PDF auswählen</small></span>
+                <span class="chevron" aria-hidden="true">⌄</span>
+              </summary>
+              <div class="format-options">
+                <a class="format-link" href="woche-31/ueben.html">HTML öffnen</a>
+                <a class="format-link" href="woche-31/ueben.pdf">PDF öffnen</a>
+              </div>
+            </details>
+          </div>
+        </article>
+        <article class="week-card" data-week="32">
+          <div class="card-topline">
+            <span class="week-badge" aria-hidden="true">32</span>
+            <span class="card-label">Unterrichtswoche</span>
+          </div>
+          <h3>Woche 32</h3>
+          <p class="card-description">Wähle zuerst den Bereich und anschließend das gewünschte Dateiformat.</p>
+          <div class="actions" aria-label="Materialien für Woche 32">
+            <details class="material-group learn">
+              <summary class="material-summary">
+                <span class="link-icon" aria-hidden="true">L</span>
+                <span><strong>Lernen</strong><small>HTML oder PDF auswählen</small></span>
+                <span class="chevron" aria-hidden="true">⌄</span>
+              </summary>
+              <div class="format-options">
+                <a class="format-link" href="woche-32/lernen.html">HTML öffnen</a>
+                <a class="format-link" href="woche-32/lernen.pdf">PDF öffnen</a>
+              </div>
+            </details>
+
+            <details class="material-group exercise">
+              <summary class="material-summary">
+                <span class="link-icon" aria-hidden="true">Ü</span>
+                <span><strong>Übung</strong><small>HTML oder PDF auswählen</small></span>
+                <span class="chevron" aria-hidden="true">⌄</span>
+              </summary>
+              <div class="format-options">
+                <a class="format-link" href="woche-32/ueben.html">HTML öffnen</a>
+                <a class="format-link" href="woche-32/ueben.pdf">PDF öffnen</a>
+              </div>
+            </details>
+          </div>
+        </article>
+        <article class="week-card" data-week="33">
+          <div class="card-topline">
+            <span class="week-badge" aria-hidden="true">33</span>
+            <span class="card-label">Unterrichtswoche</span>
+          </div>
+          <h3>Woche 33</h3>
+          <p class="card-description">Wähle zuerst den Bereich und anschließend das gewünschte Dateiformat.</p>
+          <div class="actions" aria-label="Materialien für Woche 33">
+            <details class="material-group learn">
+              <summary class="material-summary">
+                <span class="link-icon" aria-hidden="true">L</span>
+                <span><strong>Lernen</strong><small>HTML oder PDF auswählen</small></span>
+                <span class="chevron" aria-hidden="true">⌄</span>
+              </summary>
+              <div class="format-options">
+                <a class="format-link" href="woche-33/lernen.html">HTML öffnen</a>
+                <a class="format-link" href="woche-33/lernen.pdf">PDF öffnen</a>
+              </div>
+            </details>
+
+            <details class="material-group exercise">
+              <summary class="material-summary">
+                <span class="link-icon" aria-hidden="true">Ü</span>
+                <span><strong>Übung</strong><small>HTML oder PDF auswählen</small></span>
+                <span class="chevron" aria-hidden="true">⌄</span>
+              </summary>
+              <div class="format-options">
+                <a class="format-link" href="woche-33/ueben.html">HTML öffnen</a>
+                <a class="format-link" href="woche-33/ueben.pdf">PDF öffnen</a>
+              </div>
+            </details>
+          </div>
+        </article>
+        <article class="week-card" data-week="34">
+          <div class="card-topline">
+            <span class="week-badge" aria-hidden="true">34</span>
+            <span class="card-label">Unterrichtswoche</span>
+          </div>
+          <h3>Woche 34</h3>
+          <p class="card-description">Wähle zuerst den Bereich und anschließend das gewünschte Dateiformat.</p>
+          <div class="actions" aria-label="Materialien für Woche 34">
+            <details class="material-group learn">
+              <summary class="material-summary">
+                <span class="link-icon" aria-hidden="true">L</span>
+                <span><strong>Lernen</strong><small>HTML oder PDF auswählen</small></span>
+                <span class="chevron" aria-hidden="true">⌄</span>
+              </summary>
+              <div class="format-options">
+                <a class="format-link" href="woche-34/lernen.html">HTML öffnen</a>
+                <a class="format-link" href="woche-34/lernen.pdf">PDF öffnen</a>
+              </div>
+            </details>
+
+            <details class="material-group exercise">
+              <summary class="material-summary">
+                <span class="link-icon" aria-hidden="true">Ü</span>
+                <span><strong>Übung</strong><small>HTML oder PDF auswählen</small></span>
+                <span class="chevron" aria-hidden="true">⌄</span>
+              </summary>
+              <div class="format-options">
+                <a class="format-link" href="woche-34/ueben.html">HTML öffnen</a>
+                <a class="format-link" href="woche-34/ueben.pdf">PDF öffnen</a>
+              </div>
+            </details>
+          </div>
+        </article>
+        <article class="week-card" data-week="35">
+          <div class="card-topline">
+            <span class="week-badge" aria-hidden="true">35</span>
+            <span class="card-label">Unterrichtswoche</span>
+          </div>
+          <h3>Woche 35</h3>
+          <p class="card-description">Wähle zuerst den Bereich und anschließend das gewünschte Dateiformat.</p>
+          <div class="actions" aria-label="Materialien für Woche 35">
+            <details class="material-group learn">
+              <summary class="material-summary">
+                <span class="link-icon" aria-hidden="true">L</span>
+                <span><strong>Lernen</strong><small>HTML oder PDF auswählen</small></span>
+                <span class="chevron" aria-hidden="true">⌄</span>
+              </summary>
+              <div class="format-options">
+                <a class="format-link" href="woche-35/lernen.html">HTML öffnen</a>
+                <a class="format-link" href="woche-35/lernen.pdf">PDF öffnen</a>
+              </div>
+            </details>
+
+            <details class="material-group exercise">
+              <summary class="material-summary">
+                <span class="link-icon" aria-hidden="true">Ü</span>
+                <span><strong>Übung</strong><small>HTML oder PDF auswählen</small></span>
+                <span class="chevron" aria-hidden="true">⌄</span>
+              </summary>
+              <div class="format-options">
+                <a class="format-link" href="woche-35/ueben.html">HTML öffnen</a>
+                <a class="format-link" href="woche-35/ueben.pdf">PDF öffnen</a>
+              </div>
+            </details>
+          </div>
+        </article>
+        <article class="week-card" data-week="36">
+          <div class="card-topline">
+            <span class="week-badge" aria-hidden="true">36</span>
+            <span class="card-label">Unterrichtswoche</span>
+          </div>
+          <h3>Woche 36</h3>
+          <p class="card-description">Wähle zuerst den Bereich und anschließend das gewünschte Dateiformat.</p>
+          <div class="actions" aria-label="Materialien für Woche 36">
+            <details class="material-group learn">
+              <summary class="material-summary">
+                <span class="link-icon" aria-hidden="true">L</span>
+                <span><strong>Lernen</strong><small>HTML oder PDF auswählen</small></span>
+                <span class="chevron" aria-hidden="true">⌄</span>
+              </summary>
+              <div class="format-options">
+                <a class="format-link" href="woche-36/lernen.html">HTML öffnen</a>
+                <a class="format-link" href="woche-36/lernen.pdf">PDF öffnen</a>
+              </div>
+            </details>
+
+            <details class="material-group exercise">
+              <summary class="material-summary">
+                <span class="link-icon" aria-hidden="true">Ü</span>
+                <span><strong>Übung</strong><small>HTML oder PDF auswählen</small></span>
+                <span class="chevron" aria-hidden="true">⌄</span>
+              </summary>
+              <div class="format-options">
+                <a class="format-link" href="woche-36/ueben.html">HTML öffnen</a>
+                <a class="format-link" href="woche-36/ueben.pdf">PDF öffnen</a>
+              </div>
+            </details>
+          </div>
+        </article>
+        <article class="week-card" data-week="37">
+          <div class="card-topline">
+            <span class="week-badge" aria-hidden="true">37</span>
+            <span class="card-label">Unterrichtswoche</span>
+          </div>
+          <h3>Woche 37</h3>
+          <p class="card-description">Wähle zuerst den Bereich und anschließend das gewünschte Dateiformat.</p>
+          <div class="actions" aria-label="Materialien für Woche 37">
+            <details class="material-group learn">
+              <summary class="material-summary">
+                <span class="link-icon" aria-hidden="true">L</span>
+                <span><strong>Lernen</strong><small>HTML oder PDF auswählen</small></span>
+                <span class="chevron" aria-hidden="true">⌄</span>
+              </summary>
+              <div class="format-options">
+                <a class="format-link" href="woche-37/lernen.html">HTML öffnen</a>
+                <a class="format-link" href="woche-37/lernen.pdf">PDF öffnen</a>
+              </div>
+            </details>
+
+            <details class="material-group exercise">
+              <summary class="material-summary">
+                <span class="link-icon" aria-hidden="true">Ü</span>
+                <span><strong>Übung</strong><small>HTML oder PDF auswählen</small></span>
+                <span class="chevron" aria-hidden="true">⌄</span>
+              </summary>
+              <div class="format-options">
+                <a class="format-link" href="woche-37/ueben.html">HTML öffnen</a>
+                <a class="format-link" href="woche-37/ueben.pdf">PDF öffnen</a>
+              </div>
+            </details>
+          </div>
+        </article>
+        <article class="week-card" data-week="38">
+          <div class="card-topline">
+            <span class="week-badge" aria-hidden="true">38</span>
+            <span class="card-label">Unterrichtswoche</span>
+          </div>
+          <h3>Woche 38</h3>
+          <p class="card-description">Wähle zuerst den Bereich und anschließend das gewünschte Dateiformat.</p>
+          <div class="actions" aria-label="Materialien für Woche 38">
+            <details class="material-group learn">
+              <summary class="material-summary">
+                <span class="link-icon" aria-hidden="true">L</span>
+                <span><strong>Lernen</strong><small>HTML oder PDF auswählen</small></span>
+                <span class="chevron" aria-hidden="true">⌄</span>
+              </summary>
+              <div class="format-options">
+                <a class="format-link" href="woche-38/lernen.html">HTML öffnen</a>
+                <a class="format-link" href="woche-38/lernen.pdf">PDF öffnen</a>
+              </div>
+            </details>
+
+            <details class="material-group exercise">
+              <summary class="material-summary">
+                <span class="link-icon" aria-hidden="true">Ü</span>
+                <span><strong>Übung</strong><small>HTML oder PDF auswählen</small></span>
+                <span class="chevron" aria-hidden="true">⌄</span>
+              </summary>
+              <div class="format-options">
+                <a class="format-link" href="woche-38/ueben.html">HTML öffnen</a>
+                <a class="format-link" href="woche-38/ueben.pdf">PDF öffnen</a>
+              </div>
+            </details>
+          </div>
+        </article>
+        <article class="week-card" data-week="39">
+          <div class="card-topline">
+            <span class="week-badge" aria-hidden="true">39</span>
+            <span class="card-label">Unterrichtswoche</span>
+          </div>
+          <h3>Woche 39</h3>
+          <p class="card-description">Wähle zuerst den Bereich und anschließend das gewünschte Dateiformat.</p>
+          <div class="actions" aria-label="Materialien für Woche 39">
+            <details class="material-group learn">
+              <summary class="material-summary">
+                <span class="link-icon" aria-hidden="true">L</span>
+                <span><strong>Lernen</strong><small>HTML oder PDF auswählen</small></span>
+                <span class="chevron" aria-hidden="true">⌄</span>
+              </summary>
+              <div class="format-options">
+                <a class="format-link" href="woche-39/lernen.html">HTML öffnen</a>
+                <a class="format-link" href="woche-39/lernen.pdf">PDF öffnen</a>
+              </div>
+            </details>
+
+            <details class="material-group exercise">
+              <summary class="material-summary">
+                <span class="link-icon" aria-hidden="true">Ü</span>
+                <span><strong>Übung</strong><small>HTML oder PDF auswählen</small></span>
+                <span class="chevron" aria-hidden="true">⌄</span>
+              </summary>
+              <div class="format-options">
+                <a class="format-link" href="woche-39/ueben.html">HTML öffnen</a>
+                <a class="format-link" href="woche-39/ueben.pdf">PDF öffnen</a>
+              </div>
+            </details>
+          </div>
+        </article>
+        <article class="week-card" data-week="40">
+          <div class="card-topline">
+            <span class="week-badge" aria-hidden="true">40</span>
+            <span class="card-label">Unterrichtswoche</span>
+          </div>
+          <h3>Woche 40</h3>
+          <p class="card-description">Wähle zuerst den Bereich und anschließend das gewünschte Dateiformat.</p>
+          <div class="actions" aria-label="Materialien für Woche 40">
+            <details class="material-group learn">
+              <summary class="material-summary">
+                <span class="link-icon" aria-hidden="true">L</span>
+                <span><strong>Lernen</strong><small>HTML oder PDF auswählen</small></span>
+                <span class="chevron" aria-hidden="true">⌄</span>
+              </summary>
+              <div class="format-options">
+                <a class="format-link" href="woche-40/lernen.html">HTML öffnen</a>
+                <a class="format-link" href="woche-40/lernen.pdf">PDF öffnen</a>
+              </div>
+            </details>
+
+            <details class="material-group exercise">
+              <summary class="material-summary">
+                <span class="link-icon" aria-hidden="true">Ü</span>
+                <span><strong>Übung</strong><small>HTML oder PDF auswählen</small></span>
+                <span class="chevron" aria-hidden="true">⌄</span>
+              </summary>
+              <div class="format-options">
+                <a class="format-link" href="woche-40/ueben.html">HTML öffnen</a>
+                <a class="format-link" href="woche-40/ueben.pdf">PDF öffnen</a>
+              </div>
+            </details>
+          </div>
+        </article>
+      </div>
+
+      <p class="empty-state" id="empty-state" hidden>
+        Keine passende Woche gefunden. Bitte gib eine Zahl zwischen 1 und 40 ein.
+      </p>
+    </section>
+
+    <section class="exam-section" aria-labelledby="exam-heading">
+      <div class="heading-copy">
+        <h2 id="exam-heading">Prüfungsvorbereitung</h2>
+        <p>Pro Quartal und für die Probeabschlussklausuren stehen jeweils drei HTML- und drei PDF-Dateien bereit.</p>
+      </div>
+
+      <div class="exam-grid">
+        <!--
+          Jeder Klausurbereich enthält drei HTML- und drei PDF-Dateien.
+          Erwartete Dateinamen:
+
+          probeklausuren/q1-01.html
+          probeklausuren/q1-01.pdf
+          probeklausuren/q1-02.html
+          probeklausuren/q1-02.pdf
+          probeklausuren/q1-03.html
+          probeklausuren/q1-03.pdf
+
+          probeklausuren/q2-01.html
+          probeklausuren/q2-01.pdf
+          probeklausuren/q2-02.html
+          probeklausuren/q2-02.pdf
+          probeklausuren/q2-03.html
+          probeklausuren/q2-03.pdf
+
+          probeklausuren/q3-01.html
+          probeklausuren/q3-01.pdf
+          probeklausuren/q3-02.html
+          probeklausuren/q3-02.pdf
+          probeklausuren/q3-03.html
+          probeklausuren/q3-03.pdf
+
+          probeklausuren/q4-01.html
+          probeklausuren/q4-01.pdf
+          probeklausuren/q4-02.html
+          probeklausuren/q4-02.pdf
+          probeklausuren/q4-03.html
+          probeklausuren/q4-03.pdf
+
+          probeklausuren/probeabschlussklausur-01.html
+          probeklausuren/probeabschlussklausur-01.pdf
+          probeklausuren/probeabschlussklausur-02.html
+          probeklausuren/probeabschlussklausur-02.pdf
+          probeklausuren/probeabschlussklausur-03.html
+          probeklausuren/probeabschlussklausur-03.pdf
+
+        -->
+        <details class="exam-group">
+          <summary class="exam-summary">
+            <span class="exam-icon" aria-hidden="true">Q1</span>
+            <span><strong>Probeklausuren Q1</strong><small>3 HTML- und 3 PDF-Dateien</small></span>
+            <span class="chevron" aria-hidden="true">⌄</span>
+          </summary>
+          <div class="exam-file-list">
+            <div class="exam-file-set">
+              <span class="exam-file-label">Probeklausur 1</span>
+              <a class="format-link" href="probeklausuren/q1-01.html">HTML 1 öffnen</a>
+              <a class="format-link" href="probeklausuren/q1-01.pdf">PDF 1 öffnen</a>
+            </div>
+            <div class="exam-file-set">
+              <span class="exam-file-label">Probeklausur 2</span>
+              <a class="format-link" href="probeklausuren/q1-02.html">HTML 2 öffnen</a>
+              <a class="format-link" href="probeklausuren/q1-02.pdf">PDF 2 öffnen</a>
+            </div>
+            <div class="exam-file-set">
+              <span class="exam-file-label">Probeklausur 3</span>
+              <a class="format-link" href="probeklausuren/q1-03.html">HTML 3 öffnen</a>
+              <a class="format-link" href="probeklausuren/q1-03.pdf">PDF 3 öffnen</a>
+            </div>
+          </div>
+        </details>
+        <details class="exam-group">
+          <summary class="exam-summary">
+            <span class="exam-icon" aria-hidden="true">Q2</span>
+            <span><strong>Probeklausuren Q2</strong><small>3 HTML- und 3 PDF-Dateien</small></span>
+            <span class="chevron" aria-hidden="true">⌄</span>
+          </summary>
+          <div class="exam-file-list">
+            <div class="exam-file-set">
+              <span class="exam-file-label">Probeklausur 1</span>
+              <a class="format-link" href="probeklausuren/q2-01.html">HTML 1 öffnen</a>
+              <a class="format-link" href="probeklausuren/q2-01.pdf">PDF 1 öffnen</a>
+            </div>
+            <div class="exam-file-set">
+              <span class="exam-file-label">Probeklausur 2</span>
+              <a class="format-link" href="probeklausuren/q2-02.html">HTML 2 öffnen</a>
+              <a class="format-link" href="probeklausuren/q2-02.pdf">PDF 2 öffnen</a>
+            </div>
+            <div class="exam-file-set">
+              <span class="exam-file-label">Probeklausur 3</span>
+              <a class="format-link" href="probeklausuren/q2-03.html">HTML 3 öffnen</a>
+              <a class="format-link" href="probeklausuren/q2-03.pdf">PDF 3 öffnen</a>
+            </div>
+          </div>
+        </details>
+        <details class="exam-group">
+          <summary class="exam-summary">
+            <span class="exam-icon" aria-hidden="true">Q3</span>
+            <span><strong>Probeklausuren Q3</strong><small>3 HTML- und 3 PDF-Dateien</small></span>
+            <span class="chevron" aria-hidden="true">⌄</span>
+          </summary>
+          <div class="exam-file-list">
+            <div class="exam-file-set">
+              <span class="exam-file-label">Probeklausur 1</span>
+              <a class="format-link" href="probeklausuren/q3-01.html">HTML 1 öffnen</a>
+              <a class="format-link" href="probeklausuren/q3-01.pdf">PDF 1 öffnen</a>
+            </div>
+            <div class="exam-file-set">
+              <span class="exam-file-label">Probeklausur 2</span>
+              <a class="format-link" href="probeklausuren/q3-02.html">HTML 2 öffnen</a>
+              <a class="format-link" href="probeklausuren/q3-02.pdf">PDF 2 öffnen</a>
+            </div>
+            <div class="exam-file-set">
+              <span class="exam-file-label">Probeklausur 3</span>
+              <a class="format-link" href="probeklausuren/q3-03.html">HTML 3 öffnen</a>
+              <a class="format-link" href="probeklausuren/q3-03.pdf">PDF 3 öffnen</a>
+            </div>
+          </div>
+        </details>
+        <details class="exam-group">
+          <summary class="exam-summary">
+            <span class="exam-icon" aria-hidden="true">Q4</span>
+            <span><strong>Probeklausuren Q4</strong><small>3 HTML- und 3 PDF-Dateien</small></span>
+            <span class="chevron" aria-hidden="true">⌄</span>
+          </summary>
+          <div class="exam-file-list">
+            <div class="exam-file-set">
+              <span class="exam-file-label">Probeklausur 1</span>
+              <a class="format-link" href="probeklausuren/q4-01.html">HTML 1 öffnen</a>
+              <a class="format-link" href="probeklausuren/q4-01.pdf">PDF 1 öffnen</a>
+            </div>
+            <div class="exam-file-set">
+              <span class="exam-file-label">Probeklausur 2</span>
+              <a class="format-link" href="probeklausuren/q4-02.html">HTML 2 öffnen</a>
+              <a class="format-link" href="probeklausuren/q4-02.pdf">PDF 2 öffnen</a>
+            </div>
+            <div class="exam-file-set">
+              <span class="exam-file-label">Probeklausur 3</span>
+              <a class="format-link" href="probeklausuren/q4-03.html">HTML 3 öffnen</a>
+              <a class="format-link" href="probeklausuren/q4-03.pdf">PDF 3 öffnen</a>
+            </div>
+          </div>
+        </details>
+        <details class="exam-group">
+          <summary class="exam-summary">
+            <span class="exam-icon" aria-hidden="true">AK</span>
+            <span><strong>Probeabschlussklausuren</strong><small>3 HTML- und 3 PDF-Dateien</small></span>
+            <span class="chevron" aria-hidden="true">⌄</span>
+          </summary>
+          <div class="exam-file-list">
+            <div class="exam-file-set">
+              <span class="exam-file-label">Probeabschlussklausur 1</span>
+              <a class="format-link" href="probeklausuren/probeabschlussklausur-01.html">HTML 1 öffnen</a>
+              <a class="format-link" href="probeklausuren/probeabschlussklausur-01.pdf">PDF 1 öffnen</a>
+            </div>
+            <div class="exam-file-set">
+              <span class="exam-file-label">Probeabschlussklausur 2</span>
+              <a class="format-link" href="probeklausuren/probeabschlussklausur-02.html">HTML 2 öffnen</a>
+              <a class="format-link" href="probeklausuren/probeabschlussklausur-02.pdf">PDF 2 öffnen</a>
+            </div>
+            <div class="exam-file-set">
+              <span class="exam-file-label">Probeabschlussklausur 3</span>
+              <a class="format-link" href="probeklausuren/probeabschlussklausur-03.html">HTML 3 öffnen</a>
+              <a class="format-link" href="probeklausuren/probeabschlussklausur-03.pdf">PDF 3 öffnen</a>
+            </div>
+          </div>
+        </details>
+      </div>
+    </section>
+
+    <footer>
+      <!-- Diese Zeile kannst du frei anpassen oder entfernen. -->
+      <p>Unterrichtsmaterialien · Schuljahr 2026/27</p>
+    </footer>
+  </main>
+
+  <script>
+
+    (function () {
+      "use strict";
+
+      const searchInput = document.getElementById("week-search");
+      const clearButton = document.getElementById("clear-search");
+      const cards = Array.from(document.querySelectorAll(".week-card"));
+      const resultCount = document.getElementById("result-count");
+      const emptyState = document.getElementById("empty-state");
+      const overviewGroups = Array.from(document.querySelectorAll(".overview-group"));
+      const materialGroups = Array.from(document.querySelectorAll(".material-group"));
+      const examGroups = Array.from(document.querySelectorAll(".exam-group"));
+
+      function normalizeSearch(value) {
+        const match = String(value).match(/\d+/);
+        return match ? String(Number(match[0])) : "";
+      }
+
+      function updateView() {
+        const query = normalizeSearch(searchInput.value.trim());
+        let visibleCount = 0;
+
+        cards.forEach(function (card) {
+          const week = card.dataset.week;
+          const isVisible = query === "" || week === query;
+          card.hidden = !isVisible;
+
+          if (!isVisible) {
+            card.querySelectorAll("details[open]").forEach(function (details) {
+              details.open = false;
+            });
+          }
+
+          if (isVisible) visibleCount += 1;
+        });
+
+        resultCount.textContent = visibleCount === 1 ? "1 Woche" : visibleCount + " Wochen";
+        emptyState.hidden = visibleCount !== 0;
+      }
+
+      overviewGroups.forEach(function (group) {
+        group.addEventListener("toggle", function () {
+          if (!group.open) return;
+          overviewGroups.forEach(function (other) {
+            if (other !== group) other.open = false;
+          });
+        });
+      });
+
+      materialGroups.forEach(function (group) {
+        group.addEventListener("toggle", function () {
+          if (!group.open) return;
+          const card = group.closest(".week-card");
+          card.querySelectorAll(".material-group[open]").forEach(function (other) {
+            if (other !== group) other.open = false;
+          });
+        });
+      });
+
+      examGroups.forEach(function (group) {
+        group.addEventListener("toggle", function () {
+          if (!group.open) return;
+          const grid = group.closest(".exam-grid");
+          grid.querySelectorAll(".exam-group[open]").forEach(function (other) {
+            if (other !== group) other.open = false;
+          });
+        });
+      });
+
+      searchInput.addEventListener("input", updateView);
+
+      clearButton.addEventListener("click", function () {
+        searchInput.value = "";
+        updateView();
+        searchInput.focus();
+      });
+
+      updateView();
+    }());
+
+  </script>
+</body>
+</html>
