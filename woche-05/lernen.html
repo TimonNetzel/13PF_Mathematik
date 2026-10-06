@@ -1500,248 +1500,505 @@ function start(){
 }
 /* =================== ENDE ENGINE =================== */
 
-/* ==== INHALT START: Zählstrategien – Produktregel, Fakultät, geordnete Auswahl (13PF, Woche 5, 20 min, spielerisch, Mythos-Einstieg) ==== */
+/* ==== INHALT START: Produktregel, Fakultät und geordnete Anordnungen (13PF, Woche 5) ==== */
 const CONFIG={
   title:'Zählstrategien: Der Trainingszirkel',
-  org:'TV Südpark · Trainingsplanung',
-  mission:'Mission: Zirkelplan Z-24',
-  missionText:'Trainerin Mara braucht für den neuen Trainingszirkel eine schnelle Antwort: Wie viele Pläne und Rollenverteilungen gibt es? Schaffst du es, ohne alles aufzuschreiben, und überzeugst du den Vereinsvorstand?',
-  person:{name:'Mara Lindner',role:'Trainerin, TV Südpark',ava:'🏋️‍♀️'},
-  defaultName:'Coach', startEmoji:'🏃‍♀️🌳', nameQuestion:'Du hilfst heute im Trainerteam des TV Südpark. Wie heißt du?',
-  certTitle:'Trainerteam-Ausweis', certSub:'Zählstrategien · Zirkelplan Z-24', certButton:'Meinen Trainerteam-Ausweis zeigen',
-  nextTime:'Als Nächstes übst du die Zählstrategien in den Aufgaben „Üben“ dieser Woche. 🏅',
-  minuten:20,
+  org:'Aktivpark Lindental · Praktikumsteam',
+  mission:'Mission: Planungsnotiz Trainingszirkel',
+  missionText:'Jana Kowalski braucht eure Zahlen für den neuen Trainingszirkel und die Aufgaben im Team. Schaffst du alle Etappen und besiegst die Gegner?',
+  person:{name:'Jana Kowalski',role:'Leitung Aktivpark Lindental',ava:'🏋️‍♀️'},
+  defaultName:'Praktikant', startEmoji:'🏃‍♀️🧮', nameQuestion:'Du startest heute im Praktikumsteam des Aktivparks Lindental. Wie heißt du?',
+  certTitle:'Planungs-Ausweis', certSub:'Produktregel, Fakultät und geordnete Anordnungen · Planungsnotiz Trainingszirkel', certButton:'Meinen Planungs-Ausweis zeigen',
+  nextTime:'Nächste Woche zählst du weiter: mit einer neuen Frage an die Auswahl. 🧮',
+  minuten:90,
   key:'sim-zaehlstrategien-13pf-w05-v1', code:'ZAEHL13',
-  board:{wer:'Das Trainerteam des TV Südpark (eure Klasse): Wir planen den neuen Trainingszirkel.',
-         ziel:'Eine kurze Antwort an Trainerin Mara: Wie viele verschiedene Pläne gibt es, und wie viele Möglichkeiten, die drei Teamaufgaben zu verteilen?',
-         wie:'abstimmen → systematisch zählen statt auflisten → Aufgaben verteilen und vergleichen → Antwort an Mara schreiben'},
-  karte:{vorlage:'insel',symbole:{0:'✉️',1:'🌳',2:'🧐',3:'🎯'}},
-  ziele:[{t:'ausrechnen, wie viele Trainingspläne es gibt, wenn du nacheinander aus mehreren Gruppen auswählst.',level:[1]},
-         {t:'zählen, wie viele Reihenfolgen und Rollenverteilungen möglich sind, ohne alles aufzuschreiben.',level:[1,2]},
-         {t:'vor dem Rechnen prüfen, ob die Reihenfolge zählt und ob sich etwas wiederholen darf.',level:[1,2]}],
-  ws:{fach:'Mathematik 13PF',untertitel:'Produktregel, Fakultät und geordnete Anordnungen',dauer:'20 min',fusszeile:'Zirkelplan Z-24 · Zählstrategien statt Auflisten'},
-  rankText:{1:'<br>Du darfst ab jetzt eigene Trainingszirkel planen.'}
+  board:{wer:'Das Praktikumsteam im Aktivpark Lindental (eure Klasse): Wir planen den neuen Trainingszirkel und die Aufgaben im Team.',
+         ziel:'Eine Planungsnotiz für Jana Kowalski: Wie viele Pläne und Aufgabenverteilungen gibt es, ohne alles einzeln aufzuschreiben, und was sagen diese Zahlen aus?',
+         wie:'Angebote sichten und schätzen → Möglichkeiten als Verzweigungsbild zeichnen und eine Rechenregel finden → Reihenfolgen zählen → Aufgaben verteilen und zählen → prüfen und erklären → Notiz schreiben.'},
+  karte:{vorlage:'insel',symbole:{0:'✉️',1:'🌳',2:'🧐',3:'🔀',4:'🎽',5:'🤝',6:'🔐',7:'📝',8:'🎯'}},
+  ziele:[{t:'die Zahl möglicher Pläne aus mehreren Auswahlschritten berechnen, ohne alles aufzuschreiben.',level:[1,2]},
+         {t:'zählen, auf wie viele Arten man Dinge oder Personen auf Plätze oder Aufgaben verteilen kann.',level:[3,4,5]},
+         {t:'vor dem Rechnen entscheiden, ob die Reihenfolge zählt und ob etwas mehrmals vorkommen darf.',level:[4,6]}],
+  ws:{fach:'Mathematik 13PF (GK)',untertitel:'Produktregel, Fakultät und geordnete Anordnungen',dauer:'2 Lernstunden à 45 min',fusszeile:'Planungsnotiz Trainingszirkel · Woche 5'},
+  rankText:{1:'<br>Du darfst eigene Zirkelpläne vorschlagen.',2:'<br>Du verteilst die Aufgaben im Team.',3:'<br>Du leitest die Kursplanung.'}
 };
-const RANKS=['Trainingsassistenz','Übungsleitung'];
+const RANKS=['Praktikant','Assistenztrainer','Übungsleiter','Kursleiter'];
 
-/* ---------- Daten (aus lernen.md) ---------- */
-const Z={auf:3,aus:4,ab:2};                 // Aufwärmformen, Ausdauerstationen, Abschlussübungen
-const PLAENE=Z.auf*Z.aus*Z.ab;              // 24
-const PERS=['Ana','Ben','Cem','Dila','Emil','Finn'];   // 6 Teilnehmende
-const ROLLEN=['Kapitän','Aufwärmleitung','Zeitnahme'];  // 3 Rollen
-const fak=n=>n<=1?1:n*fak(n-1);
-const perm=(n,k)=>fak(n)/fak(n-k);
-const OHNE=perm(6,3);                       // 120
-const MIT=Math.pow(6,3);                    // 216
+/* ---------- Daten (aus lernen.md, mit Python nachgerechnet) ---------- */
+const ZIRKEL=[['Aufwärmen',['Seilspringen','Lauf-ABC','Mobilisation']],['Ausdauer',['Rudergerät','Ergometer','Stepper','Laufband']],['Abschluss',['Dehnen','Entspannung']]];
+const NZ=ZIRKEL.map(z=>z[1].length);            // [3,4,2]
+const PLAENE=NZ.reduce((a,b)=>a*b,1);            // 24
+const TEAM=['Ben','Cem','Dana','Emil','Finn','Gül','Hanna','Ida','Jonas','Kim','Lea','Mia'];   // 12 Teilnehmende
+const ROLLEN=['Übungsleitung','Zeitnahme','Material'];
+const OHNE=12*11*10, MIT=12**3;                   // 1320, 1728
+const KURSE=['Yoga','Zumba','Spinning','Pilates','Rückenfit','Aqua-Fitness','Zirkeltraining'];
+const TERM=['Montag','Mittwoch','Freitag'];
+const KP={ohne:7*6*5,mit:7**3};                   // 210, 343 (Differenz 133)
 
 const GL={
-  baumdiagramm:['Baumdiagramm','Eine Zeichnung, in der sich jede Wahl in Äste aufteilt. Jeder Weg vom Start bis ganz nach rechts ist ein möglicher Plan.','Menüwahl: erst die Vorspeise, dann der Hauptgang.',{art:'das',pl:'die Baumdiagramme'}],
-  produktregel:['Produktregel','Wählst du nacheinander aus mehreren Gruppen, multiplizierst du die Anzahlen. So zählst du alle Kombinationen auf einmal.','3 Shirts und 2 Hosen ergeben 3 · 2 = 6 Outfits.',{art:'die',pl:'die Produktregeln'}],
-  fakultaet:['Fakultät','<i>n</i>! ist das Produkt aller Zahlen von <i>n</i> bis 1. Es zählt, wie viele Reihenfolgen <i>n</i> verschiedene Dinge haben; 0! = 1.','4 Läuferinnen stellen sich in einer Reihe auf: 4! = 24 Möglichkeiten.',{art:'die',pl:'die Fakultäten'}],
-  geordnet:['geordnete Auswahl','Du verteilst Plätze, die sich unterscheiden. Es zählt, wer auf welchem Platz landet.','Gold, Silber und Bronze bei einem Lauf.',{sg:'die geordnete Auswahl',pl:'die geordneten Auswahlen'}],
-  wiederholung:['Auswahl mit Wiederholung','Dasselbe darf mehrmals gewählt werden, zum Beispiel eine Person für mehrere Rollen. Ohne Wiederholung ist jede Person nur einmal dabei.','Ein Zahlenschloss darf 7-7-7 haben.',{sg:'die Auswahl mit Wiederholung',pl:'die Auswahlen mit Wiederholung'}]
+  baum:['Baumdiagramm','Ein Bild, in dem sich jeder Auswahlschritt in Zweige aufteilt. Jedes Ende steht für genau einen vollständigen Plan.','Wegweiser: An jeder Kreuzung teilt sich der Weg.',{art:'das',pl:'die Baumdiagramme'}],
+  produktregel:['Produktregel','Wählst du in mehreren Schritten nacheinander aus, nimmst du die Anzahlen der Schritte miteinander mal. Beim Zirkel: 3 · 4 · 2 = 24 Pläne.','3 Shirts und 2 Hosen ergeben 3 · 2 = 6 Outfits.',{art:'die',pl:'die Produktregeln'}],
+  fakultaet:['Fakultät','n! („n Fakultät“) ist das Ergebnis, wenn du alle ganzen Zahlen von n bis 1 malnimmst. Es zählt, auf wie viele Arten man n verschiedene Dinge in eine Reihe bringen kann.','3 Läuferinnen an der Startlinie: 3! = 6 Reihenfolgen.',{art:'die',pl:'die Fakultäten'}],
+  geordnet:['geordnete Auswahl','Du wählst für Plätze aus, die sich unterscheiden. Wer welchen Platz bekommt, macht einen Unterschied.','Platz 1, 2 und 3 bei der Siegerehrung',{sg:'die geordnete Auswahl',pl:'die geordneten Auswahlen'}],
+  wdh:['mit/ohne Wiederholung','Mit Wiederholung darf dasselbe mehrmals gewählt werden. Ohne Wiederholung fällt weg, wer schon gewählt ist.','In einem Zahlencode darf die 7 zweimal vorkommen.',{sg:'die Wiederholung',pl:'die Wiederholungen'}],
+  exponent:['Exponent','Die kleine hochgestellte Zahl. Sie sagt, wie oft dieselbe Zahl malgenommen wird: 12³ = 12 · 12 · 12.','Ein Code mit 4 Stellen und je 10 Ziffern: 10⁴ Codes.',{art:'der',pl:'die Exponenten'}]
 };
-const FORM=()=>KD('\\text{Produktregel: } a\\cdot b\\cdot c')+KD('n!=n\\cdot(n-1)\\cdots 1,\\quad 0!=1')+
-  KD('\\text{ohne Wiederholung: }\\dfrac{n!}{(n-k)!}=n\\cdot(n-1)\\cdots(n-k+1)')+KD('\\text{mit Wiederholung: } n^k');
-function MAIL(){return `<div class="mail"><div class="mh"><b>Von:</b> Mara Lindner, Trainerin TV Südpark<br><b>An:</b> Trainerteam (eure Klasse)<br><div class="subj">Neuer Trainingszirkel: Wie viele Pläne gibt es?</div></div>
- <p>Hallo Trainerteam,</p><p>für unseren neuen Zirkel habe ich <b>3 Aufwärmformen</b>, <b>4 Ausdauerstationen</b> und <b>2 Abschlussübungen</b>. Jeder Plan besteht aus einer Aufwärmform, einer Station und einer Abschlussübung. Ich möchte jede Woche einen anderen Plan anbieten. Wie lange reicht das?</p>
- <p>Außerdem sollen drei Aufgaben im Team verteilt werden: <b>Kapitän, Aufwärmleitung, Zeitnahme</b>. Dafür haben sich <b>6 Teilnehmende</b> gemeldet. Wie viele Möglichkeiten gibt es?</p>
- <p>Bitte schreibt mir kurz zurück, mit Rechnung. Alles aufzulisten dauert mir zu lange!</p><p>Sportliche Grüße<br>Mara</p></div>`}
-function DATA(){return `<h4 style="margin:4px 0">Trainingszirkel</h4><table class="tb"><tr><th>Auswahlstufe</th><th class="n">Anzahl</th></tr>
- <tr><td>Aufwärmformen</td><td class="n">${Z.auf}</td></tr><tr><td>Ausdauerstationen</td><td class="n">${Z.aus}</td></tr><tr><td>Abschlussübungen</td><td class="n">${Z.ab}</td></tr>
- <tr><td>Teilnehmende für die Rollen</td><td class="n">${PERS.length}</td></tr><tr><td>Rollen (${ROLLEN.join(', ')})</td><td class="n">${ROLLEN.length}</td></tr></table>
- ${levelOpen(2)?`<h4 style="margin:12px 0 4px">Formeln</h4>${FORM()}`:''}
- <details style="margin-top:10px"><summary>✉️ Nachricht von Mara</summary>${MAIL()}</details>`}
-const BOSS={name:'Herr Okafor',role:'Vereinsvorstand',ava:'🧐'};
 
-/* ---------- Baumdiagramm (Skizze, nur teilweise ausgeführt) ---------- */
-function TREE(){
-  const W=600,H=330,x0=30,x1=180,x2=360,x3=520;
-  const yA=[60,165,270],yS=[30,75,120,165].map(y=>y+0),yE=[18,46];
-  let s=`<svg viewBox="0 0 ${W} ${H}" width="100%" style="max-width:600px;display:block;margin:auto" role="img" aria-label="Baumdiagramm, teilweise ausgeführt">`;
-  const line=(a,b,c,d,col)=>`<line x1="${a}" y1="${b}" x2="${c}" y2="${d}" stroke="${col}" stroke-width="2.5"/>`;
-  const box=(x,y,t,col)=>`<rect x="${x-34}" y="${y-15}" width="68" height="30" rx="8" fill="#fff" stroke="${col}" stroke-width="2.5"/><text x="${x}" y="${y+6}" text-anchor="middle" font-size="17" font-weight="700" fill="${col}">${t}</text>`;
-  s+=`<circle cx="${x0}" cy="${H/2}" r="8" fill="#16233a"/>`;
-  yA.forEach((y,i)=>{s+=line(x0,H/2,x1-34,y,'#17607a')});
-  yS.forEach(y=>{s+=line(x1+34,yA[0],x2-34,y,'#c2410c')});
-  yE.forEach(y=>{s+=line(x2+34,yS[0],x3-34,y,'#1b7a47')});
-  yA.forEach((y,i)=>{s+=box(x1,y,'A'+(i+1),'#17607a')});
-  yS.forEach((y,i)=>{s+=box(x2,y,'S'+(i+1),'#c2410c')});
-  yE.forEach((y,i)=>{s+=box(x3,y,'E'+(i+1),'#1b7a47')});
-  s+=`<text x="${x2+50}" y="${yS[2]+6}" font-size="17" fill="#16233a">…</text><text x="${x2+50}" y="${yS[3]+6}" font-size="17" fill="#16233a">…</text><text x="${x2+50}" y="${yS[1]+6}" font-size="17" fill="#16233a">…</text>`;
-  s+=`<text x="${x1+50}" y="${yA[1]+6}" font-size="17" fill="#16233a">…</text><text x="${x1+50}" y="${yA[2]+6}" font-size="17" fill="#16233a">…</text>`;
-  s+=`<text x="${x1}" y="${H-6}" text-anchor="middle" font-size="15" fill="#17607a">Aufwärmen</text><text x="${x2}" y="${H-6}" text-anchor="middle" font-size="15" fill="#c2410c">Station</text><text x="${x3}" y="${H-6}" text-anchor="middle" font-size="15" fill="#1b7a47">Abschluss</text>`;
-  return s+'</svg>';
-}
+/* ---------- Bausteine ---------- */
+function zirkelTab(){return `<table class="tb"><tr><th>Schritt</th><th>Angebote</th><th class="n">Anzahl</th></tr>${ZIRKEL.map(z=>`<tr><td><b>${z[0]}</b></td><td>${z[1].join(', ')}</td><td class="n">${z[1].length}</td></tr>`).join('')}</table>`}
+const FORM=()=>`<p><b>Alle ${'n'} Dinge in eine Reihe bringen:</b></p>${KD('n!=n\\cdot(n-1)\\cdots 2\\cdot 1,\\qquad 0!=1')}
+ <p><b>k verschiedene Plätze aus n, ohne Wiederholung:</b></p>${KD('\\dfrac{n!}{(n-k)!}=n\\cdot(n-1)\\cdots(n-k+1)')}
+ <p><b>k verschiedene Plätze aus n, mit Wiederholung:</b></p>${KD('n^k')}`;
+function MAIL(){return `<div class="mail"><div class="mh"><b>Von:</b> Jana Kowalski, Leitung Aktivpark Lindental<br><b>An:</b> Praktikumsteam (eure Klasse)<br><div class="subj">Neuer Trainingszirkel und Aufgaben im Team</div></div>
+<div class="mb"><p>Hallo Praktikumsteam,</p>
+<p>für unseren neuen <b>Trainingszirkel</b> haben wir <b>3 Aufwärmformen</b>, <b>4 Ausdauerstationen</b> und <b>2 Abschlussübungen</b>. Ein Plan besteht immer aus <b>einer</b> Aufwärmform, <b>einer</b> Ausdauerstation und <b>einer</b> Abschlussübung. Wie viele verschiedene Pläne sind möglich? Lohnt es sich, alle aufzuschreiben?</p>
+<p>Außerdem verteilen wir in der Kurswoche unter den <b>12 Teilnehmenden</b> drei Aufgaben: <b>Übungsleitung, Zeitnahme, Material</b>. Wie viele Möglichkeiten gibt es, wenn jede Person <b>höchstens eine</b> Aufgabe übernimmt? Und wie viele, wenn eine Person auch <b>mehrere</b> Aufgaben übernehmen darf? Erklärt mir bitte, warum sich die Zahlen unterscheiden.</p>
+<p>Bitte schreibt mir eine kurze <b>Planungsnotiz</b> und sagt dazu, was die Zahlen aussagen und was nicht.</p>
+<p>Viele Grüße<br>Jana Kowalski</p>
+<span class="att">📎 Zirkel_Angebote.pdf</span>${zirkelTab()}</div></div>
+<p class="tip" style="margin:6px 0 0">Unterrichtsbeispiel: Freizeitzentrum, Personen und Angebote sind erfunden.</p>`}
+function DATA(){return `<h4 style="margin:4px 0">Trainingszirkel</h4>${zirkelTab()}
+ <h4 style="margin:12px 0 4px">Aufgaben im Team</h4><p>12 Teilnehmende: ${TEAM.join(', ')}.<br>3 verschiedene Aufgaben: ${ROLLEN.join(', ')}.</p>
+ ${levelOpen(3)?`<h4 style="margin:12px 0 4px">Formeln</h4>${FORM()}`:''}
+ <details class="given"><summary>✉️ E-Mail nochmal lesen</summary><div class="gb">${MAIL()}</div></details>`}
 
-/* ---------- Simulation: Rollen verteilen ---------- */
-function simRollen(c,api){
-  let rep=false,ass=[null,null,null];const seen={ohne:0,mit:0};let finished=false;
-  const sw=document.createElement('div');sw.className='btnrow';c.appendChild(sw);
-  const slots=document.createElement('div');slots.style.cssText='display:flex;gap:8px;flex-wrap:wrap;margin:8px 0';c.appendChild(slots);
-  const pool=document.createElement('div');pool.className='btnrow';c.appendChild(pool);
-  const ro=document.createElement('div');ro.className='readout';c.appendChild(ro);
-  const ck=checklist(['Alle drei Rollen <b>ohne</b> Wiederholung besetzt (jede Person höchstens einmal)','Schalter umgelegt und alle drei Rollen <b>mit</b> erlaubter Wiederholung besetzt']);c.appendChild(ck);
-  const say=statusFb(c);const q2=document.createElement('div');c.appendChild(q2);
-  const avail=i=>rep?PERS.length:PERS.length-i;   // Auswahl für Rolle i
-  const draw=()=>{
-    sw.innerHTML=`<button class="btn ${rep?'sec':'blue'} small" data-r="0">Jede Person nur einmal</button><button class="btn ${rep?'blue':'sec'} small" data-r="1">Mehrere Rollen pro Person erlaubt</button><button class="btn sec small" data-r="x">↺ Neu verteilen</button>`;
-    const cur=ass.indexOf(null);
-    slots.innerHTML=ROLLEN.map((r,i)=>`<div style="flex:1;min-width:0;border:2px solid ${i===cur?'#c2410c':'#17607a'};border-radius:10px;padding:6px;text-align:center;background:#fff">
-      <div style="font-weight:700;color:#16233a;overflow-wrap:anywhere">${r.replace('Aufwärmleitung','Aufwärm&shy;leitung')}</div><div style="font-size:1.1em;margin:4px 0">${ass[i]===null?'—':'🙋 '+PERS[ass[i]]}</div>
-      <div style="font-size:.85em;color:#17607a">${ass[i]!==null||i===cur?'Auswahl: '+avail(i)+' Personen':'&nbsp;'}</div></div>`).join('');
-    pool.innerHTML=PERS.map((p,j)=>{const used=!rep&&ass.includes(j);return `<button class="btn ${used?'sec':'blue'} small" data-p="${j}" ${used||cur<0?'disabled':''}>${p}</button>`}).join('');
-    const filled=ass.filter(a=>a!==null).length;
-    ro.innerHTML=`<span>Auswahlen bisher: ${filled?K(ass.slice(0,filled).map((a,i)=>avail(i)).join('\\cdot ')):'–'}</span><span>${rep?'Wiederholung erlaubt':'ohne Wiederholung'}</span>`;
-    ck.set(0,!!seen.ohne);ck.set(1,!!seen.mit);
-  };
-  const fin=()=>{if(finished)return;finished=true;say('ok','✅ Beide Fälle ausprobiert. Vergleiche die Auswahlen in den drei Feldern.');
-    mcqW(q2,{q:`Wie viele Möglichkeiten gibt es, die drei Rollen an die 6 Teilnehmenden zu verteilen, wenn jede Person höchstens eine Rolle übernimmt?`,o:[
-      {t:K('6\\cdot 5\\cdot 4=120'),ok:1,fb:'Richtig. Für die erste Rolle gibt es 6 Personen, danach nur noch 5, dann 4. Jede eingesetzte Person fällt weg.'},
-      {t:K('6\\cdot 6\\cdot 6=216'),fb:'So viele wären es, wenn eine Person mehrere Rollen übernehmen dürfte. Hier fällt jede eingesetzte Person weg.'},
-      {t:K('6+5+4=15'),fb:'Addieren zählt nur die Personen pro Rolle. Zu jeder Wahl für die erste Rolle gehören alle Wahlen für die zweite: multiplizieren.'},
-      {t:K('3\\cdot 2\\cdot 1=6'),fb:'Das zählt nur, wie man drei schon feste Personen auf die drei Rollen setzt. Gewählt wird aber aus 6 Personen.'}]},api.solved,api.wrong)};
-  sw.onclick=e=>{const b=e.target.closest('button');if(!b)return;if(b.dataset.r==='x'){ass=[null,null,null];say('info','Neue Runde: Verteile die Rollen.');draw();return}
-    rep=b.dataset.r==='1';ass=[null,null,null];say('info',rep?'Jetzt darf eine Person auch mehrere Rollen übernehmen. Achte auf die Zahl „Auswahl“.':'Jede Person darf nur eine Rolle übernehmen.');draw()};
-  pool.onclick=e=>{const b=e.target.closest('button');if(!b||b.disabled)return;const j=+b.dataset.p,i=ass.indexOf(null);if(i<0)return;
-    if(!rep&&ass.includes(j)){api.wrong();say('bad','❌ Diese Person hat schon eine Rolle.');return}
-    ass[i]=j;if(ass.indexOf(null)<0){if(rep)seen.mit=1;else seen.ohne=1;
-      say('ok',rep?`Fertig verteilt. Bei jeder Rolle standen wieder alle ${PERS.length} Personen zur Auswahl.`:`Fertig verteilt. Die Auswahl wurde mit jeder Rolle um eine Person kleiner.`+(seen.mit?'':' Lege jetzt den Schalter um.'))}
-    draw();if(seen.ohne&&seen.mit)fin()};
+/* Baum als SVG: st = Anzahlen der bisher gezeichneten Stufen, z. B. [3,4] */
+function baumSVG(st){const W=600,H=440,top=34,X=[34,200,370,540],col=['#17607a','#c2410c','#5b3fc4'];
+  const tot=st.reduce((a,b)=>a*b,1);let s='',n=[1];st.forEach(k=>n.push(n[n.length-1]*k));
+  const y=(d,j)=>top+(j+0.5)*(H-top-10)/n[d];
+  for(let d=1;d<=st.length;d++)for(let j=0;j<n[d];j++){const pj=Math.floor(j/st[d-1]);s+=`<line x1="${X[d-1]}" y1="${y(d-1,pj)}" x2="${X[d]}" y2="${y(d,j)}" stroke="${col[d-1]}" stroke-width="${d===3?1.6:2.4}"/>`}
+  for(let d=0;d<=st.length;d++)for(let j=0;j<n[d];j++)s+=`<circle cx="${X[d]}" cy="${y(d,j)}" r="${d===0?9:d===3?4.5:7}" fill="${d===0?'#16233a':col[d-1]}"/>`;
+  const lab=['Start','Aufwärmen','Ausdauer','Abschluss'].map((t,i)=>i<=st.length?`<text x="${X[i]}" y="20" text-anchor="middle" font-size="17" font-weight="700" fill="#16233a">${t}</text>`:'').join('');
+  return `<svg viewBox="0 0 600 ${H+30}" style="width:100%;height:auto;max-height:62vh" role="img" aria-label="Baum mit ${tot} Enden">${lab}${s}<text x="590" y="${H+24}" text-anchor="end" font-size="16" fill="#4d5a6b">Enden: ${tot}</text></svg>`}
+
+/* ---------- Simulationen ---------- */
+function simBaum(c,api){
+  let st=[3];const fig=document.createElement('div');fig.className='fig';c.appendChild(fig);
+  const task=document.createElement('div');task.className='task';c.appendChild(task);
+  const row=document.createElement('div');row.className='crow';row.innerHTML=`<span>Enden:</span><input inputmode="numeric" autocomplete="off" aria-label="Anzahl der Enden"><button class="btn blue small">Prüfen</button>`;c.appendChild(row);
+  const say=statusFb(c);const inp=$('input',row);
+  const draw=()=>{fig.innerHTML=baumSVG(st);
+    task.innerHTML=st.length===1?`Der Baum zeigt die <b>3 Aufwärmformen</b>. Gleich wächst an <b>jedem</b> Ende je ein Zweig für die <b>4 Ausdauerstationen</b>. Wie viele Enden hat der Baum dann?`
+      :st.length===2?`Jetzt wächst an <b>jedem</b> der 12 Enden je ein Zweig für die <b>2 Abschlussübungen</b>. Wie viele Enden hat der Baum dann?`
+      :`<b>Fertig!</b> Jedes Ende ist genau ein vollständiger Plan.`};
+  const fin=()=>{row.style.display='none';say('ok',`✅ 24 Enden, also 24 Pläne. In jedem Schritt hat sich die Zahl der Enden <b>vervielfacht</b>: ${K('3\\cdot 4=12')}, dann ${K('12\\cdot 2=24')}.`);api.solved()};
+  const check=()=>{if(ctx.solved||st.length===3)return;const v=parseNum(inp.value);if(isNaN(v)){say('info','Gib eine Zahl ein.');return}
+    const tg=st.length===1?12:24;
+    if(v===tg){inp.value='';st.push(st.length===1?4:2);draw();if(st.length===3)fin();else say('ok','✅ Richtig: An jedem der 3 Enden wachsen 4 Zweige, also 12 Enden.');return}
+    api.wrong();
+    if(st.length===1&&v===7)say('bad','❌ 3 + 4 = 7 zählt nur die Angebote. Am Baum wachsen an <b>jedem</b> der 3 Enden 4 neue Zweige.');
+    else if(v===9)say('bad','❌ 3 + 4 + 2 = 9 zählt nur die einzelnen Angebote, nicht die Pläne. Schau, wie viele Zweige an jedem Ende wachsen.');
+    else if(st.length===2&&v===14)say('bad','❌ 12 + 2 = 14: Es kommen nicht 2 Enden dazu, sondern an <b>jedem</b> der 12 Enden wachsen 2 Zweige.');
+    else say('bad','❌ Noch nicht. Zähle: Wie viele Enden gibt es jetzt, und wie viele Zweige wachsen an <b>jedem</b> Ende?');shake(inp)};
+  $('button',row).onclick=check;inp.addEventListener('keydown',e=>{if(e.key==='Enter')check()});
   draw();
-  api.setAuto(()=>{seen.ohne=1;seen.mit=1;rep=true;ass=[0,0,1];draw();fin()});
+  api.setAuto(()=>{st=[3,4,2];draw();fin()});
+}
+function simReihen(c,api){
+  const ST=['Rudern','Ergometer','Stepper'];let cur=[];const found=[];
+  const slots=document.createElement('div');slots.className='task';c.appendChild(slots);
+  const chips=document.createElement('div');chips.className='chips';c.appendChild(chips);
+  const list=document.createElement('div');list.style.marginTop='8px';c.appendChild(list);
+  const rb=document.createElement('button');rb.className='btn sec small';rb.style.cssText='width:100%;margin-top:8px';rb.textContent='Ich habe alle gefunden ✔';c.appendChild(rb);
+  const say=statusFb(c);
+  const done=()=>{say('ok',`✅ Alle 6 Reihenfolgen gefunden. Für Platz 1 gibt es 3 Möglichkeiten, für Platz 2 nur noch 2, für Platz 3 nur noch 1: ${K('3\\cdot 2\\cdot 1=6')}.`);api.solved()};
+  const draw=()=>{slots.innerHTML=`<b>Reihenfolge:</b> `+[0,1,2].map(i=>`<span class="chip" style="display:inline-block;min-width:96px;margin:2px;${cur[i]?'':'opacity:.5'}">${i+1}. ${cur[i]||'…'}</span>`).join('');
+    chips.innerHTML=ST.map((s,i)=>`<button class="chip" data-i="${i}" ${cur.includes(s)?'disabled style="opacity:.35"':''}>${s}</button>`).join('');
+    list.innerHTML=`<p class="tip" style="margin:4px 0">Gefunden: <b>${found.length}</b></p>`+(found.length?`<ol style="margin:4px 0 0 18px">${found.map(f=>`<li>${f.join(' → ')}</li>`).join('')}</ol>`:'')};
+  chips.onclick=e=>{const b=e.target.closest('button');if(!b||ctx.solved)return;cur.push(ST[+b.dataset.i]);
+    if(cur.length===3){const key=cur.join('|');if(found.some(f=>f.join('|')===key))say('info','🔁 Diese Reihenfolge hast du schon. Probiere eine andere.');else{found.push(cur.slice());say('ok',`✅ Neue Reihenfolge Nr. ${found.length}.`)}cur=[];draw();if(found.length===6)done();return}
+    draw()};
+  rb.onclick=()=>{if(ctx.solved)return;if(found.length<6){api.wrong();say('bad',`❌ Es gibt noch mehr als ${found.length}. Geh systematisch vor: Beginne zweimal mit Rudern, zweimal mit Ergometer, zweimal mit Stepper.`);shake(rb)}};
+  draw();
+  api.setAuto(()=>{const all=[[0,1,2],[0,2,1],[1,0,2],[1,2,0],[2,0,1],[2,1,0]].map(p=>p.map(i=>ST[i]));all.forEach(a=>{if(!found.some(f=>f.join('|')===a.join('|')))found.push(a)});cur=[];draw();done()});
+}
+function simRollen(c,api){
+  let pick=[];let mq=null;
+  const slots=document.createElement('div');slots.className='task';c.appendChild(slots);
+  const chips=document.createElement('div');chips.className='chips';c.appendChild(chips);
+  const say=statusFb(c);const q2=document.createElement('div');c.appendChild(q2);
+  const ask=()=>{if(mq)return;mq=mcqW(q2,{q:'Wie viele Personen standen für die drei Aufgaben nacheinander zur Auswahl?',o:[
+      {t:'12, dann 11, dann 10',ok:1,fb:`Genau: Jede vergebene Person fällt weg. Deshalb rechnet man ${K('12\\cdot 11\\cdot 10')}.`},
+      {t:'12, dann 12, dann 12',fb:'Das gilt nur, wenn eine Person mehrere Aufgaben übernehmen darf. Hier war jede vergebene Person gesperrt.'},
+      {t:'3, dann 2, dann 1',fb:'Das sind die Aufgaben, nicht die Personen. Gezählt wird, wie viele Personen noch frei waren.'},
+      {t:'12, dann 11, dann 11',fb:'Nach zwei Vergaben sind schon zwei Personen weg. Für die dritte Aufgabe bleiben 10.'}]},api.solved,api.wrong)};
+  const draw=()=>{slots.innerHTML=ROLLEN.map((r,i)=>`<div style="margin:3px 0"><b>${r}:</b> ${pick[i]!=null?TEAM[pick[i]]:(i===pick.length?'<i>tippe eine Person an</i>':'…')}</div>`).join('')+
+      (pick.length<3?`<div class="tip" style="margin-top:6px">Für <b>${ROLLEN[pick.length]}</b> stehen noch <b>${12-pick.length}</b> Personen zur Auswahl.</div>`:'');
+    chips.innerHTML=TEAM.map((t,i)=>`<button class="chip" data-i="${i}" ${pick.includes(i)||pick.length>=3?'disabled style="opacity:.35"':''}>${t}</button>`).join('')};
+  chips.onclick=e=>{const b=e.target.closest('button');if(!b||ctx.solved||pick.length>=3)return;const i=+b.dataset.i;if(pick.includes(i))return;pick.push(i);draw();
+    if(pick.length===3){say('ok','✅ Alle drei Aufgaben sind vergeben. Jede Person hat höchstens eine Aufgabe.');ask()}};
+  draw();
+  api.setAuto(()=>{while(pick.length<3){const i=[0,1,2,3].find(x=>!pick.includes(x));pick.push(i)}draw();ask();mq._auto()});
 }
 
-/* ---------- Aufwärmen (Vorwochen 1, 3, 4) ---------- */
+/* ---------- Abschlussdokument ---------- */
+function notizDoc(){return `<div class="doc"><div class="stamp">TZ-5</div><h4>Planungsnotiz: Trainingszirkel und Aufgaben im Team</h4><dl>
+<dt>Trainingspläne</dt><dd>${K('3\\cdot 4\\cdot 2=24')} verschiedene Pläne (Produktregel). Aufschreiben geht noch, die Rechnung ist schneller und vergisst nichts.</dd>
+<dt>Aufgaben, je Person höchstens eine</dt><dd>${K('12\\cdot 11\\cdot 10=\\dfrac{12!}{9!}=1320')} Verteilungen</dd>
+<dt>Aufgaben, mehrere pro Person erlaubt</dt><dd>${K('12^3=1728')} Verteilungen</dd>
+<dt>Warum der Unterschied?</dt><dd>${esc(state.sim.warum||'—')}</dd>
+<dt>Was die Zahlen aussagen</dt><dd>Sie zählen mögliche Pläne bzw. Verteilungen. Wie wahrscheinlich ein bestimmter Plan gewählt wird, sagen sie nicht.</dd>
+<dt>Erstellt von</dt><dd>${nm()} · Praktikumsteam · ${new Date().toLocaleDateString('de-DE')}</dd></dl></div>`}
+function notizText(){return ['Planungsnotiz: Trainingszirkel und Aufgaben im Team','',
+'Trainingspläne: 3 · 4 · 2 = 24 verschiedene Pläne (Produktregel).',
+'Aufgaben, je Person höchstens eine: 12 · 11 · 10 = 12!/9! = 1320 Verteilungen.',
+'Aufgaben, mehrere pro Person erlaubt: 12³ = 1728 Verteilungen.',
+'Warum der Unterschied? '+(state.sim.warum||'—'),
+'Was die Zahlen aussagen: Sie zählen mögliche Pläne bzw. Verteilungen, keine Wahrscheinlichkeiten.',
+'Erstellt von: '+(state.name||CONFIG.defaultName)].join('\n')}
+
+/* ---------- Aufwärmen (Vorwochen 1–3) ---------- */
 const AUFWAERMEN=[
- {woche:1,q:'Kurs A erzielt 24 Treffer bei 40 Würfen. Wie groß ist die relative Häufigkeit?',o:[
-   {t:K('0{,}6'),ok:1,fb:'Richtig: 24 : 40 = 0,6, also 60 % Treffer.'},
-   {t:'24',fb:'Das ist die absolute Häufigkeit, also nur die Trefferzahl.'},
-   {t:K('1{,}67'),fb:'Du hast Würfe durch Treffer geteilt. Der Anteil liegt immer zwischen 0 und 1.'},
-   {t:K('0{,}4'),fb:'Das ist der Anteil der Fehlversuche, nicht der Treffer.'}]},
- {woche:3,q:'Zwei Torschüsse werden mit Reihenfolge protokolliert (T = Treffer, F = Fehlschuss). Wie viele Ergebnisse hat der Ergebnisraum?',o:[
-   {t:'4: TT, TF, FT, FF',ok:1,fb:'Genau. TF und FT sind verschiedene Abfolgen.'},
-   {t:'3: TT, TF, FF',fb:'Mit Reihenfolge sind TF und FT zwei verschiedene Ergebnisse.'},
-   {t:'2: T, F',fb:'Das sind nur die Ausgänge eines einzelnen Schusses.'},
-   {t:'6',fb:'Jeder Schuss hat nur zwei Ausgänge. So viele Abfolgen gibt es bei zwei Schüssen nicht.'}]},
- {woche:4,q:`Es gilt ${K('P(A)=0{,}3')}. Wie groß ist ${K('P(\\overline{A})')}?`,o:[
-   {t:K('0{,}7'),ok:1,fb:'Richtig: 1 − 0,3 = 0,7.'},
-   {t:K('0{,}3'),fb:'Das Gegenereignis enthält die übrigen Ergebnisse, nicht dieselben.'},
-   {t:K('-0{,}3'),fb:'Wahrscheinlichkeiten sind nie negativ.'},
-   {t:K('1{,}3'),fb:'Du hast addiert statt von 1 abzuziehen. Wahrscheinlichkeiten sind höchstens 1.'}]}
+ {woche:1,q:'Eine Gruppe trifft bei 30 Würfen 18-mal. Wie groß ist die relative Häufigkeit der Treffer?',o:[
+   {t:K('0{,}6'),ok:1,fb:'Genau: 18 : 30 = 0,6, also 60 %.'},
+   {t:K('18'),fb:'18 ist die absolute Häufigkeit (die Anzahl). Gesucht ist der Anteil.'},
+   {t:K('1{,}67'),fb:'Umgekehrt geteilt: Anteil = Treffer : Versuche = 18 : 30.'},
+   {t:K('0{,}18'),fb:'0,18 wären 18 von 100. Hier sind es 18 von 30.'}]},
+ {woche:2,q:'Eine faire Münze zeigte fünfmal hintereinander Zahl. Was gilt für den nächsten Wurf?',o:[
+   {t:'Kopf und Zahl sind weiterhin gleich wahrscheinlich.',ok:1,fb:'Richtig: Die Würfe sind unabhängig, die Wahrscheinlichkeit bleibt 0,5.'},
+   {t:'Jetzt ist Kopf wahrscheinlicher.',fb:'Die Münze hat kein Gedächtnis. Ein „Ausgleich“ wird nicht fällig.'},
+   {t:'Zahl ist wahrscheinlicher, weil sie gerade „läuft“.',fb:'Frühere Würfe beeinflussen den nächsten nicht.'},
+   {t:'Darüber kann man gar nichts sagen.',fb:'Doch: Für eine faire Münze gilt weiter 0,5 für Kopf und für Zahl.'}]},
+ {woche:3,q:'Zwei Torschüsse werden als Treffer (T) oder Fehlschuss (F) mit Reihenfolge notiert. Wie viele Ergebnisse gibt es?',o:[
+   {t:'4: TT, TF, FT, FF',ok:1,fb:'Genau: TF und FT sind verschiedene Ergebnisse, weil die Reihenfolge zählt.'},
+   {t:'3: zwei, ein oder kein Treffer',fb:'Das sind die möglichen Trefferzahlen. Mit Reihenfolge sind TF und FT verschieden.'},
+   {t:'2: Treffer oder Fehlschuss',fb:'Das sind die Ausgänge eines einzelnen Schusses.'},
+   {t:'6',fb:'Liste auf: TT, TF, FT, FF. Mehr Abfolgen gibt es nicht.'}]}
 ];
 
-const H1='20 min';
+/* ---------- Figuren ---------- */
+const BOSS1={name:'Herr Petersen',role:'Qualitätsmanagement',ava:'🧐'};
+const BOSS2={name:'Frau Albers',role:'Vereinsvorstand',ava:'🔐'};
+
+/* ---------- Partneraufgabe: Rollenkarten ---------- */
+const kursListe=()=>`<p><b>Kursliste (7 Kurse):</b></p><ol style="margin:4px 0 8px 18px">${KURSE.map(k=>`<li>${k}</li>`).join('')}</ol>`;
+const raster=()=>`<table class="tb"><tr>${TERM.map(t=>`<th>${t}</th>`).join('')}</tr><tr>${TERM.map(()=>'<td>?</td>').join('')}</tr></table><p class="tip">Jeder Termin bekommt genau einen Kurs. Die drei Termine sind verschiedene Tage.</p>`;
+const formelKarte=()=>`<p>Deine Formelkarte:</p><p><b>k Plätze aus n, ohne Wiederholung:</b></p>${KD('\\dfrac{n!}{(n-k)!}')}<p><b>k Plätze aus n, mit Wiederholung:</b></p>${KD('n^k')}`;
+const anfragen=()=>`<div class="mail"><div class="mh"><b>Kundenwünsche zum Wochenplan</b></div><div class="mb"><p><b>Anfrage 1:</b> „Jeder Kurs soll höchstens einmal pro Woche stattfinden.“<br><b>Anfrage 2:</b> „Ein beliebter Kurs darf auch mehrmals in der Woche laufen.“</p></div></div><p class="tip">Wie viele Kurse und Termine es gibt, weiß nur die Kursplanung.</p>`;
+
+/* ---------- Etappen ---------- */
+const H1='Stunde 1 · 45 min',H2='Stunde 2 · 45 min';
 const LEVELS=[
-/* ===== Einstieg: Mythos + Nachricht ===== */
-{title:'Einstieg: Die Nachricht der Trainerin',tag:'Einstieg',sub:'Abstimmen · Wer sind wir? Was ist das Ziel? Wie erreichen wir es?',badge:'🧭 Auftrag geklärt',num:'✉️',hour:H1,short:'Einstieg',steps:[
- {type:'info',html:()=>`<div class="newmail"><span class="dot"></span><b>1 neue Nachricht</b>&nbsp;· Trainerin TV Südpark</div>${MAIL()}
-   <div class="task"><b>Dein Auftrag:</b> Lies die Nachricht. Im Trainerteam behauptet jemand schon: „Das ist doch leicht.“ Stimm gleich ab, ohne zu rechnen. Die Nachricht findest du jederzeit unter 📂.</div><p class="tip">Verein, Personen und Zahlen sind für den Unterricht erfunden.</p>`},
- {type:'vote',id:'m1',phase:'vor',title:'Abstimmung',q:'„3 Aufwärmformen, 4 Stationen und 2 Abschlussübungen: Das sind 3 + 4 + 2 = 9 verschiedene Pläne.“ Stimmt das?'},
- {type:'mcq',title:'Wer sind wir, was ist das Ziel?',dataTitle:'✉️ Nachricht anzeigen',data:()=>MAIL(),q:'Worin besteht unser Auftrag?',
-  einfach:{q:'Mara hat eine Frage an uns. Was sollen wir für sie tun?'},
-  o:[{t:'Wir sind das Trainerteam und schreiben Mara mit Rechnung zurück, wie viele Pläne und Rollenverteilungen es gibt.',ok:1,fb:'Genau. Leitfrage: <b>Wie viele verschiedene Pläne gibt es, ohne dass wir alle aufschreiben müssen?</b>'},
-     {t:'Wir schreiben alle möglichen Pläne einzeln auf eine Liste.',fb:'Genau das will Mara nicht: Alles aufzulisten dauert ihr zu lange. Gesucht ist eine Rechnung.'},
-     {t:'Wir suchen den besten Plan für die nächste Woche aus.',fb:'Es geht nicht um den besten Plan, sondern um die Anzahl aller möglichen Pläne.'},
-     {t:'Wir bestimmen, wer Kapitän wird.',fb:'Wer welche Rolle bekommt, entscheidet das Team. Wir zählen nur die Möglichkeiten.'}],
-  hints:['Schau in die Zeile „An:“ der Nachricht.','Mara möchte eine Anzahl, keine Entscheidung.','„Bitte schreibt mir kurz zurück, mit Rechnung.“']},
- {type:'seq',title:'Wie erreichen wir das Ziel?',text:'Bringe die Arbeitsschritte in eine sinnvolle Reihenfolge. Geprüft wird erst, wenn alle Plätze belegt sind.',items:[
-   'Abstimmen, ohne zu rechnen','Die Pläne systematisch zählen, statt sie aufzulisten','Die Rollen verteilen und die Möglichkeiten zählen','Antwort mit Rechnung an Mara schreiben'],
-  okfb:'Das ist unser Fahrplan. Am Ende prüft Herr Okafor vom Vereinsvorstand eure Antwort. 🧐 Du startest als <b>Trainingsassistenz</b>.',
-  hints:['Abgestimmt wird ganz am Anfang.','Erst die Pläne, dann die Rollen, so steht es in der Nachricht.','Die Antwort an Mara kommt zum Schluss.']}
+/* ===== 0 Einstieg ===== */
+{title:'Einstieg: Die E-Mail aus dem Aktivpark',tag:'Einstieg',sub:'Wer sind wir? Was ist das Ziel? Wie erreichen wir es?',badge:'🧭 Auftrag geklärt',num:'✉️',hour:H1,short:'Einstieg',steps:[
+ {type:'info',html:()=>`<div class="newmail"><span class="dot"></span><b>1 neue Nachricht</b>&nbsp;· Aktivpark Lindental</div>${MAIL()}
+   <div class="task"><b>Dein Auftrag:</b> Lies die E-Mail genau. Danach klärst du drei Fragen: <b>Wer sind wir? Was ist das Ziel? Wie erreichen wir es?</b> Die Mail findest du jederzeit unter 📂.</div>`},
+ {type:'mcq',title:'Frage 1: Wer sind wir?',dataTitle:'✉️ E-Mail anzeigen',data:()=>MAIL(),q:'In welcher Rolle arbeitet ihr in dieser Lerneinheit?',o:[
+   {t:'Wir sind das Praktikumsteam des Aktivparks und planen den Trainingszirkel und die Aufgaben im Team.',ok:1,fb:'Genau. Ihr liefert der Leitung die Zahlen und eine Erklärung dazu.'},
+   {t:'Wir sind Teilnehmende des Kurses und suchen uns einen Lieblingsplan aus.',fb:'Die Teilnehmenden kommen in der Mail vor, aber die Mail geht an das Praktikumsteam.'},
+   {t:'Wir sind die Leitung und entscheiden über neue Geräte.',fb:'Die Leitung ist Jana Kowalski. Ihr arbeitet ihr zu.'},
+   {t:'Wir sind Trainer, die jeden Plan sofort ausprobieren.',fb:'Ausprobieren ist nicht der Auftrag. Gefragt sind Anzahlen und eine Erklärung.'}],
+  hints:['Schau in die Zeile „An:“ der E-Mail.','Wer soll die Planungsnotiz schreiben?','Die Mail richtet sich an das Praktikumsteam.']},
+ {type:'mcq',title:'Frage 2: Was ist das Ziel?',dataTitle:'✉️ E-Mail anzeigen',data:()=>MAIL(),q:'Was genau sollt ihr am Ende abliefern?',o:[
+   {t:'Eine Planungsnotiz: wie viele Pläne und Aufgabenverteilungen es gibt, ohne alles aufzuschreiben, und was die Zahlen aussagen.',ok:1,fb:'Richtig. Das ist unsere Leitfrage: <b>Wie viele Pläne und Verteilungen gibt es, ohne dass wir alles einzeln aufschreiben müssen?</b>'},
+   {t:'Eine vollständige Liste aller Pläne zum Aushängen.',fb:'Frau Kowalski fragt, ob sich das Aufschreiben lohnt. Gesucht ist vor allem die Anzahl.'},
+   {t:'Den einen besten Trainingsplan.',fb:'Es geht nicht um den besten Plan, sondern darum, wie viele es gibt.'},
+   {t:'Die Wahrscheinlichkeit, dass jemand seinen Lieblingsplan bekommt.',fb:'Davon steht nichts in der Mail. Gefragt ist, wie viele Möglichkeiten es gibt.'}],
+  hints:['Welches Dokument nennt Frau Kowalski am Ende der Mail?','Sie fragt zweimal „Wie viele …?“.','Gesucht ist eine Planungsnotiz mit Anzahlen und Erklärung.']},
+ {type:'pick',title:'Was gehört in die Notiz?',dataTitle:'✉️ E-Mail anzeigen',data:()=>MAIL(),text:'Tippe alle Bausteine an, die Frau Kowalski in der Notiz haben möchte, und prüfe dann.',items:[
+   {e:'🧮',t:'Anzahl der Trainingspläne',ok:1},{e:'📝',t:'ob sich das Aufschreiben lohnt',ok:1},
+   {e:'1️⃣',t:'Verteilungen, wenn jede Person höchstens eine Aufgabe hat',ok:1},{e:'🔁',t:'Verteilungen, wenn eine Person mehrere Aufgaben haben darf',ok:1},
+   {e:'💬',t:'Erklärung, warum sich die Zahlen unterscheiden',ok:1},{e:'⚠️',t:'was die Zahlen aussagen und was nicht',ok:1},
+   {e:'🎲',t:'Wahrscheinlichkeit für den Lieblingsplan',fb:'Danach fragt die Mail nicht. Anzahlen allein sind noch keine Wahrscheinlichkeiten.'},
+   {e:'💶',t:'Preise der Geräte',fb:'Über Preise steht nichts in der Mail.'},
+   {e:'🗓️',t:'persönlicher Plan für jede Person',fb:'Gefragt ist, wie viele Pläne möglich sind, nicht ein Plan für jede Person.'}],
+  okfb:'Diese sechs Bausteine sind eure Checkliste für das Finale.',
+  hints:['Lies die Mail Absatz für Absatz.','Alles, was nicht in der Mail steht, gehört nicht hinein.','Sechs Bausteine sind richtig, drei sind Fallen.']},
+ {type:'seq',title:'Frage 3: Wie erreichen wir das Ziel?',text:'Bringe die Arbeitsschritte in eine sinnvolle Reihenfolge. Geprüft wird erst, wenn alle Schritte eingeordnet sind.',items:[
+   'Angebote sichten und die Größenordnung schätzen','Möglichkeiten als Verzweigungsbild zeichnen und eine Rechenregel finden','Zählen, wie viele Reihenfolgen es für Stationen gibt','Aufgaben im Team verteilen und zählen: einmal pro Person oder mehrfach','Ergebnisse prüfen und erklären','Planungsnotiz schreiben'],
+  okfb:'Das ist unser Fahrplan für die beiden Stunden.',
+  hints:['Zuerst muss man wissen, was es überhaupt gibt.','Erst die einfachen Pläne, dann die Aufgabenverteilung.','Die Notiz ist das Endprodukt. Sie kommt zum Schluss.']},
+ {type:'info',html:()=>person(`<p>Super, ${nm()}! Ihr habt den Auftrag verstanden. Unterwegs prüfen zwei Leute eure Zahlen sehr genau. Überzeugt sie!</p>`)+
+   `<div class="mission" style="margin-top:6px"><h3>🧭 Unser Auftrag</h3><dl><dt>Wer?</dt><dd>${CONFIG.board.wer}</dd><dt>Ziel?</dt><dd>${CONFIG.board.ziel}</dd><dt>Wie?</dt><dd>${CONFIG.board.wie}</dd></dl></div>
+   <div class="task"><b>Stunde 1:</b> Level 1 Pläne zählen → ⚔️ Qualitätscheck → 🏰 Klassen-Gegner<br><b>Stunde 2:</b> Level 2 Reihenfolgen → Level 3 Aufgaben verteilen → 🤝 Partneraufgabe → ⚔️ Codeprüfung → 🏁 Planungsnotiz → 🎯 Quiz</div>
+   <div class="merke"><b>🎖 Dein Rang:</b> Du startest als <b>Praktikant</b>. Jeder besiegte Gegner bringt dich eine Stufe höher: Assistenztrainer → Übungsleiter → Kursleiter.</div>`}
 ]},
-/* ===== Level 1 ===== */
-{title:'Level 1: Zählen statt Auflisten',tag:'Lernabschnitt 1',sub:'Baumdiagramm, Produktregel, Fakultät, Rollen',badge:'🌳 Zählprofi',num:1,hour:H1,short:'Zählen',
- halt:{frage:'Bei den Rollen ohne Wiederholung werden die Faktoren kleiner, mit Wiederholung bleiben sie gleich. Wann ist im Vereinsalltag welche Regel sinnvoll?',
-   impulse:['Darf eine Person gleichzeitig Kapitän und Zeitnahme sein?','Findet ein Beispiel, bei dem sich etwas wiederholen darf, etwa ein Code am Spind oder Trainingstage.','Was passiert mit der Anzahl, wenn eine vierte Rolle dazukommt?'],
-   starters:['Ich finde,','Wiederholung ist sinnvoll, wenn','Ohne Wiederholung, weil'],
-   bonus:{type:'mcq',title:'Bonus: Der Spindcode',q:'Ein Spindcode hat 2 Stellen aus den Ziffern 1 bis 5. Ziffern dürfen doppelt vorkommen. Wie viele Codes gibt es?',o:[
-     {t:K('5^2=25'),ok:1,fb:'Richtig: Für jede der 2 Stellen gibt es 5 Ziffern.'},{t:K('5\\cdot 4=20'),fb:'Das wäre ohne Wiederholung. Hier darf 3-3 vorkommen.'},
-     {t:K('2^5=32'),fb:'Basis und Exponent vertauscht: 5 Möglichkeiten je Stelle, 2 Stellen.'},{t:K('5+5=10'),fb:'Addieren zählt nur Ziffern. Kombinationen werden multipliziert.'}],
-     hints:['Wie viele Ziffern sind für Stelle 1 möglich, wie viele für Stelle 2?','Wiederholung erlaubt: Die Auswahl bleibt gleich.','5 · 5 = ?']}},
- knobel:{type:'calc',title:'Knobel-Aufgabe: Das Zahlenschloss',text:`Ein Schloss für die Geräteraumtür hat 4 Stellen mit den Ziffern 0 bis 9. ${OP('Berechne')} die Anzahl der Codes mit und ohne Wiederholung.`,
-   rows:[{pre:'mit Wiederholung:',ans:10000,tol:.5,u:'Codes',traps:[[5040,'Das ist ohne Wiederholung.'],[40,'Nicht 10 · 4: Jede Stelle bringt einen Faktor 10.'],[1048576,'Basis und Exponent vertauscht: 10 Ziffern, 4 Stellen.']]},
-         {pre:'ohne Wiederholung:',ans:5040,tol:.5,u:'Codes',traps:[[10000,'Ohne Wiederholung wird die Auswahl je Stelle um 1 kleiner.'],[3024,'Du hast mit 9 begonnen. Die 0 ist auch eine Ziffer.']]}],
-   after:'10 000 Codes mit Wiederholung, 10 · 9 · 8 · 7 = 5040 ohne.',hints:['Wie viele Ziffern gibt es von 0 bis 9?','Mit Wiederholung: 10 · 10 · 10 · 10.','Ohne Wiederholung: 10 · 9 · 8 · 7.']},
+/* ===== 1 Level 1: Produktregel ===== */
+{title:'Level 1: Pläne zählen mit der Produktregel',tag:'Lernabschnitt 1',sub:'Schätzen, Baum zeichnen, multiplizieren',badge:'🌳 Baumplaner',num:1,hour:H1,short:'Pläne',
+ halt:{frage:'Wann lohnt es sich, alle Möglichkeiten aufzuschreiben, und wann ist eine Rechnung besser?',
+   impulse:['Wie lange bräuchtet ihr für 24 Pläne, wie lange für 2000?','Wofür ist eine Liste trotzdem nützlich, z. B. zur Kontrolle oder für die Teilnehmenden?','Woran erkennt ihr, dass ihr die Anzahlen malnehmen dürft?'],
+   starters:['Aufschreiben lohnt sich, wenn','Eine Rechnung ist besser, weil','Ich finde,'],
+   bonus:{type:'mcq',title:'Bonus: Der Mini-Zirkel',q:'Ein Mini-Zirkel hat 2 Aufwärmformen, 2 Stationen und 2 Abschlussübungen. Wie viele Pläne gibt es?',o:[
+     {t:'8',ok:1,fb:'Genau: 2 · 2 · 2 = 8.'},{t:'6',fb:'2 + 2 + 2 zählt nur die Angebote. Pläne: 2 · 2 · 2.'},
+     {t:'4',fb:'Das wären nur zwei Auswahlschritte. Es sind drei.'},{t:'3',fb:'3 ist die Zahl der Auswahlschritte, nicht der Pläne.'}],
+     hints:['Drei Auswahlschritte nacheinander.','Malnehmen, nicht addieren.','2 · 2 · 2 = ?']}},
  steps:[
- {type:'info',html:()=>person(`<p>Hallo ${nm()}! Alle Pläne aufzuschreiben dauert ewig. Ich habe angefangen, sie als ${T('baumdiagramm')} zu zeichnen: Zuerst wählst du eine Aufwärmform (A), dann eine Station (S), dann eine Abschlussübung (E).</p>`)+
-   `<div class="fig">${TREE()}</div><div class="task"><b>Ziel dieses Levels:</b> Du zählst Pläne, Reihenfolgen und Rollenverteilungen, ohne alles aufzuschreiben.</div>`},
- {type:'calc',title:'Den Baum zu Ende denken',pre:()=>`<div class="fig">${TREE()}</div>`,text:`Der Baum oben ist nur für A1 und S1 ganz ausgezeichnet. ${OP('Bestimme')}, wie viele Pläne mit A1 beginnen und wie viele Pläne es insgesamt gibt.`,
-  einfach:{text:'Im Baum sind nicht alle Äste gezeichnet. Von A1 gehen 4 Äste ab. Von jeder Station gehen 2 Äste ab. Wie viele Wege beginnen bei A1? Wie viele Wege gibt es insgesamt?'},
-  profi:{text:`${OP('Bestimme')} die Anzahl der Pfade durch den Teilbaum ab A1 und die Gesamtzahl der Pfade.`},
-  data:()=>`<p>${Z.auf} Aufwärmformen · ${Z.aus} Ausdauerstationen · ${Z.ab} Abschlussübungen</p>`,
-  rows:[{pre:'Pläne, die mit A1 beginnen:',ans:Z.aus*Z.ab,tol:.01,u:'Pläne',traps:[[6,'Du hast 4 + 2 addiert. Jede Station hat 2 Abschlussübungen: 4 · 2.'],[4,'Das sind nur die Stationen. Zu jeder gehören noch 2 Abschlussübungen.'],[2,'Das sind nur die Abschlussübungen nach S1.']]},
-        {pre:'Pläne insgesamt:',ans:PLAENE,tol:.01,u:'Pläne',traps:[[9,'Das ist der Mythos: 3 + 4 + 2 zählt nur die Übungen, nicht die Kombinationen.'],[8,'Das sind nur die Pläne mit A1. Es gibt aber 3 Aufwärmformen.'],[12,'Du hast eine Stufe vergessen: 3 · 4 · 2.']]}],
-  after:'8 Pläne beginnen mit A1. Für A2 und A3 sieht der Baum genauso aus: 3 · 8 = 24 Pläne.',
-  hints:['Zähle die Wege, die bei A1 starten: Wie viele Stationen, und wie viele Abschlussübungen je Station?','Jeder Weg ist ein Plan. Für A2 und A3 wiederholt sich der Teilbaum von A1.','Pläne mit A1: 4 · 2. Insgesamt: 3-mal so viele.'],
-  twin:{type:'calc',title:'Zwilling: Der Kraftzirkel',text:`Für einen Kraftzirkel gibt es 2 Aufwärmformen, 5 Kraftstationen und 3 Dehnübungen. ${OP('Bestimme')}, wie viele Pläne mit der ersten Aufwärmform beginnen und wie viele es insgesamt gibt.`,
-   rows:[{pre:'Pläne mit der ersten Aufwärmform:',ans:15,tol:.01,u:'Pläne',traps:[[8,'5 + 3 addiert. Zu jeder Station gehören 3 Dehnübungen: 5 · 3.']]},
-         {pre:'Pläne insgesamt:',ans:30,tol:.01,u:'Pläne',traps:[[10,'Addiert statt multipliziert.'],[15,'Es gibt 2 Aufwärmformen.']]}],
-   after:'5 · 3 = 15 Pläne je Aufwärmform, insgesamt 2 · 5 · 3 = 30.'}},
- {type:'calc',title:'Reihenfolge der Stationen',text:`Was du eben gemacht hast, heißt ${T('produktregel')}: Bei Auswahlstufen nacheinander multiplizierst du die Anzahlen. Jetzt will Mara alle 4 Ausdauerstationen nacheinander laufen lassen. Für die erste Station hat sie 4 Möglichkeiten, für die zweite noch 3 … Das Produkt ${K('4\\cdot 3\\cdot 2\\cdot 1')} schreibt man kurz ${K('4!')} (${T('fakultaet')}). ${OP('Berechne')} die Anzahl der Reihenfolgen.`,
-  einfach:{text:`Das Multiplizieren der Anzahlen heißt ${T('produktregel')}. Mara will alle 4 Stationen nacheinander machen. Für Platz 1 gibt es 4 Stationen. Für Platz 2 sind noch 3 übrig. Dann 2, dann 1. Man schreibt kurz ${K('4!')} (${T('fakultaet')}). ${OP('Berechne')} die Anzahl.`},
-  profi:{text:`Nach der ${T('produktregel')} ist die Anzahl der Anordnungen von ${K('n')} verschiedenen Objekten ${K('n!')} (${T('fakultaet')}). ${OP('Berechne')} die Anzahl der Reihenfolgen von 4 und von 5 Stationen.`},
-  rows:[{pre:K('4!=4\\cdot 3\\cdot 2\\cdot 1='),ans:fak(4),tol:.01,u:'Reihenfolgen',traps:[[10,'Du hast addiert: 4 + 3 + 2 + 1. Die Faktoren werden multipliziert.'],[16,'Das wäre 4 · 4: Dann dürfte eine Station doppelt vorkommen.'],[256,'4 hoch 4 erlaubt Wiederholung. Jede Station kommt aber nur einmal dran.'],[4,'Das sind nur die Möglichkeiten für die erste Station.']]},
-        {pre:'mit einer 5. Station: '+K('5!='),ans:fak(5),tol:.01,u:'Reihenfolgen',traps:[[25,'5 · 5 erlaubt Wiederholung.'],[15,'Addiert statt multipliziert.'],[3125,'5 hoch 5 erlaubt Wiederholung.']]}],
-  after:'4! = 24 und 5! = 5 · 24 = 120. Festlegung: 0! = 1 (für null Dinge gibt es genau eine Anordnung, nämlich keine).',
-  hints:['Wie viele Stationen sind für Platz 1 möglich, wie viele dann für Platz 2?','Fakultät: alle Zahlen von 4 bis 1 multiplizieren.','4 · 3 = 12, dann · 2 · 1.'],
-  twin:{type:'calc',title:'Zwilling: Startreihenfolge',text:`Beim Sprinttraining sollen 6 Läuferinnen nacheinander starten. ${OP('Berechne')} die Anzahl der Startreihenfolgen und die für 3 Läuferinnen.`,
-   rows:[{pre:K('6!='),ans:720,tol:.01,u:'',traps:[[21,'Addiert statt multipliziert.'],[36,'6 · 6 erlaubt Wiederholung.']]},{pre:K('3!='),ans:6,tol:.01,u:'',traps:[[9,'3 · 3 erlaubt Wiederholung.']]}],
-   after:'6! = 720, 3! = 6.'}},
- {type:'sim',title:'Rollen verteilen',text:`Jetzt die drei Teamaufgaben. Weil Kapitän, Aufwärmleitung und Zeitnahme verschiedene Plätze sind, ist das eine ${T('geordnet')}. Tippe Personen an, bis alle Rollen besetzt sind. Probiere es ohne und mit ${T('wiederholung','Wiederholung')} aus und beobachte die Zahl „Auswahl“.`,
-  einfach:{text:`Drei Rollen, sechs Personen. Die Rollen sind verschieden, das heißt ${T('geordnet')}. Tippe Personen an. Erst darf jede Person nur eine Rolle haben. Dann schaltest du um: ${T('wiederholung','Wiederholung')} erlaubt. Schau auf die Zahl „Auswahl“.`},
-  run:simRollen,solution:'Ohne Wiederholung: 6 · 5 · 4 = 120 Verteilungen; mit Wiederholung wären es 6³ = 216.',
-  hints:['Schau auf die Zahl „Auswahl“ unter jeder Rolle.','Ohne Wiederholung fällt jede eingesetzte Person für die nächste Rolle weg.','Für die erste Rolle 6, dann 5, dann 4 Personen.']}
+ {type:'info',html:()=>person(`<p>Hallo ${nm()}! Bevor wir rechnen, verschaffen wir uns einen Überblick. Hier sind die Angebote für den Zirkel:</p>`)+zirkelTab()+`<div class="task"><b>Ziel dieses Levels:</b> Du bestimmst die Zahl der Pläne, ohne sie alle aufzuschreiben.</div>`},
+ {type:'mcq',title:'Erst schätzen',pre:()=>zirkelTab(),q:`${OP('Schätze')} ohne zu rechnen: Wie viele verschiedene Pläne gibt es ungefähr?`,o:[
+   {t:'zwischen 10 und 50',ok:1,fb:'Gute Schätzung. Gleich prüfen wir sie genau.'},
+   {t:'weniger als 10',fb:'Allein mit Seilspringen am Anfang kannst du jede der 4 Stationen mit jeder der 2 Abschlussübungen verbinden. Es sind mehr als die 9 einzelnen Angebote.'},
+   {t:'zwischen 100 und 200',fb:'So viele werden es nicht: Es gibt nur 3, 4 und 2 Angebote.'},
+   {t:'über 1000',fb:'Viel zu viel für drei kleine Auswahlschritte.'}],
+  hints:['Wie viele Angebote gibt es insgesamt? Sind es mehr oder weniger Pläne?','Jeder Plan kombiniert drei Angebote. Kombinationen gibt es meist mehr als Angebote.','Stell dir vor: Beginne mit Seilspringen. Wie viele Pläne gibt es allein damit?']},
+ {type:'sim',title:'Der Baum wächst',text:`${OP('Bestimme')} mit einem ${T('baum')} die Zahl der Pläne: Gib jeweils an, wie viele Enden der Baum nach dem nächsten Auswahlschritt hat.`,run:simBaum,solution:'3 Enden → 3 · 4 = 12 Enden → 12 · 2 = 24 Enden (24 Pläne).',
+  einfach:{text:`Ein ${T('baum')} zeigt alle Pläne. Jedes Ende ist ein Plan. Gib an, wie viele Enden der Baum nach dem nächsten Schritt hat.`},
+  hints:['An jedem Ende wachsen gleich viele neue Zweige.','3 Enden mit je 4 neuen Zweigen: Das ist 3-mal die 4.','Nach Schritt 2 sind es 3 · 4 Enden, nach Schritt 3 doppelt so viele.']},
+ {type:'calc',title:'Die Rechenregel',text:`Der Baum zeigt die ${T('produktregel')}: Bei Auswahlschritten nacheinander nimmst du die Anzahlen mal. ${OP('Berechne')} damit die Zahl der Anfänge (Aufwärmen und Ausdauer) und die Zahl der Pläne.`,
+  profi:{text:`${OP('Berechne')} mit der ${T('produktregel')} die Anzahl der zweistufigen Anfänge und der dreistufigen Pläne.`},
+  data:()=>zirkelTab(),
+  rows:[{pre:'Anfänge (Aufwärmen, Ausdauer):',ans:12,tol:0,u:'',traps:[[7,'3 + 4 zählt nur die Angebote. Zu jeder Aufwärmform passen 4 Stationen: 3 · 4.']]},
+        {pre:'Pläne (alle drei Schritte):',ans:PLAENE,tol:0,u:'',traps:[[9,'3 + 4 + 2 = 9 zählt nur die Angebote. Pläne: 3 · 4 · 2.'],[14,'12 + 2: Zu jedem Anfang passen 2 Abschlussübungen, also 12 · 2.'],[12,'Die Abschlussübung fehlt noch: 12 · 2.']]}],
+  after:`${K('3\\cdot 4\\cdot 2=24')} Pläne. Aufschreiben ginge noch, aber die Rechnung ist schneller.`,
+  hints:['Zu jeder Aufwärmform passen alle 4 Stationen.','Zu jedem Anfang passen beide Abschlussübungen.','3 · 4 = 12, dann 12 · 2.'],
+  twin:{type:'calc',title:'Zwilling: Der Sommerzirkel',text:`Im Sommerzirkel gibt es 2 Aufwärmformen, 6 Ausdauerstationen und 3 Abschlussübungen. ${OP('Berechne')} die Zahl der Anfänge und der Pläne.`,
+   rows:[{pre:'Anfänge:',ans:12,tol:0,u:'',traps:[[8,'2 + 6 addiert. Es heißt 2 · 6.']]},
+         {pre:'Pläne:',ans:36,tol:0,u:'',traps:[[11,'2 + 6 + 3 zählt nur die Angebote.'],[15,'12 + 3: Es muss 12 · 3 heißen.']]}],
+   after:`${K('2\\cdot 6\\cdot 3=36')} Pläne.`}},
+ {type:'mcq',title:'Plus oder mal?',q:'Lukas sagt: „Es gibt 3 + 4 + 2 = 9 Pläne.“ Was ist sein Fehler?',o:[
+   {t:'Er zählt nur die einzelnen Angebote. Ein Plan verbindet aber drei Angebote, und jede Aufwärmform passt zu jeder Station.',ok:1,fb:'Genau. Bei Schritten nacheinander nimmt man die Anzahlen mal.'},
+   {t:'Kein Fehler: Plus ist bei Auswahl immer richtig.',fb:'Schau auf den Baum: Er hat 24 Enden, nicht 9.'},
+   {t:'Er hätte 3 · 4 + 2 = 14 rechnen müssen.',fb:'Auch die 2 Abschlussübungen passen zu jedem der 12 Anfänge: 12 · 2.'},
+   {t:'Er hätte die größte Zahl nehmen müssen: 4.',fb:'Mit 4 Plänen wären die anderen Angebote gar nicht genutzt.'}],
+  hints:['Wie viele Enden hatte der Baum?','Ein Plan besteht aus drei Angeboten zugleich.','Schritte nacheinander: malnehmen.']}
 ]},
-/* ===== Gegner (letzte Aufgabe = Handlungsprodukt) ===== */
-{title:'Gegner: Der Vorstands-Check',tag:'Aufgabenblock 1',sub:'Neue Fälle, Abstimmung, Antwort an Mara',badge:'🧐 Vorstand überzeugt',hour:H1,short:'Vorstand',rankUp:'Übungsleitung',
- boss:{name:'Herr Okafor',role:'Vereinsvorstand',ava:'🧐',bar:'Zweifel',win:'Herr Okafor ist überzeugt: Die Antwort an Mara geht raus! 🎉'},steps:[
- {type:'info',html:()=>person(`<p>So, ${nm()}, bevor die Antwort an Mara geht, prüfe ich, ob ihr wirklich zählen könnt. Ich habe zwei neue Fälle aus dem Verein. Danach stimmt ihr noch einmal ab und schreibt die Antwort.</p>`,BOSS)+
-   `<div class="merke"><b>⚔️ So funktioniert der Gegner:</b> Jede gelöste Aufgabe senkt den Zweifel-Balken. Ohne Hilfe gibt es bis zu 15 ⭐ je Aufgabe. Der erste Denkanstoß ist frei, jede weitere Hilfe kostet 3 ⭐ und schmälert den Bonus. Die 4. Hilfe 🔁 Rückblick zeigt die passende Level-Aufgabe. Einen Fehlversuch kannst du für 8 ⭐ zurückkaufen. Im Quiz gibt es Joker: 50:50 für 10 ⭐, +15 s für 5 ⭐. Die Knobel-Aufgabe am Ende von Level 1 kostet 15 ⭐.</div>`},
- {type:'calc',title:'Fall 1: Die Staffel',text:`Für eine 4 × 100-m-Staffel stehen 7 Läuferinnen bereit. Die vier Startplätze sind verschieden, jede läuft höchstens einmal. ${OP('Berechne')} die Anzahl der möglichen Staffelaufstellungen.`,
-  einfach:{text:`7 Läuferinnen, 4 Startplätze. Jede läuft nur einmal. Für Platz 1 gibt es 7 Läuferinnen, für Platz 2 noch 6 … ${OP('Berechne')} die Anzahl der Aufstellungen.`},
-  profi:{text:`${OP('Berechne')} die Anzahl der geordneten Auswahlen von 4 aus 7 ohne Wiederholung und gib den Term mit Fakultäten an.`},
-  data:()=>`<p>7 Läuferinnen · 4 verschiedene Startplätze · jede höchstens einmal</p>`,
-  rows:[{pre:K('7\\cdot 6\\cdot 5\\cdot 4='),ans:perm(7,4),tol:.01,u:'Aufstellungen',traps:[[2401,'7 hoch 4 erlaubt Wiederholung. Eine Läuferin kann aber nicht zweimal laufen.'],[22,'Addiert statt multipliziert.'],[28,'7 · 4 zählt nicht die Plätze nacheinander. Jeder Platz bringt einen eigenen Faktor.'],[5040,'Das ist 7!, also alle 7 auf 7 Plätze. Es gibt nur 4 Startplätze.']]}],
-  after:`${K('\\dfrac{7!}{3!}=7\\cdot 6\\cdot 5\\cdot 4=840')} Aufstellungen.`,
-  hints:['Sind die Plätze verschieden? Darf sich jemand wiederholen?','Ohne Wiederholung: Die Auswahl wird mit jedem Platz um 1 kleiner.','Erster Schritt: 7 · 6 = 42, dann weiter mit 5 und 4.'],recap:[1,3],
-  twin:{type:'calc',title:'Zwilling: Die Siegerehrung',text:`Beim Vereinslauf starten 5 Läufer. ${OP('Berechne')}, wie viele Möglichkeiten es für Platz 1, 2 und 3 gibt.`,
-   rows:[{pre:K('5\\cdot 4\\cdot 3='),ans:60,tol:.01,u:'',traps:[[125,'Ein Läufer kann nicht zwei Plätze belegen.'],[12,'Addiert statt multipliziert.']]}],after:'5 · 4 · 3 = 60.'}},
- {type:'calc',title:'Fall 2: Das Schloss am Geräteraum',text:`Das Schloss am Geräteraum hat 3 Stellen mit den Ziffern 0 bis 9. ${OP('Berechne')} die Anzahl der Codes, wenn Ziffern doppelt vorkommen dürfen, und die Anzahl, wenn jede Ziffer höchstens einmal vorkommen darf.`,
-  einfach:{text:`Das Schloss hat 3 Stellen. Jede Stelle hat die Ziffern 0 bis 9, das sind 10 Ziffern. ${OP('Berechne')} die Anzahl der Codes: erst mit Wiederholung (z. B. 3-3-7 erlaubt), dann ohne.`},
-  data:()=>`<p>3 Stellen · Ziffern 0 bis 9</p>`,
-  rows:[{pre:'mit Wiederholung:',ans:1000,tol:.01,u:'Codes',traps:[[720,'Das ist ohne Wiederholung. Beim Schloss darf hier 3-3-7 vorkommen.'],[30,'Nicht 10 · 3: Jede Stelle bringt einen Faktor 10.'],[59049,'Basis und Exponent vertauscht: 10 Ziffern je Stelle, 3 Stellen, also 10 hoch 3.']]},
-        {pre:'ohne Wiederholung:',ans:perm(10,3),tol:.01,u:'Codes',traps:[[1000,'Ohne Wiederholung wird die Auswahl je Stelle um 1 kleiner.'],[504,'Du hast mit 9 begonnen. Die 0 ist auch eine Ziffer.'],[27,'Addiert statt multipliziert.']]}],
-  after:`${K('10^3=1000')} Codes mit Wiederholung, ${K('10\\cdot 9\\cdot 8=720')} ohne.`,
-  hints:['Wie viele Ziffern gibt es von 0 bis 9? Zählt die Reihenfolge der Stellen?','Mit Wiederholung: n hoch k, der Exponent ist die Anzahl der Stellen.','Mit Wiederholung 10 · 10 · 10, ohne Wiederholung mit 10 · 9 beginnen.'],recap:[1,3],
-  twin:{type:'calc',title:'Zwilling: Der Spindcode',text:`Ein Spindcode hat 4 Stellen mit den Ziffern 1 bis 6. ${OP('Berechne')} die Anzahl mit und ohne Wiederholung.`,
-   rows:[{pre:'mit Wiederholung:',ans:1296,tol:.01,u:'',traps:[[360,'Das ist ohne Wiederholung.'],[4096,'Basis und Exponent vertauscht.']]},{pre:'ohne Wiederholung:',ans:360,tol:.01,u:'',traps:[[1296,'Ohne Wiederholung wird die Auswahl kleiner.']]}],
-   after:'6⁴ = 1296 und 6 · 5 · 4 · 3 = 360.'}},
- {type:'vote',id:'m1',phase:'nach',title:'Abstimmung nachher',q:'„3 Aufwärmformen, 4 Stationen und 2 Abschlussübungen: Das sind 3 + 4 + 2 = 9 verschiedene Pläne.“ Stimmt das?',ok:1,
-  fix:'Die Behauptung stimmt nicht. Jede Aufwärmform lässt sich mit jeder Station und jeder Abschlussübung kombinieren, deshalb wird multipliziert: 3 · 4 · 2 = 24 Pläne. Die Summe 3 + 4 + 2 = 9 zählt nur die einzelnen Übungen, nicht die möglichen Kombinationen.'},
- {type:'cloze',title:'Die Antwort an Mara',text:`${OP('Formuliere')} die Antwort an Mara, indem du die Lücken füllst.`,parts:[
-   ['Liebe Mara, für den Zirkel gibt es ',[K('3\\cdot 4\\cdot 2=24'),K('3+4+2=9'),K('3\\cdot 4=12')],0,' verschiedene Pläne. '],
-   ['Bei einem neuen Plan pro Woche reicht das ',['24 Wochen','9 Wochen','12 Wochen'],0,'. '],
-   ['Für Kapitän, Aufwärmleitung und Zeitnahme aus 6 Personen gibt es ',[K('6\\cdot 5\\cdot 4=120'),K('6^3=216'),K('6+5+4=15')],0,' Verteilungen, '],
-   ['weil jede eingesetzte Person für die nächste Rolle ',['nicht mehr zur Verfügung steht','doppelt zählt','wieder frei wird'],0,'. '],
-   ['Dürfte eine Person mehrere Rollen übernehmen, wären es ',[K('6^3=216'),K('3^6=729'),K('6\\cdot 5\\cdot 4=120')],0,' Verteilungen.']],
-  okfb:'Die Antwort an Mara ist fertig und begründet. 📨',
-  hints:['Denk an den Baum und die Rollen aus Level 1.','Pläne: multiplizieren. Rollen ohne Wiederholung: Auswahl wird kleiner.','Mit Wiederholung: 6 Personen für jede der 3 Rollen.'],recap:[1,1]}
+/* ===== 2 Gegner 1 ===== */
+{title:'Gegner 1: Der Qualitätscheck',tag:'Aufgabenblock 1',sub:'Pläne zählen und begründen',badge:'🛡️ Qualität geprüft',hour:H1,short:'Qualität',rankUp:'Assistenztrainer',
+ boss:{name:'Herr Petersen',role:'Qualitätsmanagement: „Zahlen glaube ich erst, wenn ihr sie begründet!“',ava:'🧐',bar:'Zweifel',win:'Herr Petersen ist überzeugt!'},
+ klasse:{name:'Der Listen-Lurch',role:'Er will alles einzeln aufschreiben und rechnet gern mit Plus statt mal. Stoppt ihn gemeinsam!',ava:'🦎',bar:'Listen',win:'Der Listen-Lurch gibt auf. Die Klasse hat gewonnen!',
+  runden:[
+   {type:'calc',title:'Runde 1: Das Sportlerbuffet',text:`${OP('Berechne')}, wie viele Menüs es gibt, wenn man je ein Hauptgericht und ein Getränk wählt.`,
+    pre:()=>`<table class="tb"><tr><th>Hauptgerichte</th><td>Nudeln, Reis-Bowl, Wrap, Ofenkartoffel</td><td class="n">4</td></tr><tr><th>Getränke</th><td>Wasser, Saftschorle, Tee</td><td class="n">3</td></tr></table>`,
+    rows:[{pre:'Menüs:',ans:12,tol:0,u:'',traps:[[7,'Der Lurch hat addiert! Zu jedem Hauptgericht passen alle 3 Getränke: 4 · 3.']]}],
+    hints:['Zwei Auswahlschritte nacheinander.','Zu jedem Hauptgericht passen alle Getränke.','4 · 3 = ?']},
+   {type:'mcq',title:'Runde 2: Der Trikotsatz',text:'Ein Trikotsatz besteht aus Shirt, Hose und Stutzen.',
+    pre:()=>`<table class="tb"><tr><th>Shirtfarben</th><td class="n">5</td></tr><tr><th>Hosenfarben</th><td class="n">3</td></tr><tr><th>Stutzenfarben</th><td class="n">2</td></tr></table>`,
+    q:'Wie viele verschiedene Trikotsätze gibt es?',o:[
+     {t:'30',ok:1,fb:'Genau: 5 · 3 · 2 = 30.'},{t:'10',fb:'5 + 3 + 2 zählt nur die Farben, nicht die Sätze.'},
+     {t:'15',fb:'Die Stutzen fehlen: 15 · 2.'},{t:'60',fb:'Zu viel: Es gibt nur 2 Stutzenfarben, also 15 · 2.'}],
+    hints:['Drei Auswahlschritte nacheinander.','Malnehmen statt addieren.','5 · 3 · 2 = ?']},
+   {type:'calc',title:'Runde 3: Die Startnummern',text:`Eine Startnummer besteht aus einem Buchstaben (A, B, C oder D) und einer Ziffer (0 bis 9). ${OP('Berechne')} die Zahl der möglichen Startnummern.`,
+    pre:()=>`<p style="font-size:20px;text-align:center"><b>A7 · C0 · D3 · B9 …</b></p>`,
+    rows:[{pre:'Startnummern:',ans:40,tol:0,u:'',traps:[[14,'4 + 10 ist die Rechnung des Lurchs. Zu jedem Buchstaben passen alle 10 Ziffern.'],[10,'Die Buchstaben fehlen noch: 4 · 10.']]}],
+    hints:['Erst den Buchstaben wählen, dann die Ziffer.','Zu jedem der 4 Buchstaben passen alle 10 Ziffern.','4 · 10 = ?']}]},
+ steps:[
+ {type:'info',html:()=>person(`<p>Ihr sagt also 24 Pläne. Bevor das in den Aushang kommt, prüfe ich eure Zählweise. Vier Aufgaben. Überzeugt mich!</p>`,BOSS1)+
+   `<div class="merke"><b>So funktioniert ein Gegner:</b> Jede gelöste Aufgabe senkt seine Zweifel. Ohne Hilfe gibt es bis zu 15 ⭐ pro Aufgabe. Der erste Denkanstoß ist frei, jede weitere Hilfe kostet 3 ⭐ (mindestens 5 ⭐ bleiben). Die letzte Hilfe ist ein 🔁 Rückblick auf die passende Level-Aufgabe. Wer kaum Hilfen braucht, bekommt am Ende bis zu 20 ⭐ Bonus. Einen Fehlversuch kannst du für 8 ⭐ zurückkaufen, im Quiz gibt es Joker (50:50 für 10 ⭐, +15 s für 5 ⭐), und am Ende eines Levels wartet manchmal eine Knobel-Aufgabe für 15 ⭐.</div>`},
+ {type:'calc',title:'Eine Stufe mehr',text:`Petersen: „Wir spielen im Zirkel zusätzlich eine von 3 Musik-Playlists.“ ${OP('Berechne')} die Zahl der Pläne mit Aufwärmform, Station, Abschlussübung und Playlist.`,
+  data:()=>zirkelTab()+'<p>Neu: 3 Playlists</p>',
+  rows:[{pre:'Pläne:',ans:72,tol:0,u:'',traps:[[12,'3 + 4 + 2 + 3 zählt nur die Angebote.'],[24,'Die Playlist fehlt noch: 24 · 3.'],[27,'24 + 3: Zu jedem der 24 Pläne passen alle 3 Playlists, also mal 3.']]}],
+  after:`${K('3\\cdot 4\\cdot 2\\cdot 3=72')}: Jede neue Stufe vervielfacht die Zahl der Pläne.`,
+  hints:['Ein vierter Auswahlschritt kommt dazu.','Zu jedem der bisherigen 24 Pläne passen alle 3 Playlists.','24 · 3 = ?'],recap:[1,3],
+  twin:{type:'calc',title:'Zwilling: Mit Trinkpause',text:`Statt der Playlists gibt es 5 Getränke für die Trinkpause. ${OP('Berechne')} die Zahl der Pläne.`,
+   rows:[{pre:'Pläne:',ans:120,tol:0,u:'',traps:[[14,'Addiert statt malgenommen.'],[29,'24 + 5: Es heißt 24 · 5.']]}],after:`${K('24\\cdot 5=120')} Pläne.`}},
+ {type:'mcq',title:'Drei Torschüsse',q:'Petersen: „Im Protokoll notieren wir jetzt drei Torschüsse als Treffer (T) oder Fehlschuss (F), mit Reihenfolge. Wie viele Abfolgen gibt es?“',o:[
+   {t:`8, denn ${K('2\\cdot 2\\cdot 2=8')}`,ok:1,fb:'Genau: Jeder Schuss ist ein Auswahlschritt mit 2 Möglichkeiten.'},
+   {t:'6, denn 2 + 2 + 2 = 6',fb:'Addiert statt malgenommen. Zeichne einen Baum: Er hat 2, dann 4, dann 8 Enden.'},
+   {t:'4, wie bei zwei Schüssen',fb:'Bei zwei Schüssen waren es 4. Ein dritter Schuss verdoppelt die Zahl.'},
+   {t:'4, denn es gibt 0, 1, 2 oder 3 Treffer',fb:'Das sind die Trefferzahlen. Abfolgen wie TTF und FTT sind aber verschieden.'}],
+  hints:['Jeder Schuss hat 2 mögliche Ausgänge.','Drei Schüsse sind drei Auswahlschritte nacheinander.','Denk an den Baum: 2, dann 4, dann …'],recap:[1,2]},
+ {type:'cloze',title:'Begründe die 24',text:`${OP('Begründe')} mit dem ${T('baum')}, warum es 24 Pläne gibt. Fülle die Lücken.`,data:()=>zirkelTab(),parts:[
+   ['Zu jeder der 3 Aufwärmformen passen ',['4','3','2'],0,' Ausdauerstationen. '],
+   ['Das ergibt ',['12','7','4'],0,' Anfänge. '],
+   ['Zu jedem dieser Anfänge passen ',['2','3','12'],0,' Abschlussübungen, '],
+   ['also gibt es ',['24','14','9'],0,' Pläne. '],
+   ['Deshalb wird ',['malgenommen','addiert','geteilt'],0,'.']],
+  hints:['Denk an den Baum: Wie viele Zweige wachsen an jedem Ende?','3 · 4 = 12 Anfänge.','12 · 2 = 24.'],recap:[1,2]},
+ {type:'mcq',title:'Zahl oder Chance?',q:'Petersen: „24 Pläne, gut. Dann wird der Plan Seilspringen – Rudergerät – Dehnen also in genau einem von 24 Fällen gewählt.“ Was antwortest du?',o:[
+   {t:'Nicht automatisch. 24 zählt nur die möglichen Pläne. Wie oft ein Plan gewählt wird, hängt davon ab, wie ausgewählt wird.',ok:1,fb:'Genau. Anzahlen beschreiben mögliche Abläufe, noch keine Wahrscheinlichkeiten.'},
+   {t:'Stimmt, das folgt direkt aus der Anzahl.',fb:'Nur wenn alle Pläne gleich wahrscheinlich gewählt würden. Menschen haben aber Lieblingsübungen.'},
+   {t:'Nein, jeder Plan wird in einem von 9 Fällen gewählt.',fb:'9 ist die Zahl der Angebote, nicht der Pläne.'},
+   {t:'Nein, der Plan wird nie gewählt.',fb:'Er ist einer der 24 möglichen Pläne.'}],
+  hints:['Was zählt die Zahl 24 genau?','Wählen alle Teilnehmenden zufällig?','Anzahl der Möglichkeiten ≠ Wahrscheinlichkeit.']}
 ]},
-/* ===== Quiz ===== */
-{title:'Abschlussquiz',tag:'Quiz',sub:'Begriffe und Anwendungen',badge:'🎯 Quiz',num:'🎯',hour:H1,steps:[]}
+/* ===== 3 Level 2: Fakultät ===== */
+{title:'Level 2: Reihenfolgen und Fakultät',tag:'Lernabschnitt 2',sub:'Stationen in eine Reihe bringen',badge:'🔀 Reihenfolge-Profi',num:2,hour:H2,short:'Reihenfolgen',
+ knobel:{type:'calc',title:'Knobel-Aufgabe: Der große Zirkel',text:`Ein großer Zirkel hat 10 Stationen. ${OP('Berechne')}, wie viele Reihenfolgen es gibt, alle 10 Stationen nacheinander zu durchlaufen.`,
+   rows:[{pre:K('10!='),ans:3628800,tol:0.5,u:'',traps:[[55,'Addiert: 10 + 9 + … + 1. Es heißt malnehmen.'],[100,'10 · 10 wäre ein anderes Problem. Hier: 10 · 9 · 8 · … · 1.']]}],
+   after:'3 628 800 Reihenfolgen: Bei einer Reihenfolge pro Trainingstag reicht das für fast 10 000 Jahre.',
+   hints:['Für Platz 1 gibt es 10 Möglichkeiten, für Platz 2 noch 9 …','Nimm 10 · 9 · 8 · … · 1.','Nutze den Rechner: Erst 5! = 120, dann · 6 · 7 · 8 · 9 · 10.']},
+ steps:[
+ {type:'info',html:()=>person(`<p>Willkommen zurück, ${nm()}! Im Zirkel ist auch die <b>Reihenfolge</b> der Stationen wichtig. Welche Station kommt zuerst, welche danach? Probier es mit drei Stationen aus.</p>`)+`<div class="task"><b>Ziel dieses Lernabschnitts:</b> Du zählst Reihenfolgen und Verteilungen auf Plätze und entscheidest, ob etwas mehrmals vorkommen darf.</div>`},
+ {type:'sim',title:'Drei Stationen anordnen',text:`${OP('Bestimme')} alle Reihenfolgen für die Stationen Rudern, Ergometer und Stepper: Tippe die Stationen nacheinander an. Jede gefundene Reihenfolge wird notiert.`,run:simReihen,solution:'6 Reihenfolgen: 3 · 2 · 1 = 6.',
+  einfach:{text:'Tippe die drei Stationen nacheinander an. So entsteht eine Reihenfolge. Finde alle verschiedenen Reihenfolgen.'},
+  hints:['Beginne systematisch: erst alle Reihenfolgen mit Rudern vorne.','Mit Rudern vorne gibt es zwei Möglichkeiten für den Rest.','Jede der 3 Stationen kann vorne stehen, jeweils mit 2 Möglichkeiten danach.']},
+ {type:'calc',title:'Fünf Stationen',text:`Für ${K('n')} verschiedene Dinge gibt es ${K('n!=n\\cdot(n-1)\\cdots 1')} Reihenfolgen, gesprochen „n ${T('fakultaet')}“. ${OP('Berechne')}, wie viele Reihenfolgen es für 5 Stationen gibt.`,
+  einfach:{text:`Für Platz 1 gibt es 5 Stationen, für Platz 2 noch 4, und so weiter. Das schreibt man kurz als ${K('5!')} (${T('fakultaet')}). ${OP('Berechne')} ${K('5!')}.`},
+  rows:[{pre:K('5!='),ans:120,tol:0,u:'',traps:[[15,'5 + 4 + 3 + 2 + 1: Es wird malgenommen, nicht addiert.'],[25,'5 · 5: Für Platz 2 bleiben nur noch 4 Stationen.'],[24,'Das ist 4!. Bei 5 Stationen kommt noch · 5 dazu.'],[5,'Das ist nur Platz 1.']]}],
+  after:`${K('5!=5\\cdot 4\\cdot 3\\cdot 2\\cdot 1=120')} Reihenfolgen.`,
+  hints:['Wie viele Stationen können auf Platz 1 stehen?','Für jeden weiteren Platz ist eine Station weniger übrig.','5 · 4 · 3 · 2 · 1 = ?'],
+  twin:{type:'calc',title:'Zwilling: Sechs Stationen',text:`${OP('Berechne')}, wie viele Reihenfolgen es für 6 Stationen gibt.`,
+   rows:[{pre:K('6!='),ans:720,tol:0,u:'',traps:[[21,'Addiert. Es heißt 6 · 5 · 4 · 3 · 2 · 1.'],[120,'Das ist 5!. Es fehlt noch · 6.'],[36,'6 · 6: Für Platz 2 bleiben nur 5 Stationen.']]}],
+   after:`${K('6!=720')} Reihenfolgen.`}},
+ {type:'mcq',title:'Und null Stationen?',q:`Man legt fest: ${K('0!=1')}. Welche Begründung passt dazu?`,
+  profi:{q:`Warum ist die Festlegung ${K('0!=1')} sinnvoll?`},
+  o:[
+   {t:'Null Dinge kann man auf genau eine Art anordnen: Man tut nichts. Außerdem passt es zu Rechnungen wie 3! : 3! = 1.',ok:1,fb:'Genau. Die Festlegung sorgt dafür, dass die Formeln auch in Grenzfällen funktionieren.'},
+   {t:`${K('0!=0')}, weil man mit null malnimmt.`,fb:'Bei 0! wird nichts malgenommen. Festgelegt ist 0! = 1.'},
+   {t:`${K('0!')} ist nicht erlaubt.`,fb:'Doch, 0! ist festgelegt und kommt in Formeln vor.'},
+   {t:'0! = 1, weil 0 und 1 fast gleich sind.',fb:'Das ist keine Begründung. Es geht um die eine leere Reihenfolge.'}],
+  hints:['Wie viele Arten gibt es, gar nichts in eine Reihe zu stellen?','Denk an eine leere Liste.','Die Festlegung soll zu den Formeln passen.']}
+]},
+/* ===== 4 Level 3: Geordnete Auswahl ===== */
+{title:'Level 3: Aufgaben verteilen',tag:'Lernabschnitt 2',sub:'Geordnete Auswahl mit und ohne Wiederholung',badge:'🎽 Aufgabenverteiler',num:3,hour:H2,short:'Aufgaben',
+ halt:{frage:'Ein Verein sagt: „Unser vierstelliger Zahlencode für den Geräteraum ist sicher genug.“ Was spricht dafür, was dagegen?',
+   impulse:['Wie viele vierstellige Codes gibt es, wie viele sechsstellige?','Wie lange würde Durchprobieren von Hand dauern?','Welche Codes wählen Menschen gern, z. B. 1234 oder ein Geburtsjahr?'],
+   starters:['Dafür spricht,','Dagegen spricht,','Ich würde'],
+   bonus:{type:'mcq',title:'Bonus: Keine Ziffer doppelt',q:'Wie viele dreistellige Codes aus den Ziffern 0 bis 9 gibt es, wenn keine Ziffer doppelt vorkommen darf?',o:[
+     {t:'720',ok:1,fb:'Genau: 10 · 9 · 8 = 720.'},{t:'1000',fb:'Das gilt, wenn Ziffern doppelt vorkommen dürfen.'},
+     {t:'30',fb:'10 · 3 ist falsch. Für jede Stelle wählst du neu.'},{t:'27',fb:'10 + 9 + 8 ist addiert.'}],
+     hints:['Drei Plätze, ohne doppelte Ziffern.','10 für die erste Stelle, dann eine weniger.','10 · 9 · 8 = ?']}},
+ steps:[
+ {type:'info',html:()=>person(`<p>Jetzt verteilen wir die drei Aufgaben <b>Übungsleitung, Zeitnahme, Material</b> unter den 12 Teilnehmenden. Die Aufgaben sind verschiedene Plätze: Ob Ben die Zeit nimmt oder die Übung leitet, ist ein Unterschied. Das ist eine ${T('geordnet')}.</p>`)+
+   `<div class="merke"><b>Zwei Prüffragen vor jeder Rechnung:</b><br>1. Sind die Plätze verschieden, zählt also die Reihenfolge?<br>2. Darf dasselbe mehrmals gewählt werden? Das ist die Frage: ${T('wdh')}?</div>`},
+ {type:'sim',title:'Aufgaben vergeben',text:`Jede Person übernimmt <b>höchstens eine</b> Aufgabe (ohne Wiederholung). ${OP('Wähle')} nacheinander für jede Aufgabe eine Person aus und beobachte, wie viele noch frei sind.`,run:simRollen,solution:'Nacheinander stehen 12, 11 und 10 Personen zur Auswahl.',
+  einfach:{text:'Tippe für jede Aufgabe eine Person an. Wer schon eine Aufgabe hat, ist danach gesperrt. Achte darauf, wie viele Personen noch frei sind.'},
+  hints:['Tippe für jede Aufgabe eine Person an.','Wer schon eine Aufgabe hat, wird grau.','Zähle nach jeder Vergabe, wie viele Personen noch frei sind.']},
+ {type:'calc',title:'Ohne Wiederholung zählen',text:`${OP('Berechne')} mit der Produktregel, wie viele Verteilungen der drei Aufgaben es gibt, wenn jede Person höchstens eine Aufgabe übernimmt.`,
+  data:()=>`<p>12 Teilnehmende · 3 Aufgaben: ${ROLLEN.join(', ')} · jede Person höchstens eine Aufgabe</p>`,
+  rows:[{pre:'Verteilungen:',ans:OHNE,tol:0,u:'',traps:[[MIT,'Das wäre mit Wiederholung (12 · 12 · 12). Hier fällt jede vergebene Person weg.'],[36,'12 · 3 ist falsch: Für jede Aufgabe wird neu gewählt, aus 12, dann 11, dann 10.'],[33,'12 + 11 + 10: Es wird malgenommen.'],[6,'3 · 2 · 1 zählt nur die Reihenfolgen der Aufgaben, nicht die Personen.']]}],
+  after:`${K('12\\cdot 11\\cdot 10=1320')} Verteilungen.`,
+  hints:['Für die Übungsleitung stehen 12 Personen zur Wahl.','Danach sind für die Zeitnahme noch 11 frei, für das Material noch 10.','12 · 11 · 10 = ?'],
+  twin:{type:'calc',title:'Zwilling: Der Aquakurs',text:`Im Aquakurs gibt es 11 Teilnehmende und drei Aufgaben: Startsignal, Zeitnahme, Protokoll. Jede Person übernimmt höchstens eine Aufgabe. ${OP('Berechne')} die Zahl der Verteilungen.`,
+   rows:[{pre:'Verteilungen:',ans:990,tol:0,u:'',traps:[[1331,'Das wäre mit Wiederholung.'],[33,'11 · 3 ist falsch: 11 · 10 · 9.'],[30,'Addiert: 11 + 10 + 9.']]}],
+   after:`${K('11\\cdot 10\\cdot 9=990')} Verteilungen.`}},
+ {type:'mcq',title:'Als Formel',text:`Allgemein gilt für ${K('k')} verschiedene Plätze aus ${K('n')} ohne Wiederholung:${KD('\\dfrac{n!}{(n-k)!}=n\\cdot(n-1)\\cdots(n-k+1)')}`,q:'Welcher Term beschreibt unsere 1320 Verteilungen?',o:[
+   {t:K('\\dfrac{12!}{9!}'),ok:1,fb:'Genau: n = 12, k = 3, also 12! : (12 − 3)! = 12! : 9! = 12 · 11 · 10.'},
+   {t:K('\\dfrac{12!}{3!}'),fb:'Unten steht (n − k)! = (12 − 3)! = 9!, nicht k!.'},
+   {t:K('12^3'),fb:'Das ist die Rechnung, wenn eine Person mehrere Aufgaben übernehmen darf.'},
+   {t:K('\\dfrac{3!}{12!}'),fb:'Dieser Bruch ist kleiner als 1. Eine Anzahl von Verteilungen kann das nicht sein.'}],
+  profi:{q:'Welcher Fakultäten-Term liefert die Anzahl der Verteilungen für n = 12 und k = 3?'},
+  hints:['Setze n = 12 und k = 3 ein.','n − k = 12 − 3 = 9.','Im Bruch steht oben 12!, unten 9!.']},
+ {type:'calc',title:'Mit Wiederholung zählen',text:`Jetzt darf eine Person auch mehrere Aufgaben übernehmen (mit ${T('wdh','Wiederholung')}). Für jede Aufgabe stehen wieder alle 12 zur Wahl: ${K('12\\cdot 12\\cdot 12')}. Kurz schreibt man das mit einem ${T('exponent','Exponenten')}. ${OP('Berechne')} die Zahl der Verteilungen.`,
+  data:()=>`<p>12 Teilnehmende · 3 Aufgaben · eine Person darf mehrere Aufgaben übernehmen</p>`,
+  rows:[{pre:K('12^3='),ans:MIT,tol:0,u:'',traps:[[36,'12 · 3 ist falsch: Der Exponent zählt die Faktoren, 12 · 12 · 12.'],[OHNE,'Das ist ohne Wiederholung. Hier stehen jedes Mal alle 12 zur Wahl.'],[144,'Das ist 12². Es gibt drei Aufgaben, also drei Faktoren.'],[531441,'Das ist 3 hoch 12. Richtig ist 12 hoch 3: Basis = Personen, Exponent = Aufgaben.']]}],
+  after:`${K('12^3=1728')} Verteilungen. Der Exponent 3 steht für die 3 Aufgaben.`,
+  hints:['Für jede der 3 Aufgaben gibt es 12 Möglichkeiten.','12 · 12 · 12, nicht 12 · 3.','12 · 12 = 144, dann · 12.'],
+  twin:{type:'calc',title:'Zwilling: Das Fahrradschloss',text:`Ein Zahlenschloss hat 4 Rädchen mit den Ziffern 1 bis 6. Ziffern dürfen sich wiederholen. ${OP('Berechne')} die Zahl der Codes.`,
+   rows:[{pre:K('6^4='),ans:1296,tol:0,u:'',traps:[[24,'6 · 4 ist falsch: 6 · 6 · 6 · 6.'],[360,'Das wäre ohne Wiederholung (6 · 5 · 4 · 3).'],[4096,'Vertauscht: 4 hoch 6. Basis = Ziffern je Rädchen, Exponent = Rädchen.']]}],
+   after:`${K('6^4=1296')} Codes.`}},
+ {type:'mcq',title:'Warum kleiner?',q:'Warum gibt es ohne Wiederholung weniger Verteilungen (1320) als mit Wiederholung (1728)?',o:[
+   {t:'Ohne Wiederholung fällt nach jeder Vergabe eine Person weg: 12, 11, 10 statt 12, 12, 12.',ok:1,fb:'Genau. Die Faktoren werden kleiner, deshalb auch das Produkt.'},
+   {t:'Weil man ohne Wiederholung addiert statt malnimmt.',fb:'Auch ohne Wiederholung wird malgenommen, nur mit kleineren Faktoren.'},
+   {t:'Weil ohne Wiederholung die Reihenfolge nicht zählt.',fb:'Die Reihenfolge zählt in beiden Fällen: Die Aufgaben sind verschieden.'},
+   {t:'Das ist Zufall und hängt von den Namen ab.',fb:'Das liegt an der Regel: Wer vergeben ist, fällt weg.'}],
+  hints:['Vergleiche die Faktoren beider Rechnungen.','Was passiert mit einer Person, die schon eine Aufgabe hat?','12 · 11 · 10 gegen 12 · 12 · 12.']}
+]},
+/* ===== 5 Partneraufgabe ===== */
+{title:'Partneraufgabe: Der Kurs-Wochenplan',tag:'Lernabschnitt 2 · zu zweit',sub:'Termine besetzen mit und ohne Wiederholung',badge:'🤝 Teamplayer',hour:H2,short:'Wochenplan',
+ partner:{rollen:{A:{name:'Kursplanung',text:'Du hast die Kursliste und das Wochenraster.'},B:{name:'Kundenwünsche',text:'Du hast die Formelkarte und die Kundenanfragen.'}},
+   kontrolle:['Wird gesagt, ob die Termine verschiedene Plätze sind?','Wird gesagt, ob ein Kurs mehrmals laufen darf?','Ist das Ergebnis eine Anzahl von Plänen und keine Wahrscheinlichkeit?']},
+ steps:[
+ {type:'info',html:()=>person(`<p>Neuer Auftrag: Unser Fitnessstudio plant <b>drei Kurstermine pro Woche</b>. Die Kursplanung kennt die Kurse und Termine, die Kundenbetreuung die Wünsche und Formeln. Wie viele Wochenpläne gibt es? Das schafft ihr nur <b>gemeinsam</b>.</p>`)+
+   `<div class="merke"><b>So funktioniert die Partneraufgabe:</b> Erst löst jede Person ihren eigenen Teil. Dann zeigt dein Gerät einen <b>Teilcode</b>, den du deinem Partner sagst. Mit beiden Codes öffnet sich die gemeinsame Aufgabe: Ihr besprecht sie und gebt beide das Ergebnis ein. Pro Aufgabe gibt es bis zu 10 ⭐, am Ende bis zu <b>15 ⭐ Teambonus</b> (−5 je Fehlversuch bei einem gemeinsamen Ergebnis).</div>`},
+ {type:'team',title:'Anfrage 1: Jeder Kurs höchstens einmal',text:'Bestimmt gemeinsam, wie viele Wochenpläne Anfrage 1 erlaubt.',
+  A:{info:()=>kursListe()+raster(),
+     teil:{type:'calc',title:'n und k ablesen',text:`${OP('Lies ab')}, aus wie vielen Kursen gewählt wird und wie viele Termine besetzt werden.`,
+       rows:[{pre:'Kurse '+K('n='),ans:7,tol:0,u:'',traps:[[3,'3 ist die Zahl der Termine. Zähle die Kurse in der Liste.']]},
+             {pre:'Termine '+K('k='),ans:3,tol:0,u:'',traps:[[7,'7 ist die Zahl der Kurse. Zähle die Tage im Raster.']]}]}},
+  B:{info:()=>formelKarte()+anfragen(),
+     teil:{type:'mcq',title:'Welche Formel?',q:'Welche Formel passt zu Anfrage 1 („Jeder Kurs höchstens einmal pro Woche“)?',o:[
+       {t:K('\\dfrac{n!}{(n-k)!}'),ok:1,fb:'Genau: verschiedene Termine, kein Kurs doppelt, also ohne Wiederholung.'},
+       {t:K('n^k'),fb:'Diese Formel erlaubt, dass ein Kurs mehrmals läuft. Anfrage 1 verbietet das.'},
+       {t:K('n!'),fb:'n! ordnet alle Kurse an. Es werden aber nur einige Termine besetzt.'},
+       {t:K('n\\cdot k'),fb:'Für jeden Termin wird neu gewählt. Das ergibt ein Produkt mit k Faktoren, nicht n · k.'}]}},
+  gemeinsam:{type:'calc',title:'Wochenpläne nach Anfrage 1',text:`${OP('Berechne')} gemeinsam, wie viele Wochenpläne es gibt, wenn jeder Kurs höchstens einmal stattfindet.`,
+    rows:[{pre:'Wochenpläne:',ans:KP.ohne,tol:0,u:'',traps:[[KP.mit,'Das wäre mit Wiederholung. Anfrage 1 erlaubt jeden Kurs nur einmal.'],[5040,'7! ordnet alle 7 Kurse an. Es gibt aber nur 3 Termine.'],[18,'7 + 6 + 5 ist addiert.'],[21,'7 · 3 ist falsch: 7 · 6 · 5.']]}],
+    after:`${K('\\dfrac{7!}{4!}=7\\cdot 6\\cdot 5=210')} Wochenpläne.`,
+    einfach:{text:`${OP('Berechne')} gemeinsam die Zahl der Wochenpläne. Die Kursplanung nennt n und k, die Kundenwünsche die Formel.`}},
+  hints:['Die Kursplanung nennt n und k, die Kundenwünsche die passende Formel.','Montag: 7 Kurse, Mittwoch: einer weniger, Freitag: noch einer weniger.','7 · 6 · 5 = ?']},
+ {type:'team',title:'Anfrage 2: Kurse dürfen mehrmals laufen',text:'Bestimmt gemeinsam, wie viele Wochenpläne Anfrage 2 erlaubt, und wie viele davon einen Kurs doppelt enthalten.',
+  A:{info:()=>kursListe()+raster(),
+     teil:{type:'mcq',title:'Zählt die Reihenfolge?',q:'Ist „Mo Yoga, Mi Zumba, Fr Pilates“ ein anderer Plan als „Mo Zumba, Mi Yoga, Fr Pilates“?',o:[
+       {t:'Ja, die Tage sind verschiedene Plätze.',ok:1,fb:'Genau: Wer am Montag Yoga will, merkt den Unterschied. Die Reihenfolge zählt.'},
+       {t:'Nein, es sind dieselben drei Kurse.',fb:'Dieselben Kurse, aber an anderen Tagen. Für die Teilnehmenden ist das ein anderer Plan.'},
+       {t:'Nur wenn Yoga zweimal vorkommt.',fb:'Hier kommt kein Kurs doppelt vor. Es geht nur um die Tage.'},
+       {t:'Das kann man nicht sagen.',fb:'Schau ins Raster: Montag, Mittwoch und Freitag sind verschiedene Termine.'}]}},
+  B:{info:()=>formelKarte()+anfragen(),
+     teil:{type:'mcq',title:'Welche Formel?',q:'Welche Formel passt zu Anfrage 2 („Ein Kurs darf mehrmals laufen“)?',o:[
+       {t:K('n^k'),ok:1,fb:'Genau: Für jeden Termin stehen wieder alle Kurse zur Wahl.'},
+       {t:K('\\dfrac{n!}{(n-k)!}'),fb:'Diese Formel verbietet doppelte Kurse. Anfrage 2 erlaubt sie.'},
+       {t:K('k^n'),fb:'Vertauscht: Die Basis ist die Zahl der Möglichkeiten je Termin, der Exponent die Zahl der Termine.'},
+       {t:K('n\\cdot k'),fb:'Für jeden Termin wird neu gewählt: k Faktoren n, nicht n · k.'}]}},
+  gemeinsam:{type:'calc',title:'Wochenpläne nach Anfrage 2',text:`${OP('Berechne')} gemeinsam die Zahl der Wochenpläne nach Anfrage 2 und wie viele davon mindestens einen Kurs doppelt enthalten.`,
+    rows:[{pre:'Wochenpläne:',ans:KP.mit,tol:0,u:'',traps:[[21,'7 · 3 ist falsch: 7 · 7 · 7.'],[KP.ohne,'Das ist Anfrage 1. Hier dürfen Kurse mehrmals laufen.'],[2187,'Vertauscht: 3 hoch 7. Richtig ist 7 hoch 3.']]},
+          {pre:'davon mit doppeltem Kurs:',ans:KP.mit-KP.ohne,tol:0,u:'',traps:[[KP.mit+KP.ohne,'Addiert. Die Pläne ohne doppelten Kurs musst du abziehen.'],[KP.ohne,'210 Pläne haben gerade keinen doppelten Kurs.']]}],
+    after:`${K('7^3=343')} Wochenpläne, davon ${K('343-210=133')} mit mindestens einem doppelten Kurs.`},
+  hints:['Die Kursplanung weiß, dass die Tage zählen; die Kundenwünsche kennen die Formel.','Für jeden der 3 Termine stehen alle 7 Kurse zur Wahl.','343 − 210 = ?']},
+ {type:'duell',title:'Erklär-Duell',text:'Eine Person erklärt, die andere prüft mit ihrer Prüfkarte. Danach tauscht ihr.',
+  runden:[{erklaert:'A',frage:'Warum werden die Faktoren bei Anfrage 1 kleiner (7 · 6 · 5)?',tipp:'Denk an die Termine nacheinander.',
+           pruef:['nennt 7 Kurse für den ersten Termin','sagt, dass ein vergebener Kurs wegfällt','nennt 6 und dann 5 Möglichkeiten','sagt, dass die Anzahlen malgenommen werden']},
+          {erklaert:'B',frage:`Warum rechnet man bei Anfrage 2 ${K('7^3')} und nicht ${K('7\\cdot 3')}?`,tipp:'Denk an die Zahl der Faktoren.',
+           pruef:['sagt, dass es 3 Termine gibt','sagt, dass je Termin 7 Kurse möglich sind','erklärt: Der Exponent zählt die Faktoren 7 · 7 · 7','sagt, dass 7 · 3 = 21 viel zu wenig wäre']}]}
+]},
+/* ===== 6 Gegner 2 ===== */
+{title:'Gegner 2: Die Codeprüfung',tag:'Aufgabenblock 2',sub:'Die richtige Zählweise wählen',badge:'🔐 Zählprofi',hour:H2,short:'Codeprüfung',rankUp:'Übungsleiter',
+ boss:{name:'Frau Albers',role:'Vereinsvorstand: „Bevor ich etwas unterschreibe, will ich jede Zahl verstehen.“',ava:'🔐',bar:'Zweifel',win:'Frau Albers ist überzeugt!'},steps:[
+ {type:'info',html:()=>person(`<p>Ich habe Fragen zu Siegerehrung, Stationen und unserem Geräteraum-Code. Erst prüfe ich, ob ihr die richtige Zählweise wählt.</p>`,BOSS2)+
+   `<div class="merke"><b>Gegner 2:</b> Fünf Aufgaben. Bis zu 15 ⭐ pro Aufgabe, der erste Denkanstoß ist frei. Die letzte Hilfe ist der 🔁 Rückblick. Formeln unter 📂.</div>`},
+ {type:'decide',title:'Welche Zählweise?',text:`${OP('Entscheide')} für jede Situation, welche Zählweise passt.`,data:()=>FORM(),
+  actions:['alle in eine Reihe: n!','k Plätze ohne Wiederholung: n!/(n−k)!','k Plätze mit Wiederholung: n hoch k'],cards:[
+   {title:'9 Läuferinnen, Plätze 1 bis 3 bei der Siegerehrung',ans:1,fb:['Es kommen nur 3 der 9 Läuferinnen aufs Treppchen, nicht alle.','',`Niemand kann zwei Plätze zugleich belegen.`],okfb:'Richtig: verschiedene Plätze, niemand doppelt.'},
+   {title:'5 Stationen, alle nacheinander im Zirkel',ans:0,fb:['','Es werden alle 5 Stationen angeordnet, nicht nur einige.','Jede Station kommt genau einmal dran.'],okfb:'Richtig: alle 5 in eine Reihe, 5!.'},
+   {title:'Vierstelliger Code aus den Ziffern 0 bis 9',ans:2,fb:['Es werden nicht 10 Ziffern angeordnet, sondern 4 Stellen besetzt.','Ziffern dürfen im Code doppelt vorkommen, z. B. 7737.',''],okfb:'Richtig: 4 Stellen, je 10 Ziffern, Wiederholung erlaubt.'},
+   {title:'3 Aufgaben für 12 Personen, eine Person darf mehrere übernehmen',ans:2,fb:['Es werden nicht 12 Personen angeordnet.','Hier ist erlaubt, dass eine Person mehrere Aufgaben hat.',''],okfb:'Richtig: 12 hoch 3.'}],
+  hints:['Prüffrage 1: Werden alle angeordnet oder nur einige Plätze besetzt?','Prüffrage 2: Darf dasselbe mehrmals vorkommen?','Siegerehrung: niemand doppelt. Code: Ziffern doppelt erlaubt.'],recap:[4,3]},
+ {type:'calc',title:'Die Siegerehrung',text:`Beim Vereinslauf starten 9 Läuferinnen. ${OP('Berechne')}, wie viele Möglichkeiten es für die Plätze 1, 2 und 3 gibt.`,
+  rows:[{pre:'Möglichkeiten:',ans:504,tol:0,u:'',traps:[[729,'9 hoch 3 erlaubt, dass eine Läuferin mehrere Plätze belegt.'],[27,'9 · 3 ist falsch: 9 · 8 · 7.'],[362880,'9! ordnet alle 9 an. Gefragt sind nur 3 Plätze.'],[24,'9 + 8 + 7 ist addiert.']]}],
+  after:`${K('\\dfrac{9!}{6!}=9\\cdot 8\\cdot 7=504')}`,
+  hints:['Für Platz 1 gibt es 9 Möglichkeiten.','Wer Platz 1 hat, kann nicht auch Platz 2 haben.','9 · 8 · 7 = ?'],recap:[4,2]},
+ {type:'calc',title:'Start und Ziel',text:`Aus 5 Stationen werden eine Startstation und eine andere Zielstation festgelegt. ${OP('Berechne')} die Zahl der Möglichkeiten mit der Formel ${K('\\dfrac{n!}{(n-k)!}')}.`,
+  rows:[{pre:K('\\dfrac{5!}{3!}='),ans:20,tol:0,u:'',traps:[[25,'5 hoch 2 erlaubt Start = Ziel. Hier ist das ausgeschlossen.'],[120,'Das ist 5!. Unten steht noch 3!.'],[10,'Start und Ziel sind verschiedene Plätze, die Reihenfolge zählt.'],[9,'5 + 4 ist addiert.']]}],
+  after:`${K('\\dfrac{5!}{3!}=\\dfrac{120}{6}=5\\cdot 4=20')}`,
+  hints:['n = 5 Stationen, k = 2 Plätze (Start, Ziel).','n − k = 3, also 5! : 3!.','Kürzen: 5 · 4 = ?'],recap:[4,3],
+  twin:{type:'calc',title:'Zwilling: Start und Ziel bei 7 Stationen',text:`${OP('Berechne')} die Möglichkeiten für Start und Ziel bei 7 Stationen (Start ≠ Ziel).`,
+   rows:[{pre:K('\\dfrac{7!}{5!}='),ans:42,tol:0,u:'',traps:[[49,'7 hoch 2 erlaubt Start = Ziel.'],[13,'7 + 6 ist addiert.']]}],after:`${K('7\\cdot 6=42')}`}},
+ {type:'calc',title:'Der Geräteraum-Code',text:`Frau Albers: „Ein sechsstelliger Code hat doch doppelt so viele Möglichkeiten wie ein dreistelliger, oder?“ ${OP('Berechne')} die Zahl der Codes aus den Ziffern 0 bis 9.`,
+  rows:[{pre:'dreistellig: '+K('10^3='),ans:1000,tol:0,u:'',traps:[[30,'10 · 3 ist falsch: 10 · 10 · 10.'],[720,'Das wäre ohne doppelte Ziffern. Im Code dürfen sich Ziffern wiederholen.']]},
+        {pre:'sechsstellig: '+K('10^6='),ans:1000000,tol:0,u:'',traps:[[2000,'Das ist die Behauptung von Frau Albers. Jede Stelle mehr nimmt die Zahl mal 10.'],[60,'10 · 6 ist falsch: Der Exponent zählt die Faktoren.']]}],
+  after:'1 000 000 statt 1000: Drei Stellen mehr ergeben <b>tausendmal</b> so viele Codes, nicht doppelt so viele.',
+  hints:['Jede Stelle hat 10 mögliche Ziffern.','Der Exponent ist die Zahl der Stellen.','10 · 10 · 10 und 10 · 10 · 10 · 10 · 10 · 10.'],recap:[4,4]},
+ {type:'mcq',title:'Die Erklärung für den Vorstand',q:'Frau Albers: „Warum werden die Auswahlzahlen kleiner, wenn bei einer Rollenvergabe niemand zwei Rollen bekommen darf?“',o:[
+   {t:'Weil jede Person, die schon eine Rolle hat, für die nächsten Rollen wegfällt. Die Faktoren sinken jeweils um 1.',ok:1,fb:'Genau. Das ist der Kern von „ohne Wiederholung“.'},
+   {t:'Weil die Rollen dann keine Reihenfolge mehr haben.',fb:'Die Rollen bleiben verschieden. Es geht um die Personen, die wegfallen.'},
+   {t:'Weil man dann durch die Zahl der Rollen teilt.',fb:'Geteilt wird hier nicht. Die Faktoren werden einfach kleiner.'},
+   {t:'Weil es dann weniger Rollen gibt.',fb:'Die Zahl der Rollen bleibt gleich. Weniger werden die freien Personen.'}],
+  hints:['Was passiert mit einer Person, die schon eine Rolle hat?','Vergleiche 12 · 11 · 10 mit 12 · 12 · 12.','Die Faktoren sinken um 1.'],recap:[4,5]}
+]},
+/* ===== 7 Finale ===== */
+{title:'Finale: Die Planungsnotiz',tag:'Handlungsprodukt',sub:'Planungsnotiz für Jana Kowalski',badge:'🏁 Planungsprofi',hour:H2,short:'Notiz',final:true,rankUp:'Kursleiter',
+ boss:{name:'Die Teambesprechung',role:'Jana Kowalski und das Team warten auf eure Notiz',ava:'📝',bar:'Offene Fragen',win:'Eure Planungsnotiz überzeugt die Teambesprechung!'},steps:[
+ {type:'info',html:()=>person(`<p>Gleich ist Teambesprechung, ${nm()}! Jetzt baut ihr aus euren Ergebnissen die <b>Planungsnotiz</b>. Jeder fertige Abschnitt beantwortet eine offene Frage.</p>`)},
+ {type:'cloze',title:'Abschnitt 1: Trainingspläne',text:`${OP('Formuliere')} den Abschnitt zu den Trainingsplänen.`,data:()=>zirkelTab(),parts:[
+   ['Bei 3 Aufwärmformen, 4 Stationen und 2 Abschlussübungen gibt es ',[K('3\\cdot 4\\cdot 2=24'),K('3+4+2=9'),K('3\\cdot 4+2=14')],0,' Pläne. '],
+   ['Das folgt aus der ',['Produktregel','Fakultät','Wiederholung'],0,'. '],
+   ['Alle aufzuschreiben ist ',['möglich, aber die Rechnung ist schneller und vergisst nichts','nötig, weil man sonst nicht zählen kann','unmöglich, weil es unendlich viele sind'],0,'.']],
+  hints:['Die Rechnung habt ihr in Level 1 gemacht.','Schritte nacheinander: malnehmen.','24 Pläne könnte man noch aufschreiben.'],recap:[1,3]},
+ {type:'cloze',title:'Abschnitt 2: Aufgaben im Team',text:`${OP('Gib')} die Zahl der Verteilungen an und sage, was die Zahlen bedeuten.`,parts:[
+   ['Übernimmt jede Person höchstens eine Aufgabe, gibt es ',[K('12\\cdot 11\\cdot 10=1320'),K('12^3=1728'),K('12\\cdot 3=36')],0,' Verteilungen. '],
+   ['Darf eine Person mehrere Aufgaben übernehmen, sind es ',[K('12^3=1728'),K('12\\cdot 11\\cdot 10=1320'),K('3^{12}')],0,'. '],
+   ['Diese Zahlen zählen ',['mögliche Verteilungen, keine Wahrscheinlichkeiten','die Wahrscheinlichkeit für jede Person','die besten Verteilungen'],0,'.']],
+  hints:['Ohne Wiederholung: Die Faktoren sinken.','Mit Wiederholung: 12 · 12 · 12.','Anzahlen sind keine Wahrscheinlichkeiten.'],recap:[4,2]},
+ {type:'write',title:'Abschnitt 3: Warum der Unterschied?',text:`${OP('Erkläre')} in einem eigenen Satz, warum es weniger Verteilungen gibt, wenn jede Person höchstens eine Aufgabe übernehmen darf.`,save:'warum',min:25,
+  keys:['weg','vergeben','weniger','übrig','nicht mehr','fehlt','schon','bereits','11','10','frei','gesperrt','eine person'],
+  starters:['Wenn eine Person schon eine Aufgabe hat,','Deshalb stehen','Die Faktoren werden kleiner, weil'],
+  placeholder:'z. B.: Wer schon eine Aufgabe hat, …',example:'Wer schon eine Aufgabe hat, fällt für die nächsten Aufgaben weg. Deshalb stehen nur 12, 11 und 10 Personen zur Wahl statt jedes Mal 12.',
+  okfb:'Gut erklärt. Der Satz steht jetzt in deiner Notiz.',missfb:'Erkläre, was mit einer Person passiert, die schon eine Aufgabe hat, und wie viele dann noch zur Wahl stehen. Möchtest du deinen Satz ergänzen?',
+  hints:['Was passiert mit einer Person, die schon eine Aufgabe hat?','Wie viele Personen stehen dann noch zur Wahl?','Satzanfang: „Wer schon eine Aufgabe hat, …“']},
+ {type:'selfcheck',title:'Deine Planungsnotiz',text:'Hier ist deine fertige Notiz. Prüfe sie mit der Checkliste aus der E-Mail.',doc:notizDoc,copy:notizText,checkTitle:'Endkontrolle',
+  items:['Anzahl der Trainingspläne mit Rechnung','Aussage, ob sich das Aufschreiben lohnt','Verteilungen ohne Wiederholung (1320)','Verteilungen mit Wiederholung (1728)','Begründung des Unterschieds','Hinweis: Anzahlen sind keine Wahrscheinlichkeiten'],
+  okfb:'Alles drin! Tippe auf „Gegner besiegen“ und stell die Notiz vor.',
+  hints:['Geh die Notiz Zeile für Zeile durch.','Jeder Punkt der Checkliste entspricht einer Zeile.','Hake erst ab, wenn du die Zeile gefunden hast.']}
+]},
+/* ===== 8 Quiz ===== */
+{title:'Abschlussquiz',tag:'Quiz',sub:'Fachbegriffe im Kahoot-Stil',badge:'🎯 Begriffs-Profi',num:'🎯',hour:H2,steps:[]}
 ];
 const QUIZ=[
- {q:'3 Shirts, 2 Hosen, 2 Paar Schuhe: Wie viele Outfits gibt es?',o:[{t:'12',ok:1},{t:'7'},{t:'6'},{t:'8'}],why:'Produktregel: 3 · 2 · 2 = 12.'},
- {q:'Wie groß ist 5! ?',o:[{t:'120',ok:1},{t:'25'},{t:'15'},{t:'5'}],why:'5! = 5 · 4 · 3 · 2 · 1 = 120.'},
- {q:'Welchen Wert hat 0! ?',o:[{t:'1',ok:1},{t:'0'},{t:'nicht festgelegt'},{t:'10'}],why:'Festlegung: 0! = 1.'},
- {q:'k verschiedene Plätze aus n Personen, jede höchstens einmal. Die Anzahl ist …',o:[{t:'n! / (n − k)!',ok:1},{t:'n hoch k'},{t:'n · k'},{t:'k!'}],why:'Geordnete Auswahl ohne Wiederholung: n · (n − 1) · … · (n − k + 1) = n!/(n − k)!.'},
- {transfer:1,q:'Die Trainerin legt fürs Elfmeterschießen die Reihenfolge von 5 Schützen aus 11 Spielern fest. Welcher Term passt?',o:[{t:'11 · 10 · 9 · 8 · 7',ok:1},{t:'11 hoch 5'},{t:'5 hoch 11'},{t:'11 + 10 + 9 + 8 + 7'}],why:'Verschiedene Plätze, keine Wiederholung: 11 · 10 · 9 · 8 · 7 = 55 440.'},
- {transfer:1,q:'Beim Sporttipp tippst du für 4 Spiele je Sieg, Unentschieden oder Niederlage. Wie viele Tipps gibt es?',o:[{t:'81',ok:1},{t:'64'},{t:'12'},{t:'24'}],why:'Mit Wiederholung: 3 Möglichkeiten je Spiel, 4 Spiele: 3⁴ = 81.'}
+ {q:'3 Shirts und 2 Hosen: Wie viele Outfits?',o:[{t:'6',ok:1},{t:'5'},{t:'3'},{t:'9'}],why:'Produktregel: 3 · 2 = 6.'},
+ {q:'Ein Ende im Baumdiagramm steht für …',o:[{t:'einen vollständigen Plan',ok:1},{t:'ein einzelnes Angebot'},{t:'einen Auswahlschritt'},{t:'eine Wahrscheinlichkeit'}],why:'Jeder Weg vom Start bis zu einem Ende ist eine vollständige Möglichkeit.'},
+ {q:`${K('5!')} ist …`,o:[{t:'120',ok:1},{t:'15'},{t:'25'},{t:'5'}],why:'5 · 4 · 3 · 2 · 1 = 120.'},
+ {q:`${K('0!')} ist festgelegt als …`,o:[{t:'1',ok:1},{t:'0'},{t:'nicht definiert'},{t:'10'}],why:'0! = 1: Null Dinge kann man auf genau eine Art anordnen.'},
+ {q:`${K('\\dfrac{n!}{(n-k)!}')} zählt …`,o:[{t:'k Plätze aus n, ohne Wiederholung',ok:1},{t:'k Plätze aus n, mit Wiederholung'},{t:'alle Reihenfolgen von k Dingen'},{t:'eine Wahrscheinlichkeit'}],why:'Verschiedene Plätze, niemand doppelt: n · (n − 1) · … · (n − k + 1).'},
+ {q:`${K('n^k')} zählt …`,o:[{t:'k Plätze aus n, mit Wiederholung',ok:1},{t:'k Plätze aus n, ohne Wiederholung'},{t:'n Plätze aus k'},{t:'die Summe n + k'}],why:'Für jeden der k Plätze stehen wieder alle n zur Wahl.'},
+ {q:`Der Exponent in ${K('12^3')} gibt an …`,o:[{t:'die Anzahl der Faktoren',ok:1},{t:'mit welcher Zahl man malnimmt'},{t:'wie viel man addiert'},{t:'die Zahl der Personen'}],why:'12³ = 12 · 12 · 12: drei Faktoren.'},
+ {q:'Welche zwei Fragen prüfst du vor dem Zählen?',o:[{t:'Zählt die Reihenfolge? Ist Wiederholung erlaubt?',ok:1},{t:'Ist die Zahl gerade? Ist sie groß?'},{t:'Wer gewinnt? Wer verliert?'},{t:'Wie schnell? Wie weit?'}],why:'Sind die Plätze unterscheidbar, und darf dasselbe mehrmals vorkommen?'},
+ {q:'Anzahlformeln liefern …',o:[{t:'mögliche Abläufe, keine Wahrscheinlichkeiten',ok:1},{t:'sofort Wahrscheinlichkeiten'},{t:'Prozentwerte'},{t:'den besten Plan'}],why:'Sie zählen Möglichkeiten. Wahrscheinlichkeiten brauchen mehr Annahmen.'},
+ {transfer:1,q:'Ein Café: 4 Brötchen, 5 Beläge, 3 Getränke, je eins. Wie viele Frühstücke?',o:[{t:'60',ok:1},{t:'12'},{t:'20'},{t:'15'}],why:'Produktregel: 4 · 5 · 3 = 60.'},
+ {transfer:1,q:'4 Kinder laufen in einer Staffel nacheinander. Wie viele Startreihenfolgen?',o:[{t:'24',ok:1},{t:'4'},{t:'16'},{t:'256'}],why:'Alle 4 in eine Reihe: 4! = 24.'},
+ {transfer:1,q:'Ein Kürzel aus 3 Kleinbuchstaben (26 Buchstaben), Buchstaben dürfen sich wiederholen. Wie viele?',o:[{t:'17 576',ok:1},{t:'78'},{t:'15 600'},{t:'2600'}],why:'Mit Wiederholung: 26³ = 17 576.'}
 ];
 /* ==== INHALT ENDE ==== */
 
-CONFIG.ueben=[{"level": 1, "aufgaben": "Aufgabe a), b)", "text": "Produktregel und Fakultät: Anzahl der Pläne, Reihenfolge der Stationen"}, {"level": 1, "aufgaben": "Aufgabe e), f), g)", "text": "Zählen günstiger Pläne: P(A), P(A∪B), Häufigkeit bei kleinem n"}, {"level": 2, "aufgaben": "Aufgabe c), d)", "text": "Rollenvergabe ohne Wiederholung, Armbandcode mit und ohne Wiederholung"}];
+CONFIG.ueben=[{"level": 1, "aufgaben": "Aufgabe a) und f)", "text": "Produktregel: Trainingspläne zählen, falsche Additionsaussage beurteilen"}, {"level": 3, "aufgaben": "Aufgabe b)", "text": "Geordnete Auswahl ohne Wiederholung (Parcours)"}, {"level": 4, "aufgaben": "Aufgabe c)", "text": "Rollen verteilen"}, {"level": 6, "aufgaben": "Aufgabe d)", "text": "Codes mit und ohne Wiederholung"}];
 CONFIG.code="13PF-ADVX";
 start();
 </script>
