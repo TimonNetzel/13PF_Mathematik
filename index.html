@@ -278,7 +278,7 @@ body.beamer .beamer-aus { display: inline-flex; position: fixed; top: 16px; righ
  "klasse": "13PF",
  "fach": "Mathematik",
  "schuljahr": "2026/27",
- "erzeugt": "2026-10-02",
+ "erzeugt": "2026-10-06",
  "wochen": [
   {
    "nr": 1,
@@ -349,7 +349,10 @@ body.beamer .beamer-aus { display: inline-flex; position: fixed; top: 16px; righ
    "material": {
     "lernen": {
      "html": "woche-05/lernen.html",
-     "pdf": "woche-05/lernen.pdf"
+     "pdf": "woche-05/lernen.pdf",
+     "loesung": {
+      "pdf": "woche-05/lernen_loesungen.pdf"
+     }
     },
     "ueben": {
      "html": "woche-05/ueben.html",
@@ -358,7 +361,7 @@ body.beamer .beamer-aus { display: inline-flex; position: fixed; top: 16px; righ
     }
    },
    "extra": [],
-   "thema": "Trainingspläne zählen: Produktregel, Fakultät und geordnete Anordnungen"
+   "thema": "Trainingszirkel planen: Zählen und Wahrscheinlichkeit"
   },
   {
    "nr": 6,
@@ -404,11 +407,14 @@ body.beamer .beamer-aus { display: inline-flex; position: fixed; top: 16px; righ
     function zwei(n) { return (n < 10 ? "0" : "") + n; }
 
     // Ein Materialknopf: Hauptaktion (HTML im Betrachter, sonst PDF), daneben PDF und Lösung.
+    // Das Lernabenteuer (lernen.html) öffnet als volle Seite im selben Tab; „Zurück“ im Browser führt zur Übersicht.
     function knopf(art, satz, label, unterzeile, kontext) {
       if (!satz || !(satz.html || satz.pdf)) return "";
       var titel = (kontext ? kontext + " · " : "") + label;
       var haupt = satz.html
-        ? '<a class="mat-haupt" href="' + esc(satz.html) + '" data-betrachter data-titel="' + esc(titel) + '">'
+        ? (art === "lernen"
+          ? '<a class="mat-haupt" href="' + esc(satz.html) + '">'
+          : '<a class="mat-haupt" href="' + esc(satz.html) + '" data-betrachter data-titel="' + esc(titel) + '">')
         : '<a class="mat-haupt" href="' + esc(satz.pdf) + '" target="_blank" rel="noopener">';
       var html = '<div class="mat mat--' + art + '">' + haupt + icon(ICON[art] ? art : "extra") +
         "<span>" + esc(label) + (unterzeile ? "<small>" + esc(unterzeile) + "</small>" : "") + "</span></a>";
