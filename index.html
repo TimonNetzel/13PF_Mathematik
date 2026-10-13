@@ -7,8 +7,9 @@
   <title>13PF – Mathematik</title>
 
   <!-- ==============================================================
-       AKTUELLE WOCHE – nur die Zahl ändern und speichern.
-       Diese Woche erscheint dann oben unter „Diese Woche“.
+       AKTUELLE ETAPPE (Grundeinstellung) – Zahl ändern und speichern.
+       Diese Etappe erscheint dann oben unter „Diese Etappe“.
+       Im Browser lässt sich über „Etappe wählen“ jede andere Etappe zur aktuellen machen.
        ============================================================== -->
   <script>var AKTUELLE_WOCHE = 3;</script>
 
@@ -97,7 +98,7 @@ h2 { margin: 0 0 4px; font-size: 1.45rem; letter-spacing: -.02em; }
 .abschnitt-kopf { display: flex; flex-wrap: wrap; gap: 8px 16px; align-items: end; justify-content: space-between; margin-bottom: 14px; }
 .abschnitt-kopf p { margin: 0; color: var(--leise); font-size: .92rem; }
 
-/* Diese Woche */
+/* Diese Etappe */
 .aktuell { margin-top: 24px; padding: 22px; background: var(--flaeche); border: 1px solid var(--linie); border-radius: 16px; box-shadow: var(--schatten); position: relative; overflow: hidden; }
 .aktuell::before { content: ""; position: absolute; inset: 0 auto 0 0; width: 5px; background: linear-gradient(var(--lernen), var(--ueben)); }
 .aktuell-marke { display: inline-flex; align-items: center; gap: 7px; margin: 0 0 8px; color: var(--akzent); font-size: .82rem; font-weight: 700; letter-spacing: .05em; text-transform: uppercase; }
@@ -124,6 +125,9 @@ h2 { margin: 0 0 4px; font-size: 1.45rem; letter-spacing: -.02em; }
 .mat--applet { --farbe: var(--applet); --bg: var(--applet-bg); }
 .mat--klausur { --farbe: var(--klausur); --bg: var(--klausur-bg); }
 .mat--skript { --farbe: var(--skript); --bg: var(--skript-bg); }
+.mat--planung { --farbe: var(--akzent); --bg: var(--akzent-weich); }
+.mat--simulation { --farbe: var(--applet); --bg: var(--applet-bg); }
+.mat--laborheft { --farbe: var(--skript); --bg: var(--skript-bg); }
 .mat a { text-decoration: none; color: var(--farbe); font-weight: 650; }
 .mat-haupt { flex: 1; min-width: 0; min-height: 48px; display: flex; align-items: center; gap: 10px; padding: 8px 12px; border-radius: 11px; }
 .mat-haupt span { min-width: 0; }
@@ -213,9 +217,9 @@ body.beamer .beamer-aus { display: inline-flex; position: fixed; top: 16px; righ
       <div>
         <p class="eyebrow" id="eyebrow"></p>
         <h1 id="fach"></h1>
-        <p class="untertitel">Lernmaterial, Übungen und Klausurvorbereitung – Woche für Woche.</p>
+        <p class="untertitel">Lernmaterial, Übungen und Klausurvorbereitung – Etappe für Etappe.</p>
       </div>
-      <button class="knopf-leise" id="beamer-an" type="button" title="Nur die aktuelle Woche groß anzeigen">
+      <button class="knopf-leise" id="beamer-an" type="button" title="Nur die aktuelle Etappe groß anzeigen">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="12" rx="2"/><path d="M8 20h8M12 16v4"/></svg>
         Beamer
       </button>
@@ -233,18 +237,18 @@ body.beamer .beamer-aus { display: inline-flex; position: fixed; top: 16px; righ
     <section id="wochen" aria-labelledby="wochen-titel">
       <div class="abschnitt-kopf">
         <div>
-          <h2 id="wochen-titel">Wochen</h2>
+          <h2 id="wochen-titel">Etappen</h2>
           <p id="wochen-zahl"></p>
         </div>
         <label class="suche">
-          <span hidden>Wochen durchsuchen</span>
+          <span hidden>Etappen durchsuchen</span>
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 4 4"/></svg>
-          <input id="suche" type="search" placeholder="Woche oder Thema suchen" autocomplete="off" aria-label="Woche oder Thema suchen">
+          <input id="suche" type="search" placeholder="Etappe oder Thema suchen" autocomplete="off" aria-label="Etappe oder Thema suchen">
         </label>
       </div>
-      <ul class="leiste" id="leiste" aria-label="Zu Woche springen"></ul>
+      <ul class="leiste" id="leiste" aria-label="Zu Etappe springen"></ul>
       <div class="wochenliste" id="wochenliste"></div>
-      <p class="leer" id="leer" hidden>Keine passende Woche gefunden.</p>
+      <p class="leer" id="leer" hidden>Keine passende Etappe gefunden.</p>
     </section>
 
     <section id="skripte" aria-labelledby="skripte-titel" hidden>
@@ -253,8 +257,23 @@ body.beamer .beamer-aus { display: inline-flex; position: fixed; top: 16px; righ
     </section>
 
     <section id="klausuren" aria-labelledby="klausuren-titel" hidden>
-      <div class="abschnitt-kopf"><div><h2 id="klausuren-titel">Probeklausuren</h2><p>Zur Vorbereitung – mit den abgedeckten Wochen.</p></div></div>
+      <div class="abschnitt-kopf"><div><h2 id="klausuren-titel">Probeklausuren</h2><p>Zur Vorbereitung – mit den abgedeckten Etappen.</p></div></div>
       <div class="karten" id="klausur-karten"></div>
+    </section>
+
+    <section id="simulationen" aria-labelledby="simulationen-titel" hidden>
+      <div class="abschnitt-kopf"><div><h2 id="simulationen-titel">Lernsimulationen</h2><p>Versuche virtuell vorbereiten – dazu das Laborheft für den echten Versuch.</p></div></div>
+      <div class="karten" id="simulation-karten"></div>
+    </section>
+
+    <section id="praktikum" aria-labelledby="praktikum-titel" hidden>
+      <div class="abschnitt-kopf"><div><h2 id="praktikum-titel">Praktikum</h2><p>Begleitend zum echten Versuch: Sicherheit, Aufbau, Messen und Auswerten in 45 Minuten.</p></div></div>
+      <div class="karten" id="praktikum-karten"></div>
+    </section>
+
+    <section id="planung" aria-labelledby="planung-titel" hidden>
+      <div class="abschnitt-kopf"><div><h2 id="planung-titel">Unterrichtsplanung</h2><p>Stundenziele, Indikatoren und Ablauf jeder Etappe – transparent für alle.</p></div></div>
+      <div class="karten" id="planung-karten"></div>
     </section>
 
     <footer id="fuss"></footer>
@@ -278,7 +297,7 @@ body.beamer .beamer-aus { display: inline-flex; position: fixed; top: 16px; righ
  "klasse": "13PF",
  "fach": "Mathematik",
  "schuljahr": "2026/27",
- "erzeugt": "2026-10-06",
+ "erzeugt": "2026-10-13",
  "wochen": [
   {
    "nr": 1,
@@ -361,7 +380,7 @@ body.beamer .beamer-aus { display: inline-flex; position: fixed; top: 16px; righ
     }
    },
    "extra": [],
-   "thema": "Trainingszirkel planen: Zählstrategien"
+   "thema": "Sportcamp planen: Produktregel, Fakultät und geordnete Auswahl"
   },
   {
    "nr": 6,
@@ -383,6 +402,16 @@ body.beamer .beamer-aus { display: inline-flex; position: fixed; top: 16px; righ
    "titel": "Klausurübung Wochen 1–5",
    "dauer": "135 Min."
   }
+ ],
+ "simulationen": [],
+ "praktikum": [],
+ "planung": [
+  {
+   "pdf": "planung/woche-05.pdf",
+   "titel": "Etappe 5 · Sportcamp planen: Produktregel, Fakultät und geordnete Auswahl",
+   "dauer": "",
+   "nr": 5
+  }
  ]
 };
 
@@ -392,6 +421,9 @@ body.beamer .beamer-aus { display: inline-flex; position: fixed; top: 16px; righ
       applet: '<path d="M4 6h3M11 6h9M4 12h9M17 12h3M4 18h3M11 18h9"/><circle cx="9" cy="6" r="2"/><circle cx="15" cy="12" r="2"/><circle cx="9" cy="18" r="2"/>',
       klausur: '<rect x="5" y="3" width="14" height="18" rx="2"/><path d="m9 12 2 2 4-4"/>',
       skript: '<rect x="5" y="3" width="14" height="18" rx="2"/><path d="M9 8h6M9 12h6M9 16h4"/>',
+      simulation: '<path d="M9 3h6M10 3v6L4.5 18.5A1.7 1.7 0 0 0 6 21h12a1.7 1.7 0 0 0 1.5-2.5L14 9V3"/><path d="M7 15h10"/>',
+      laborheft: '<rect x="5" y="4" width="14" height="17" rx="2"/><path d="M9 4V3h6v1M9 10h6M9 14h6M9 18h3"/>',
+      planung: '<rect x="4" y="5" width="16" height="16" rx="2"/><path d="M8 3v4M16 3v4M4 10h16M8 14h3M8 17h6"/>',
       extra: '<path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5"/>'
     };
     var NAME = { lernen: "Lernen", ueben: "Üben", applet: "Applet" };
@@ -412,7 +444,7 @@ body.beamer .beamer-aus { display: inline-flex; position: fixed; top: 16px; righ
       if (!satz || !(satz.html || satz.pdf)) return "";
       var titel = (kontext ? kontext + " · " : "") + label;
       var haupt = satz.html
-        ? (art === "lernen"
+        ? (art === "lernen" || art === "simulation"
           ? '<a class="mat-haupt" href="' + esc(satz.html) + '">'
           : '<a class="mat-haupt" href="' + esc(satz.html) + '" data-betrachter data-titel="' + esc(titel) + '">')
         : '<a class="mat-haupt" href="' + esc(satz.pdf) + '" target="_blank" rel="noopener">';
@@ -431,7 +463,7 @@ body.beamer .beamer-aus { display: inline-flex; position: fixed; top: 16px; righ
     }
 
     function wochenKnoepfe(w, gross) {
-      var kontext = "Woche " + w.nr;
+      var kontext = "Etappe " + w.nr;
       var teile = ["lernen", "ueben", "applet"].map(function (art) {
         var satz = w.material[art];
         if (satz) return knopf(art, satz, NAME[art], art === "ueben" ? satz.dauer : "", kontext);
@@ -442,8 +474,8 @@ body.beamer .beamer-aus { display: inline-flex; position: fixed; top: 16px; righ
       return '<div class="materialien">' + teile.join("") + "</div>";
     }
 
-    // Die Lehrkraft legt die aktuelle Woche oben im <head> fest. Gibt es dafür
-    // noch keinen Ordner, erscheint die Woche oben mit „folgt“-Hinweisen.
+    // Grundeinstellung der aktuellen Etappe steht oben im <head>. Gibt es dafür
+    // noch keinen Ordner, erscheint die Etappe oben mit „folgt“-Hinweisen.
     function aktuelleWoche(wochen) {
       var nr = Number(window.AKTUELLE_WOCHE);
       if (!nr) return wochen[wochen.length - 1] || null;
@@ -461,68 +493,100 @@ body.beamer .beamer-aus { display: inline-flex; position: fixed; top: 16px; righ
     document.getElementById("fach").textContent = d.fach || d.klasse;
 
     var zahlen = [];
-    if (aktuell) zahlen.push('Aktuell <b id="kennzahl-woche">Woche ' + aktuell.nr + "</b>");
-    zahlen.push("<b>" + wochen.length + "</b> Wochen online");
+    if (aktuell) zahlen.push('Aktuell <b id="kennzahl-woche">Etappe ' + aktuell.nr + "</b>");
+    zahlen.push("<b>" + wochen.length + "</b> Etappen online");
     if (d.materialien.length) zahlen.push("<b>" + d.materialien.length + "</b> Skripte");
     if (klausuren) zahlen.push("<b>" + klausuren + "</b> Probeklausuren");
+    var simulationen = d.simulationen || [];
+    if (simulationen.length) zahlen.push("<b>" + simulationen.length + "</b> Lernsimulationen");
+    var praktikum = d.praktikum || [];
+    if (praktikum.length) zahlen.push("<b>" + praktikum.length + "</b> Praktikumseinheiten");
     document.getElementById("kennzahlen").innerHTML = zahlen.map(function (z) { return "<li>" + z + "</li>"; }).join("");
 
     var sprung = [];
-    if (aktuell) sprung.push('<a href="#aktuell">Diese Woche</a>');
-    sprung.push('<a href="#wochen">Alle Wochen</a>');
+    if (aktuell) sprung.push('<a href="#aktuell">Diese Etappe</a>');
+    sprung.push('<a href="#wochen">Alle Etappen</a>');
     if (d.materialien.length) sprung.push('<a href="#skripte">Skripte</a>');
     if (klausuren) sprung.push('<a href="#klausuren">Probeklausuren</a>');
+    if (simulationen.length) sprung.push('<a href="#simulationen">Lernsimulationen</a>');
+    if (praktikum.length) sprung.push('<a href="#praktikum">Praktikum</a>');
+    var planung = d.planung || [];
+    if (planung.length) sprung.push('<a href="#planung">Unterrichtsplanung</a>');
     document.getElementById("sprung").innerHTML = sprung.join("");
 
     var liste = document.getElementById("wochenliste");
     liste.innerHTML = wochen.map(function (w) {
       var ist = w === aktuell;
       return '<article class="woche" id="woche-' + w.nr + '" data-nr="' + w.nr +
-        '" data-suche="' + esc(("woche " + w.nr + " " + (w.thema || "")).toLowerCase()) + '">' +
+        '" data-suche="' + esc(("etappe " + w.nr + " " + (w.thema || "")).toLowerCase()) + '">' +
         '<span class="woche-nr" aria-hidden="true">' + zwei(w.nr) + "</span>" +
-        '<div class="woche-kopf"><h3>' + esc(w.thema || "Woche " + w.nr) + "</h3>" +
-        '<span class="woche-meta">Woche ' + w.nr + "</span>" +
+        '<div class="woche-kopf"><h3>' + esc(w.thema || "Etappe " + w.nr) + "</h3>" +
+        '<span class="woche-meta">Etappe ' + w.nr + "</span>" +
         (ist ? '<span class="badge">aktuell</span>' : "") +
-        '<button class="oben-zeigen" type="button" data-oben="' + w.nr + '" aria-label="Woche ' + w.nr + ' oben hervorheben">' +
+        '<button class="oben-zeigen" type="button" data-oben="' + w.nr + '" aria-label="Etappe ' + w.nr + ' zur aktuellen Etappe machen">' +
         '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 19V5M5 12l7-7 7 7"/></svg>Oben zeigen</button>' +
         "</div>" + wochenKnoepfe(w) + "</article>";
-    }).join("") + (wochen.length ? '<p class="folgt">Weitere Wochen werden im Laufe des Schuljahres ergänzt.</p>' : "");
+    }).join("") + (wochen.length ? '<p class="folgt">Weitere Etappen werden im Laufe des Schuljahres ergänzt.</p>' : "");
 
-    // ---------- Hervorgehobene Woche ----------
-    // Grundeinstellung ist AKTUELLE_WOCHE. Im Unterricht lässt sich jede andere
-    // Woche nach oben holen; die Wahl steht nur in der Adresse (?woche=5) und
-    // ändert nichts für die Schülerinnen und Schüler.
+    // ---------- Aktuelle Etappe ----------
+    // Grundeinstellung ist AKTUELLE_WOCHE. Die gewählte Etappe gilt als aktuell
+    // und steht oben groß. Sie bleibt in der Adresse (?woche=5) und im Browser
+    // (localStorage) erhalten; andere Geräte sehen weiter die Grundeinstellung.
     var box = document.getElementById("aktuell");
+    var SPEICHER = "aktuelleEtappe:" + d.klasse;
+
+    function gespeichert() {
+      try { return Number(localStorage.getItem(SPEICHER)) || 0; } catch (e) { return 0; }
+    }
+    function speichere(nr, grund) {
+      try {
+        if (nr === grund) localStorage.removeItem(SPEICHER); else localStorage.setItem(SPEICHER, String(nr));
+      } catch (e) { /* ohne Speicher nur für diesen Aufruf */ }
+    }
 
     function wocheMitNr(nr) {
       for (var i = 0; i < wochen.length; i++) if (wochen[i].nr === nr) return wochen[i];
       return { nr: nr, thema: "", material: {}, extra: [] };
     }
 
+    var grundNr = aktuell ? aktuell.nr : 0;
+
     function zeigeOben(nr, scrollen) {
       if (!aktuell) return;
-      var w = wocheMitNr(nr || aktuell.nr);
-      var istAktuell = w.nr === aktuell.nr;
+      var w = wocheMitNr(nr || grundNr);
+      aktuell = w;
       var optionen = wochen.map(function (x) {
-        return '<option value="' + x.nr + '"' + (x.nr === w.nr ? " selected" : "") + ">Woche " + x.nr + "</option>";
+        return '<option value="' + x.nr + '"' + (x.nr === w.nr ? " selected" : "") + ">Etappe " + x.nr + "</option>";
       });
       if (!wochen.some(function (x) { return x.nr === w.nr; })) {
-        optionen.push('<option value="' + w.nr + '" selected>Woche ' + w.nr + "</option>");
+        optionen.push('<option value="' + w.nr + '" selected>Etappe ' + w.nr + "</option>");
       }
-      box.innerHTML = '<div class="aktuell-zeile"><p class="aktuell-marke' + (istAktuell ? "" : " ist-gewaehlt") + '">' +
-        (istAktuell ? "Diese Woche" : "Hervorgehoben") + "</p>" +
-        '<label class="wahl"><span>Woche wählen</span><select id="wochen-wahl">' + optionen.join("") + "</select></label></div>" +
-        '<h2 id="aktuell-titel"><small>Woche ' + w.nr + "</small>" +
-        esc(w.thema || "Material folgt in Kürze") + "</h2>" + wochenKnoepfe(w, true) +
-        (istAktuell ? "" : '<button class="zurueck-aktuell" type="button" data-oben="' + aktuell.nr + '">← Zurück zur aktuellen Woche ' + aktuell.nr + "</button>");
+      box.innerHTML = '<div class="aktuell-zeile"><p class="aktuell-marke">Diese Etappe</p>' +
+        '<label class="wahl"><span>Etappe wählen</span><select id="wochen-wahl">' + optionen.join("") + "</select></label></div>" +
+        '<h2 id="aktuell-titel"><small>Etappe ' + w.nr + "</small>" +
+        esc(w.thema || "Material folgt in Kürze") + "</h2>" + wochenKnoepfe(w, true);
       box.hidden = false;
-      document.getElementById("kennzahl-woche").textContent = "Woche " + w.nr;
+      document.getElementById("kennzahl-woche").textContent = "Etappe " + w.nr;
       liste.querySelectorAll(".woche").forEach(function (k) {
-        k.classList.toggle("ist-aktuell", Number(k.dataset.nr) === w.nr);
+        var ist = Number(k.dataset.nr) === w.nr;
+        k.classList.toggle("ist-aktuell", ist);
+        var badge = k.querySelector(".badge");
+        if (ist && !badge) {
+          var neuBadge = document.createElement("span");
+          neuBadge.className = "badge";
+          neuBadge.textContent = "aktuell";
+          k.querySelector(".woche-meta").insertAdjacentElement("afterend", neuBadge);
+        } else if (!ist && badge) {
+          badge.remove();
+        }
+      });
+      document.querySelectorAll("#leiste button[data-ziel]").forEach(function (bt) {
+        if (Number(bt.dataset.ziel) === w.nr) bt.setAttribute("aria-current", "true"); else bt.removeAttribute("aria-current");
       });
       var url = new URL(location.href);
-      if (istAktuell) url.searchParams.delete("woche"); else url.searchParams.set("woche", w.nr);
+      if (w.nr === grundNr) url.searchParams.delete("woche"); else url.searchParams.set("woche", w.nr);
       history.replaceState(history.state, "", url.pathname + url.search + url.hash);
+      speichere(w.nr, grundNr);
       if (scrollen) box.scrollIntoView({ block: "start" });
     }
 
@@ -533,18 +597,19 @@ body.beamer .beamer-aus { display: inline-flex; position: fixed; top: 16px; righ
       var b = e.target.closest("[data-oben]");
       if (b) zeigeOben(Number(b.dataset.oben), true);
     });
-    zeigeOben(Number(new URLSearchParams(location.search).get("woche")) || 0);
 
     document.getElementById("leiste").innerHTML = wochen.map(function (w) {
       return '<li><button type="button" data-ziel="' + w.nr + '"' + (w === aktuell ? ' aria-current="true"' : "") +
-        ' aria-label="Woche ' + w.nr + '">' + w.nr + "</button></li>";
+        ' aria-label="Etappe ' + w.nr + '">' + w.nr + "</button></li>";
     }).join("") + '<li class="zukunft">… folgt</li>';
 
+    zeigeOben(Number(new URLSearchParams(location.search).get("woche")) || gespeichert() || 0);
+
     function klausurKarte(k, art) {
-      var meta = [k.wochen ? "Wochen " + k.wochen : "", k.dauer].filter(Boolean).join(" · ");
+      var meta = [k.wochen ? "Etappen " + k.wochen : "", k.dauer].filter(Boolean).join(" · ");
       return '<div class="karte"><div><h3>' + esc(k.titel) + "</h3>" +
         (meta ? '<div class="woche-meta">' + esc(meta) + "</div>" : "") + "</div>" +
-        '<div class="materialien">' + knopf(art, k, art === "klausur" ? "Klausur öffnen" : "Öffnen", "", k.titel) + "</div></div>";
+        '<div class="materialien">' + knopf(art, k, art === "klausur" ? "Klausur öffnen" : art === "planung" ? "Planung öffnen" : "Öffnen", "", k.titel) + "</div></div>";
     }
 
     if (d.materialien.length) {
@@ -555,6 +620,35 @@ body.beamer .beamer-aus { display: inline-flex; position: fixed; top: 16px; righ
       document.getElementById("klausur-karten").innerHTML =
         d.probeklausuren.map(function (k) { return klausurKarte(k, "klausur"); }).join("");
       document.getElementById("klausuren").hidden = false;
+    }
+    // Lernsimulation: Simulation (volle Seite wie lernen.html) und Laborheft (PDF, daneben Lösung)
+    if (simulationen.length) {
+      document.getElementById("simulation-karten").innerHTML = simulationen.map(function (s) {
+        var meta = [s.untertitel, s.dauer].filter(Boolean).join(" · ");
+        return '<div class="karte"><div><h3>' + esc(s.titel) + "</h3>" +
+          (meta ? '<div class="woche-meta">' + esc(meta) + "</div>" : "") + "</div>" +
+          '<div class="materialien">' +
+          knopf("simulation", s.simulation, "Simulation starten", "iPad & Handy", s.titel) +
+          knopf("laborheft", s.laborheft, "Laborheft", "für den echten Versuch", s.titel) + "</div></div>";
+      }).join("");
+      document.getElementById("simulationen").hidden = false;
+    }
+    // Praktikum: Lernabenteuer zum Versuch (volle Seite), Versuchsauswertung (PDF mit Lösung), Planung
+    if (praktikum.length) {
+      document.getElementById("praktikum-karten").innerHTML = praktikum.map(function (s) {
+        return '<div class="karte"><div><h3>' + esc(s.titel) + "</h3>" +
+          (s.dauer ? '<div class="woche-meta">' + esc(s.dauer) + "</div>" : "") + "</div>" +
+          '<div class="materialien">' +
+          knopf("lernen", s.lernen, "Lernabenteuer starten", "begleitend zum Versuch", s.titel) +
+          knopf("laborheft", s.auswertung, "Versuchsauswertung", "PDF zum Ausfüllen", s.titel) +
+          knopf("planung", s.planung, "Planung", "Ablauf der Stunde", s.titel) + "</div></div>";
+      }).join("");
+      document.getElementById("praktikum").hidden = false;
+    }
+    if (planung.length) {
+      document.getElementById("planung-karten").innerHTML =
+        planung.map(function (k) { return klausurKarte(k, "planung"); }).join("");
+      document.getElementById("planung").hidden = false;
     }
 
     document.getElementById("fuss").textContent = [d.klasse, d.fach, d.schuljahr ? "Schuljahr " + d.schuljahr : "", "Stand " +
