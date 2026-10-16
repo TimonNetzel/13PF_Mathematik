@@ -103,6 +103,12 @@ h2 { margin: 0 0 4px; font-size: 1.45rem; letter-spacing: -.02em; }
 .aktuell::before { content: ""; position: absolute; inset: 0 auto 0 0; width: 5px; background: linear-gradient(var(--lernen), var(--ueben)); }
 .aktuell-marke { display: inline-flex; align-items: center; gap: 7px; margin: 0 0 8px; color: var(--akzent); font-size: .82rem; font-weight: 700; letter-spacing: .05em; text-transform: uppercase; }
 .aktuell-marke::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: currentColor; box-shadow: 0 0 0 4px var(--akzent-weich); }
+.lerncoach-box { margin-top: 16px; padding: 16px 20px; background: var(--akzent-weich); border-radius: 16px; display: flex; flex-wrap: wrap; gap: 12px 20px; align-items: center; justify-content: space-between; }
+.lerncoach-box h2 { margin: 0 0 2px; font-size: 1.2rem; }
+.lerncoach-box p { margin: 0; color: var(--leise); }
+.lerncoach-knoepfe { display: flex; flex-wrap: wrap; gap: 8px; }
+.lerncoach-knoepfe a { display: inline-flex; align-items: center; padding: 8px 16px; border-radius: 999px; font-weight: 700; text-decoration: none; border: 1px solid var(--akzent); color: var(--akzent); background: var(--flaeche); }
+.lerncoach-knoepfe a.haupt { background: var(--akzent); color: var(--flaeche); }
 .aktuell h2 { font-size: clamp(1.4rem, 3.4vw, 1.9rem); line-height: 1.2; margin-bottom: 16px; }
 .aktuell h2 small { display: block; margin-bottom: 2px; color: var(--leise); font-size: .95rem; font-weight: 600; letter-spacing: 0; }
 .aktuell .materialien { grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); }
@@ -175,13 +181,6 @@ h3.gruppe { margin: 0 0 10px; color: var(--leise); font-size: .85rem; letter-spa
 
 footer { margin: 44px 0 0; padding: 18px 0 max(28px, env(safe-area-inset-bottom)); color: var(--leise); border-top: 1px solid var(--linie); font-size: .85rem; }
 
-/* Betrachter */
-body.betrachter-offen { overflow: hidden; }
-.betrachter { position: fixed; inset: 0; z-index: 20; display: grid; grid-template-rows: auto minmax(0, 1fr); background: var(--seite); }
-.betrachter-leiste { display: flex; align-items: center; gap: 12px; padding: max(8px, env(safe-area-inset-top)) max(12px, env(safe-area-inset-right)) 8px max(12px, env(safe-area-inset-left)); background: var(--flaeche); border-bottom: 1px solid var(--linie); }
-.betrachter-titel { flex: 1; min-width: 0; margin: 0; overflow: hidden; font-weight: 650; text-overflow: ellipsis; white-space: nowrap; }
-.betrachter iframe { width: 100%; height: 100%; border: 0; background: #fff; }
-
 /* Beamer */
 .beamer-aus { display: none; }
 body.beamer { font-size: 22px; }
@@ -205,7 +204,7 @@ body.beamer .beamer-aus { display: inline-flex; position: fixed; top: 16px; righ
   * { transition: none !important; }
 }
 @media print {
-  .sprung, .suche, .leiste, .knopf-leise, .betrachter, .wahl, .oben-zeigen, .zurueck-aktuell { display: none !important; }
+  .sprung, .suche, .leiste, .knopf-leise, .wahl, .oben-zeigen, .zurueck-aktuell { display: none !important; }
   body { background: #fff; }
   .woche, .karte, .aktuell { break-inside: avoid; box-shadow: none; }
 }
@@ -217,7 +216,7 @@ body.beamer .beamer-aus { display: inline-flex; position: fixed; top: 16px; righ
       <div>
         <p class="eyebrow" id="eyebrow"></p>
         <h1 id="fach"></h1>
-        <p class="untertitel">Lernmaterial, Übungen und Klausurvorbereitung – Etappe für Etappe.</p>
+        <p class="untertitel">Lernmaterial, Übungen und Klausurvorbereitung für jede Etappe.</p>
       </div>
       <button class="knopf-leise" id="beamer-an" type="button" title="Nur die aktuelle Etappe groß anzeigen">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="12" rx="2"/><path d="M8 20h8M12 16v4"/></svg>
@@ -233,6 +232,14 @@ body.beamer .beamer-aus { display: inline-flex; position: fixed; top: 16px; righ
 
   <main class="rahmen">
     <section class="aktuell" id="aktuell" aria-labelledby="aktuell-titel" hidden></section>
+
+    <section class="lerncoach-box" id="lerncoach" aria-labelledby="lerncoach-titel" hidden>
+      <div>
+        <h2 id="lerncoach-titel">Lerncoach</h2>
+        <p>Dein Plan für die Klausur, 15 Minuten Karten zweimal pro Woche, Ampel und Fehlerprotokoll.</p>
+      </div>
+      <div class="lerncoach-knoepfe" id="lerncoach-knoepfe"></div>
+    </section>
 
     <section id="wochen" aria-labelledby="wochen-titel">
       <div class="abschnitt-kopf">
@@ -257,12 +264,17 @@ body.beamer .beamer-aus { display: inline-flex; position: fixed; top: 16px; righ
     </section>
 
     <section id="klausuren" aria-labelledby="klausuren-titel" hidden>
-      <div class="abschnitt-kopf"><div><h2 id="klausuren-titel">Probeklausuren</h2><p>Zur Vorbereitung – mit den abgedeckten Etappen.</p></div></div>
+      <div class="abschnitt-kopf"><div><h2 id="klausuren-titel">Probeklausuren</h2><p>Zur Vorbereitung, mit den abgedeckten Etappen.</p></div></div>
       <div class="karten" id="klausur-karten"></div>
     </section>
 
+    <section id="geschrieben" aria-labelledby="geschrieben-titel" hidden>
+      <div class="abschnitt-kopf"><div><h2 id="geschrieben-titel">Klausuren</h2><p>Geschriebene Klausuren: Erwartungshorizont, Musterlösung und Notenverteilung zur Besprechung.</p></div></div>
+      <div class="karten" id="geschrieben-karten"></div>
+    </section>
+
     <section id="simulationen" aria-labelledby="simulationen-titel" hidden>
-      <div class="abschnitt-kopf"><div><h2 id="simulationen-titel">Lernsimulationen</h2><p>Versuche virtuell vorbereiten – dazu das Laborheft für den echten Versuch.</p></div></div>
+      <div class="abschnitt-kopf"><div><h2 id="simulationen-titel">Lernsimulationen</h2><p>Versuche virtuell vorbereiten. Dazu gibt es das Laborheft für den echten Versuch.</p></div></div>
       <div class="karten" id="simulation-karten"></div>
     </section>
 
@@ -272,7 +284,7 @@ body.beamer .beamer-aus { display: inline-flex; position: fixed; top: 16px; righ
     </section>
 
     <section id="planung" aria-labelledby="planung-titel" hidden>
-      <div class="abschnitt-kopf"><div><h2 id="planung-titel">Unterrichtsplanung</h2><p>Stundenziele, Indikatoren und Ablauf jeder Etappe – transparent für alle.</p></div></div>
+      <div class="abschnitt-kopf"><div><h2 id="planung-titel">Unterrichtsplanung</h2><p>Stundenziele, Indikatoren und Ablauf jeder Etappe, für alle einsehbar.</p></div></div>
       <div class="karten" id="planung-karten"></div>
     </section>
 
@@ -281,15 +293,6 @@ body.beamer .beamer-aus { display: inline-flex; position: fixed; top: 16px; righ
 
   <button class="knopf-leise beamer-aus" id="beamer-aus" type="button">Beamer beenden</button>
 
-  <div class="betrachter" id="betrachter" role="dialog" aria-modal="true" aria-labelledby="betrachter-titel" hidden>
-    <div class="betrachter-leiste">
-      <button class="knopf-leise" id="betrachter-zurueck" type="button">← Zurück</button>
-      <p class="betrachter-titel" id="betrachter-titel"></p>
-      <a class="knopf-leise" id="betrachter-tab" target="_blank" rel="noopener">Neuer Tab ↗</a>
-    </div>
-    <iframe id="betrachter-frame" title="Material"></iframe>
-  </div>
-
   <script>
   (function () {
     "use strict";
@@ -297,7 +300,7 @@ body.beamer .beamer-aus { display: inline-flex; position: fixed; top: 16px; righ
  "klasse": "13PF",
  "fach": "Mathematik",
  "schuljahr": "2026/27",
- "erzeugt": "2026-10-13",
+ "erzeugt": "2026-10-16",
  "wochen": [
   {
    "nr": 1,
@@ -403,6 +406,7 @@ body.beamer .beamer-aus { display: inline-flex; position: fixed; top: 16px; righ
    "dauer": "135 Min."
   }
  ],
+ "klausuren": [],
  "simulationen": [],
  "praktikum": [],
  "planung": [
@@ -438,15 +442,13 @@ body.beamer .beamer-aus { display: inline-flex; position: fixed; top: 16px; righ
     }
     function zwei(n) { return (n < 10 ? "0" : "") + n; }
 
-    // Ein Materialknopf: Hauptaktion (HTML im Betrachter, sonst PDF), daneben PDF und Lösung.
-    // Das Lernabenteuer (lernen.html) öffnet als volle Seite im selben Tab; „Zurück“ im Browser führt zur Übersicht.
-    function knopf(art, satz, label, unterzeile, kontext) {
+    // Ein Materialknopf: Hauptaktion (HTML, sonst PDF), daneben PDF und Lösung.
+    // HTML-Material öffnet als volle Seite im selben Tab, „Zurück“ im Browser führt zur Übersicht.
+    // PDFs öffnen immer im eigenen Tab (zuverlässiger auf iPad und iPhone).
+    function knopf(art, satz, label, unterzeile) {
       if (!satz || !(satz.html || satz.pdf)) return "";
-      var titel = (kontext ? kontext + " · " : "") + label;
       var haupt = satz.html
-        ? (art === "lernen" || art === "simulation"
-          ? '<a class="mat-haupt" href="' + esc(satz.html) + '">'
-          : '<a class="mat-haupt" href="' + esc(satz.html) + '" data-betrachter data-titel="' + esc(titel) + '">')
+        ? '<a class="mat-haupt" href="' + esc(satz.html) + '">'
         : '<a class="mat-haupt" href="' + esc(satz.pdf) + '" target="_blank" rel="noopener">';
       var html = '<div class="mat mat--' + art + '">' + haupt + icon(ICON[art] ? art : "extra") +
         "<span>" + esc(label) + (unterzeile ? "<small>" + esc(unterzeile) + "</small>" : "") + "</span></a>";
@@ -456,21 +458,20 @@ body.beamer .beamer-aus { display: inline-flex; position: fixed; top: 16px; righ
       var l = satz.loesung;
       if (l && (l.html || l.pdf)) {
         html += l.html
-          ? '<a class="mat-neben" href="' + esc(l.html) + '" data-betrachter data-titel="' + esc(titel + " · Lösung") + '">Lösung</a>'
+          ? '<a class="mat-neben" href="' + esc(l.html) + '">Lösung</a>'
           : '<a class="mat-neben" href="' + esc(l.pdf) + '" target="_blank" rel="noopener">Lösung</a>';
       }
       return html + "</div>";
     }
 
     function wochenKnoepfe(w, gross) {
-      var kontext = "Etappe " + w.nr;
       var teile = ["lernen", "ueben", "applet"].map(function (art) {
         var satz = w.material[art];
-        if (satz) return knopf(art, satz, NAME[art], art === "ueben" ? satz.dauer : "", kontext);
+        if (satz) return knopf(art, satz, NAME[art], art === "ueben" ? satz.dauer : "");
         if (art === "applet") return "";
         return '<span class="mat mat--fehlt">' + icon(art) + NAME[art] + " folgt</span>";
       });
-      (w.extra || []).forEach(function (e) { teile.push(knopf("extra", e, e.titel, "", kontext)); });
+      (w.extra || []).forEach(function (e) { teile.push(knopf("extra", e, e.titel, "")); });
       return '<div class="materialien">' + teile.join("") + "</div>";
     }
 
@@ -497,6 +498,8 @@ body.beamer .beamer-aus { display: inline-flex; position: fixed; top: 16px; righ
     zahlen.push("<b>" + wochen.length + "</b> Etappen online");
     if (d.materialien.length) zahlen.push("<b>" + d.materialien.length + "</b> Skripte");
     if (klausuren) zahlen.push("<b>" + klausuren + "</b> Probeklausuren");
+    var geschrieben = d.klausuren || [];
+    if (geschrieben.length) zahlen.push("<b>" + geschrieben.length + "</b> Klausuren");
     var simulationen = d.simulationen || [];
     if (simulationen.length) zahlen.push("<b>" + simulationen.length + "</b> Lernsimulationen");
     var praktikum = d.praktikum || [];
@@ -505,14 +508,23 @@ body.beamer .beamer-aus { display: inline-flex; position: fixed; top: 16px; righ
 
     var sprung = [];
     if (aktuell) sprung.push('<a href="#aktuell">Diese Etappe</a>');
+    if (d.lerncoach) sprung.push('<a href="#lerncoach">Lerncoach</a>');
     sprung.push('<a href="#wochen">Alle Etappen</a>');
     if (d.materialien.length) sprung.push('<a href="#skripte">Skripte</a>');
     if (klausuren) sprung.push('<a href="#klausuren">Probeklausuren</a>');
+    if (geschrieben.length) sprung.push('<a href="#geschrieben">Klausuren</a>');
     if (simulationen.length) sprung.push('<a href="#simulationen">Lernsimulationen</a>');
     if (praktikum.length) sprung.push('<a href="#praktikum">Praktikum</a>');
     var planung = d.planung || [];
     if (planung.length) sprung.push('<a href="#planung">Unterrichtsplanung</a>');
     document.getElementById("sprung").innerHTML = sprung.join("");
+
+    if (d.lerncoach) {
+      document.getElementById("lerncoach-knoepfe").innerHTML =
+        '<a class="haupt" href="' + esc(d.lerncoach.html) + '">Lerncoach öffnen</a>' +
+        (d.lerncoach.hintergrund ? '<a href="' + esc(d.lerncoach.hintergrund) + '">Warum so?</a>' : "");
+      document.getElementById("lerncoach").hidden = false;
+    }
 
     var liste = document.getElementById("wochenliste");
     liste.innerHTML = wochen.map(function (w) {
@@ -605,11 +617,11 @@ body.beamer .beamer-aus { display: inline-flex; position: fixed; top: 16px; righ
 
     zeigeOben(Number(new URLSearchParams(location.search).get("woche")) || gespeichert() || 0);
 
-    function klausurKarte(k, art) {
+    function klausurKarte(k, art, label) {
       var meta = [k.wochen ? "Etappen " + k.wochen : "", k.dauer].filter(Boolean).join(" · ");
       return '<div class="karte"><div><h3>' + esc(k.titel) + "</h3>" +
         (meta ? '<div class="woche-meta">' + esc(meta) + "</div>" : "") + "</div>" +
-        '<div class="materialien">' + knopf(art, k, art === "klausur" ? "Klausur öffnen" : art === "planung" ? "Planung öffnen" : "Öffnen", "", k.titel) + "</div></div>";
+        '<div class="materialien">' + knopf(art, k, label || (art === "klausur" ? "Klausur öffnen" : art === "planung" ? "Planung öffnen" : "Öffnen"), "") + "</div></div>";
     }
 
     if (d.materialien.length) {
@@ -621,6 +633,11 @@ body.beamer .beamer-aus { display: inline-flex; position: fixed; top: 16px; righ
         d.probeklausuren.map(function (k) { return klausurKarte(k, "klausur"); }).join("");
       document.getElementById("klausuren").hidden = false;
     }
+    if (geschrieben.length) {
+      document.getElementById("geschrieben-karten").innerHTML =
+        geschrieben.map(function (k) { return klausurKarte(k, "klausur", "Besprechung öffnen"); }).join("");
+      document.getElementById("geschrieben").hidden = false;
+    }
     // Lernsimulation: Simulation (volle Seite wie lernen.html) und Laborheft (PDF, daneben Lösung)
     if (simulationen.length) {
       document.getElementById("simulation-karten").innerHTML = simulationen.map(function (s) {
@@ -628,8 +645,8 @@ body.beamer .beamer-aus { display: inline-flex; position: fixed; top: 16px; righ
         return '<div class="karte"><div><h3>' + esc(s.titel) + "</h3>" +
           (meta ? '<div class="woche-meta">' + esc(meta) + "</div>" : "") + "</div>" +
           '<div class="materialien">' +
-          knopf("simulation", s.simulation, "Simulation starten", "iPad & Handy", s.titel) +
-          knopf("laborheft", s.laborheft, "Laborheft", "für den echten Versuch", s.titel) + "</div></div>";
+          knopf("simulation", s.simulation, "Simulation starten", "iPad & Handy") +
+          knopf("laborheft", s.laborheft, "Laborheft", "für den echten Versuch") + "</div></div>";
       }).join("");
       document.getElementById("simulationen").hidden = false;
     }
@@ -639,9 +656,9 @@ body.beamer .beamer-aus { display: inline-flex; position: fixed; top: 16px; righ
         return '<div class="karte"><div><h3>' + esc(s.titel) + "</h3>" +
           (s.dauer ? '<div class="woche-meta">' + esc(s.dauer) + "</div>" : "") + "</div>" +
           '<div class="materialien">' +
-          knopf("lernen", s.lernen, "Lernabenteuer starten", "begleitend zum Versuch", s.titel) +
-          knopf("laborheft", s.auswertung, "Versuchsauswertung", "PDF zum Ausfüllen", s.titel) +
-          knopf("planung", s.planung, "Planung", "Ablauf der Stunde", s.titel) + "</div></div>";
+          knopf("lernen", s.lernen, "Lernabenteuer starten", "begleitend zum Versuch") +
+          knopf("laborheft", s.auswertung, "Versuchsauswertung", "PDF zum Ausfüllen") +
+          knopf("planung", s.planung, "Planung", "Ablauf der Stunde") + "</div></div>";
       }).join("");
       document.getElementById("praktikum").hidden = false;
     }
@@ -690,76 +707,21 @@ body.beamer .beamer-aus { display: inline-flex; position: fixed; top: 16px; righ
     document.getElementById("beamer-aus").addEventListener("click", function () { beamer(false); });
     if (/[?&]beamer\b/.test(location.search)) beamer(true);
 
-    // ---------- Betrachter ----------
-    // HTML-Material öffnet über der Übersicht; die Scrollposition bleibt erhalten.
-    // PDFs öffnen immer im eigenen Tab (zuverlässiger auf iPad und iPhone).
-    var betrachter = document.getElementById("betrachter");
-    var frame = document.getElementById("betrachter-frame");
-    var titelFeld = document.getElementById("betrachter-titel");
-    var tab = document.getElementById("betrachter-tab");
-    var zurueck = document.getElementById("betrachter-zurueck");
-    var PRAEFIX = "#material=";
-    var selbstGeoeffnet = false;
-    var letzterFokus = null;
-
-    function titelFuer(pfad) {
-      var link = document.querySelector('a[data-betrachter][href="' + pfad.replace(/"/g, '\\"') + '"]');
-      return link ? link.dataset.titel : pfad;
-    }
-
-    function zeigen(pfad) {
-      if (!pfad) {
-        betrachter.hidden = true;
-        document.body.classList.remove("betrachter-offen");
-        frame.src = "about:blank";
-        if (letzterFokus && letzterFokus.isConnected) letzterFokus.focus({ preventScroll: true });
-        return;
-      }
-      if (betrachter.hidden) letzterFokus = document.activeElement;
-      titelFeld.textContent = titelFuer(pfad);
-      tab.href = pfad;
-      if (frame.getAttribute("src") !== pfad) frame.src = pfad;
-      betrachter.hidden = false;
-      document.body.classList.add("betrachter-offen");
-      zurueck.focus({ preventScroll: true });
-    }
-
-    function pfadAusAdresse() {
-      if (location.hash.indexOf(PRAEFIX) !== 0) return null;
-      try { var p = decodeURIComponent(location.hash.slice(PRAEFIX.length)); } catch (e) { return null; }
-      // Nur relative Pfade innerhalb dieser Seite zulassen.
-      return /^[\w\-./ ,]+\.html?$/i.test(p) && p.indexOf("..") === -1 ? p : null;
-    }
-
-    document.addEventListener("click", function (e) {
-      var a = e.target.closest("a[data-betrachter]");
-      if (!a || e.button !== 0 || e.ctrlKey || e.metaKey || e.shiftKey || e.altKey) return;
-      e.preventDefault();
-      var pfad = a.getAttribute("href");
-      history.pushState({ material: pfad }, "", PRAEFIX + encodeURIComponent(pfad));
-      selbstGeoeffnet = true;
-      zeigen(pfad);
-    });
-
-    function schliessen() {
-      if (selbstGeoeffnet) { history.back(); return; }
-      history.replaceState(null, "", location.pathname + location.search);
-      zeigen(null);
-    }
-    zurueck.addEventListener("click", schliessen);
     document.addEventListener("keydown", function (e) {
-      if (e.key !== "Escape") return;
-      if (!betrachter.hidden) schliessen();
-      else if (document.body.classList.contains("beamer")) beamer(false);
-    });
-    window.addEventListener("popstate", function () {
-      var p = pfadAusAdresse();
-      if (!p) selbstGeoeffnet = false;
-      zeigen(p);
+      if (e.key === "Escape" && document.body.classList.contains("beamer")) beamer(false);
     });
 
-    var start = pfadAusAdresse();
-    if (start) zeigen(start);
+    // ---------- Alte Links ----------
+    // Früher öffnete HTML-Material in einem Betrachter über der Übersicht (#material=<pfad>).
+    // Solche Links und Lesezeichen führen jetzt direkt zur Seite.
+    var PRAEFIX = "#material=";
+    if (location.hash.indexOf(PRAEFIX) === 0) {
+      try {
+        var alt = decodeURIComponent(location.hash.slice(PRAEFIX.length));
+        // Nur relative Pfade innerhalb dieser Seite zulassen.
+        if (/^[\w\-./ ,]+\.html?$/i.test(alt) && alt.indexOf("..") === -1) location.replace(alt);
+      } catch (e) { /* ungültiger Link, Übersicht bleibt */ }
+    }
   }());
   </script>
 </body>
