@@ -134,6 +134,7 @@ h2 { margin: 0 0 4px; font-size: 1.45rem; letter-spacing: -.02em; }
 .mat--planung { --farbe: var(--akzent); --bg: var(--akzent-weich); }
 .mat--simulation { --farbe: var(--applet); --bg: var(--applet-bg); }
 .mat--laborheft { --farbe: var(--skript); --bg: var(--skript-bg); }
+.mat--modell { --farbe: var(--applet); --bg: var(--applet-bg); }
 .mat a { text-decoration: none; color: var(--farbe); font-weight: 650; }
 .mat-haupt { flex: 1; min-width: 0; min-height: 48px; display: flex; align-items: center; gap: 10px; padding: 8px 12px; border-radius: 11px; }
 .mat-haupt span { min-width: 0; }
@@ -241,6 +242,14 @@ body.beamer .beamer-aus { display: inline-flex; position: fixed; top: 16px; righ
       <div class="lerncoach-knoepfe" id="lerncoach-knoepfe"></div>
     </section>
 
+    <section class="lerncoach-box" id="projekte" aria-labelledby="projekte-titel" hidden>
+      <div>
+        <h2 id="projekte-titel">Projekt</h2>
+        <p>Unser Projekt über mehrere Jahre mit Aufträgen, Rechnern und Logbuch.</p>
+      </div>
+      <div class="lerncoach-knoepfe" id="projekte-knoepfe"></div>
+    </section>
+
     <section id="wochen" aria-labelledby="wochen-titel">
       <div class="abschnitt-kopf">
         <div>
@@ -283,6 +292,11 @@ body.beamer .beamer-aus { display: inline-flex; position: fixed; top: 16px; righ
       <div class="karten" id="praktikum-karten"></div>
     </section>
 
+    <section id="modelle" aria-labelledby="modelle-titel" hidden>
+      <div class="abschnitt-kopf"><div><h2 id="modelle-titel">3D-Modelle</h2><p>Bauteile drehen, zerlegen und von allen Seiten ansehen.</p></div></div>
+      <div class="karten" id="modelle-karten"></div>
+    </section>
+
     <section id="planung" aria-labelledby="planung-titel" hidden>
       <div class="abschnitt-kopf"><div><h2 id="planung-titel">Unterrichtsplanung</h2><p>Stundenziele, Indikatoren und Ablauf jeder Etappe, für alle einsehbar.</p></div></div>
       <div class="karten" id="planung-karten"></div>
@@ -300,7 +314,7 @@ body.beamer .beamer-aus { display: inline-flex; position: fixed; top: 16px; righ
  "klasse": "13PF",
  "fach": "Mathematik",
  "schuljahr": "2026/27",
- "erzeugt": "2026-10-22",
+ "erzeugt": "2026-11-14",
  "wochen": [
   {
    "nr": 1,
@@ -403,6 +417,25 @@ body.beamer .beamer-aus { display: inline-flex; position: fixed; top: 16px; righ
    },
    "extra": [],
    "thema": "Freizeitzentrum planen: Kombinationen und Binomialkoeffizient"
+  },
+  {
+   "nr": 7,
+   "material": {
+    "lernen": {
+     "html": "woche-07/lernen.html",
+     "pdf": "woche-07/lernen.pdf",
+     "loesung": {
+      "pdf": "woche-07/lernen_loesungen.pdf"
+     }
+    },
+    "ueben": {
+     "html": "woche-07/ueben.html",
+     "pdf": "woche-07/ueben.pdf",
+     "dauer": "20 Min."
+    }
+   },
+   "extra": [],
+   "thema": "Glücksbeutel im Sportcamp"
   }
  ],
  "materialien": [],
@@ -417,6 +450,8 @@ body.beamer .beamer-aus { display: inline-flex; position: fixed; top: 16px; righ
  "klausuren": [],
  "simulationen": [],
  "praktikum": [],
+ "projekte": [],
+ "modelle": [],
  "planung": [
   {
    "pdf": "planung/woche-05.pdf",
@@ -429,6 +464,12 @@ body.beamer .beamer-aus { display: inline-flex; position: fixed; top: 16px; righ
    "titel": "Etappe 6 · Freizeitzentrum planen: Kombinationen und Binomialkoeffizient",
    "dauer": "",
    "nr": 6
+  },
+  {
+   "pdf": "planung/woche-07.pdf",
+   "titel": "Etappe 7 · Glücksbeutel im Sportcamp",
+   "dauer": "",
+   "nr": 7
   }
  ]
 };
@@ -441,6 +482,7 @@ body.beamer .beamer-aus { display: inline-flex; position: fixed; top: 16px; righ
       skript: '<rect x="5" y="3" width="14" height="18" rx="2"/><path d="M9 8h6M9 12h6M9 16h4"/>',
       simulation: '<path d="M9 3h6M10 3v6L4.5 18.5A1.7 1.7 0 0 0 6 21h12a1.7 1.7 0 0 0 1.5-2.5L14 9V3"/><path d="M7 15h10"/>',
       laborheft: '<rect x="5" y="4" width="14" height="17" rx="2"/><path d="M9 4V3h6v1M9 10h6M9 14h6M9 18h3"/>',
+      modell: '<path d="m12 3 8 4.5v9L12 21l-8-4.5v-9L12 3Z"/><path d="m4 7.5 8 4.5 8-4.5M12 12v9"/>',
       planung: '<rect x="4" y="5" width="16" height="16" rx="2"/><path d="M8 3v4M16 3v4M4 10h16M8 14h3M8 17h6"/>',
       extra: '<path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5"/>'
     };
@@ -474,6 +516,10 @@ body.beamer .beamer-aus { display: inline-flex; position: fixed; top: 16px; righ
         html += l.html
           ? '<a class="mat-neben" href="' + esc(l.html) + '">Lösung</a>'
           : '<a class="mat-neben" href="' + esc(l.pdf) + '" target="_blank" rel="noopener">Lösung</a>';
+      }
+      var b = satz.bogen;  // Übungsbogen zur Probeklausur (Antwortbogen zum Ausdrucken)
+      if (b && b.pdf) {
+        html += '<a class="mat-neben" href="' + esc(b.pdf) + '" target="_blank" rel="noopener">Antwortbogen</a>';
       }
       return html + "</div>";
     }
@@ -518,17 +564,22 @@ body.beamer .beamer-aus { display: inline-flex; position: fixed; top: 16px; righ
     if (simulationen.length) zahlen.push("<b>" + simulationen.length + "</b> Lernsimulationen");
     var praktikum = d.praktikum || [];
     if (praktikum.length) zahlen.push("<b>" + praktikum.length + "</b> Praktikumseinheiten");
+    var modelle = d.modelle || [];
+    if (modelle.length) zahlen.push("<b>" + modelle.length + "</b> 3D-Modelle");
     document.getElementById("kennzahlen").innerHTML = zahlen.map(function (z) { return "<li>" + z + "</li>"; }).join("");
 
     var sprung = [];
     if (aktuell) sprung.push('<a href="#aktuell">Diese Etappe</a>');
     if (d.lerncoach) sprung.push('<a href="#lerncoach">Lerncoach</a>');
+    var projekte = d.projekte || [];
+    if (projekte.length) sprung.push('<a href="#projekte">Projekt</a>');
     sprung.push('<a href="#wochen">Alle Etappen</a>');
     if (d.materialien.length) sprung.push('<a href="#skripte">Skripte</a>');
     if (klausuren) sprung.push('<a href="#klausuren">Probeklausuren</a>');
     if (geschrieben.length) sprung.push('<a href="#geschrieben">Klausuren</a>');
     if (simulationen.length) sprung.push('<a href="#simulationen">Lernsimulationen</a>');
     if (praktikum.length) sprung.push('<a href="#praktikum">Praktikum</a>');
+    if (modelle.length) sprung.push('<a href="#modelle">3D-Modelle</a>');
     var planung = d.planung || [];
     if (planung.length) sprung.push('<a href="#planung">Unterrichtsplanung</a>');
     document.getElementById("sprung").innerHTML = sprung.join("");
@@ -538,6 +589,13 @@ body.beamer .beamer-aus { display: inline-flex; position: fixed; top: 16px; righ
         '<a class="haupt" href="' + esc(d.lerncoach.html) + '">Lerncoach öffnen</a>' +
         (d.lerncoach.hintergrund ? '<a href="' + esc(d.lerncoach.hintergrund) + '">Warum so?</a>' : "");
       document.getElementById("lerncoach").hidden = false;
+    }
+
+    if (projekte.length) {
+      document.getElementById("projekte-knoepfe").innerHTML = projekte.map(function (p) {
+        return '<a class="haupt" href="' + esc(p.html) + '">' + esc(p.titel) + " öffnen</a>";
+      }).join("");
+      document.getElementById("projekte").hidden = false;
     }
 
     var liste = document.getElementById("wochenliste");
@@ -675,6 +733,15 @@ body.beamer .beamer-aus { display: inline-flex; position: fixed; top: 16px; righ
           knopf("planung", s.planung, "Planung", "Ablauf der Stunde") + "</div></div>";
       }).join("");
       document.getElementById("praktikum").hidden = false;
+    }
+    // 3D-Modelle: eine HTML-Seite je Modell, zugeordnet zu einer Etappe
+    if (modelle.length) {
+      document.getElementById("modelle-karten").innerHTML = modelle.map(function (s) {
+        return '<div class="karte"><div><h3>' + esc(s.titel) + "</h3>" +
+          (s.etappe ? '<div class="woche-meta">Etappe ' + esc(s.etappe) + "</div>" : "") + "</div>" +
+          '<div class="materialien">' + knopf("modell", s, "3D-Modell öffnen", "drehen und zerlegen") + "</div></div>";
+      }).join("");
+      document.getElementById("modelle").hidden = false;
     }
     if (planung.length) {
       document.getElementById("planung-karten").innerHTML =
