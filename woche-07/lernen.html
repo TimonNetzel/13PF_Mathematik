@@ -577,6 +577,51 @@ const S0={name:'',points:0,done:{},awarded:{},solved:{},maxStep:{},stepIdx:{},hi
 let state;
 function load(){try{const s=JSON.parse(localStorage.getItem(CONFIG.key));if(s)return Object.assign(JSON.parse(JSON.stringify(S0)),s)}catch(e){}return JSON.parse(JSON.stringify(S0))}
 function save(){try{localStorage.setItem(CONFIG.key,JSON.stringify(state))}catch(e){}}
+/* Lehrkraft-Zugang: ein Code für alle Seiten (Übersichtsseite, Lernabenteuer, Projekt-App).
+   Die Seiten enthalten nur den SHA-256-Fingerabdruck des Codes (CONFIG.codeHash), nie den Code selbst.
+   Der eingegebene Code wird im Browser unter 'lk-code' gemerkt (localStorage, gilt für alle Seiten desselben Ursprungs,
+   bei GitHub Pages also für alle Klassen-Repos). Abmelden löscht ihn wieder.
+   Einzige Quelle dieser Datei: .claude/skills/mint-lernabenteuer/assets/lk_zugang.js (wird von build_sim.py,
+   projekt_bauen.py und index_bauen.py eingebettet, nicht abschreiben). */
+var LKZ=(function(){
+  var KEY='lk-code';
+  function norm(c){return String(c||'').toUpperCase().replace(/[^A-Z0-9]/g,'')}
+  function sha256(msg){
+    var K=[],i,j,n=2;
+    function frac(x){return((x-Math.floor(x))*4294967296)|0}
+    for(var c=0;K.length<64;n++){var p=true;for(i=2;i*i<=n;i++)if(n%i===0){p=false;break}if(p){K.push(frac(Math.cbrt(n)))}}
+    var H=[],m=2,cnt=0;for(;H.length<8;m++){var q=true;for(i=2;i*i<=m;i++)if(m%i===0){q=false;break}if(q)H.push(frac(Math.sqrt(m)))}
+    var b=[];for(i=0;i<msg.length;i++){var cp=msg.charCodeAt(i);if(cp<128)b.push(cp);else if(cp<2048)b.push(192|cp>>6,128|cp&63);else b.push(224|cp>>12,128|cp>>6&63,128|cp&63)}
+    var l=b.length*8;b.push(128);while(b.length%64!==56)b.push(0);
+    b.push(0,0,0,0,l>>>24&255,l>>>16&255,l>>>8&255,l&255);
+    var W=new Array(64);
+    for(var o=0;o<b.length;o+=64){
+      for(i=0;i<16;i++)W[i]=b[o+4*i]<<24|b[o+4*i+1]<<16|b[o+4*i+2]<<8|b[o+4*i+3];
+      for(i=16;i<64;i++){var a=W[i-15],d=W[i-2];
+        var s0=(a>>>7|a<<25)^(a>>>18|a<<14)^(a>>>3),s1=(d>>>17|d<<15)^(d>>>19|d<<13)^(d>>>10);
+        W[i]=(W[i-16]+s0+W[i-7]+s1)|0}
+      var h=H.slice();
+      for(i=0;i<64;i++){
+        var e=h[4],S1=(e>>>6|e<<26)^(e>>>11|e<<21)^(e>>>25|e<<7),ch=(e&h[5])^(~e&h[6]);
+        var t1=(h[7]+S1+ch+K[i]+W[i])|0,a2=h[0],S0=(a2>>>2|a2<<30)^(a2>>>13|a2<<19)^(a2>>>22|a2<<10);
+        var mj=(a2&h[1])^(a2&h[2])^(h[1]&h[2]),t2=(S0+mj)|0;
+        h=[(t1+t2)|0,h[0],h[1],h[2],(h[3]+t1)|0,h[4],h[5],h[6]]}
+      for(i=0;i<8;i++)H[i]=(H[i]+h[i])|0}
+    return H.map(function(x){return('00000000'+(x>>>0).toString(16)).slice(-8)}).join('')}
+  function hash(code){return sha256('lk1|'+norm(code))}
+  function gemerkt(){try{return localStorage.getItem(KEY)||''}catch(e){return ''}}
+  /* true, wenn der eingegebene Code zum Fingerabdruck passt */
+  function stimmt(eingabe,fingerabdruck){return !!fingerabdruck&&norm(eingabe).length>=8&&hash(eingabe)===fingerabdruck}
+  /* true, wenn auf diesem Gerät schon ein passender Code gemerkt ist */
+  function angemeldet(fingerabdruck){var g=gemerkt();return !!g&&stimmt(g,fingerabdruck)}
+  function merken(code){try{localStorage.setItem(KEY,norm(code))}catch(e){}}
+  function abmelden(){try{localStorage.removeItem(KEY)}catch(e){}}
+  return {norm:norm,hash:hash,stimmt:stimmt,angemeldet:angemeldet,merken:merken,abmelden:abmelden,gemerkt:gemerkt};
+})();
+
+/* Lehrkraft-Code: pruefen (Fingerabdruck) und gemeinsamen Zugang nutzen */
+const lkStimmt=v=>CONFIG.codeHash?LKZ.stimmt(v,CONFIG.codeHash):!!CONFIG.code&&String(v||'').trim().toUpperCase()===String(CONFIG.code).toUpperCase();
+const lkAngemeldet=()=>CONFIG.codeHash?LKZ.angemeldet(CONFIG.codeHash):false;
 
 /* ---------- Stufe, Stil, Preise ---------- */
 // Stufe: e = Einsteiger, s = Standard, p = Profi (Schüler wählen beim Start, jederzeit änderbar; steht nicht auf dem Ausweis).
@@ -1357,9 +1402,10 @@ function openSettings(){
   <div class="toggle"><span>${G('👥 ','')}Wir arbeiten</span><span class="rsel"><button class="chip ${gruppe()===2?'sel':''}" data-sg="2">zu zweit</button><button class="chip ${gruppe()===3?'sel':''}" data-sg="3">zu dritt</button></span></div>
   <div class="toggle"><span>⏱ Countdown im Abschlussquiz</span><button id="sTim" class="${timerOn()?'':'off'}">${timerOn()?'AN':'AUS'}</button></div>
   <hr style="margin:18px 0;border:0;border-top:1px solid var(--line)"><b>Für Lehrkräfte</b>
-  <p class="tip" style="margin:4px 0 8px">Code eingeben: schaltet alle Etappen frei und zeigt die Lösungsübersicht.</p>
+  <p class="tip" style="margin:4px 0 8px">Code eingeben: schaltet alle Etappen frei und zeigt die Lösungsübersicht. Er gilt danach für alle Lernabenteuer auf diesem Gerät.</p>
   <div style="display:flex;gap:8px"><input class="name" id="sPin" placeholder="Code" autocomplete="off"><button class="btn blue" id="sUnl">OK</button></div><div id="sMsg" class="tip"></div>
-  ${state.teacher?`<button class="btn sec" style="width:100%;margin-top:8px" id="sSol">📄 Lösungsübersicht anzeigen</button>
+  ${state.teacher?`<button class="btn sec" style="width:100%;margin-top:8px" id="sLko">🔒 Lehrkraft-Modus beenden (auf diesem Gerät abmelden)</button>
+   <button class="btn sec" style="width:100%;margin-top:8px" id="sSol">📄 Lösungsübersicht anzeigen</button>
    ${KETTEN.length?`<button class="btn sec" style="width:100%;margin-top:8px" id="sKet">📽 Beamer-Ansicht (Plan)</button>`:''}
    ${HALTS.length?`<button class="btn sec" style="width:100%;margin-top:8px" id="sBea">📽 Beamer-Ansicht (Haltepunkte)</button><button class="btn sec" style="width:100%;margin-top:8px" id="sBal">${G('⭐ ','')}Klassenbalken (${sternWort()} der Gruppen)</button>`:''}
    ${LEVELS.some(ikOn)?`<button class="btn sec" style="width:100%;margin-top:8px" id="sAmp">${G('🚦 ','')}Ampel-Abfrage (Beamer, Handzeichen)</button>`:''}
@@ -1374,7 +1420,8 @@ function openSettings(){
    $$('[data-sg]',s).forEach(b=>b.onclick=()=>{state.gruppe=+b.dataset.sg;save();$$('[data-sg]',s).forEach(x=>x.classList.toggle('sel',x===b))});
    $('#sStu',s).onclick=()=>{close();pickStufe(()=>{renderHome();openSettings()})};
    $('#sTim',s).onclick=e=>{state.timer=!timerOn();save();e.target.textContent=timerOn()?'AN':'AUS';e.target.classList.toggle('off',!timerOn())};
-   $('#sUnl',s).onclick=()=>{if($('#sPin',s).value.trim().toUpperCase()===CONFIG.code.toUpperCase()){state.teacher=true;save();close();renderHome();openSettings()}else $('#sMsg',s).textContent='Code falsch.'};
+   $('#sUnl',s).onclick=()=>{if(lkStimmt($('#sPin',s).value)){state.teacher=true;LKZ.merken($('#sPin',s).value);save();close();renderHome();openSettings()}else $('#sMsg',s).textContent='Code falsch.'};
+   const lkAb=$('#sLko',s);if(lkAb)lkAb.onclick=()=>{state.teacher=false;LKZ.abmelden();save();close();renderHome()};
    const so=$('#sSol',s);if(so)so.onclick=()=>{close();sheet(solutionsHTML()+'<button class="btn sec" style="width:100%;margin-top:12px" data-close>Schließen</button>')};
    const be=$('#sBea',s);if(be)be.onclick=()=>{close();openBeamer(0)};
    const ba=$('#sBal',s);if(ba)ba.onclick=()=>{close();openBalken()};
@@ -1934,7 +1981,7 @@ const W={
   so.innerHTML=`<summary>Kein Partner da? Allein spielen</summary><div class="gb"><p class="tip" style="margin-top:0">Die Lehrkraft tippt hier ihren Code ein. Dann siehst du alle Rollenkarten und löst alle Teile allein.</p>
    <div style="display:flex;gap:8px"><input class="name" type="password" placeholder="${state.teacher?'Lehrkraft-Modus: einfach OK':'Lehrkraft-Code'}" autocomplete="off" aria-label="Lehrkraft-Code für Solo"><button class="btn blue" data-solo>OK</button></div><div class="tip smsg"></div></div>`;
   c.appendChild(so);
-  $('[data-solo]',so).onclick=()=>{const i=$('input',so);if(state.teacher||i.value.trim().toUpperCase()===CONFIG.code.toUpperCase()){i.value='';take({n:2,r:'A',nr:0,solo:true})}else{$('.smsg',so).textContent='Code falsch. Frag deine Lehrkraft.';shake(i)}};
+  $('[data-solo]',so).onclick=()=>{const i=$('input',so);if(state.teacher||lkStimmt(i.value)){i.value='';take({n:2,r:'A',nr:0,solo:true})}else{$('.smsg',so).textContent='Code falsch. Frag deine Lehrkraft.';shake(i)}};
   draw();if(state.team[L._o])show(T);
   ctx.auto=()=>{if(!r){r='A';draw()}if(!nr.value)nr.value='1';ok.click()};
  },
@@ -2110,7 +2157,7 @@ function buildQuizLevel(){
    .concat([{type:'quizEnd'}]);
 }
 function start(){
-  if(typeof QUIZ==='undefined')window.QUIZ=[];state=load();SACH=CONFIG.stil==='sachlich';document.title=CONFIG.title;prepLevels();if(!PRAK())buildQuizLevel();calcInit();setBodyCls();sachInit();
+  if(typeof QUIZ==='undefined')window.QUIZ=[];state=load();SACH=CONFIG.stil==='sachlich';if(CONFIG.codeHash)state.teacher=lkAngemeldet();document.title=CONFIG.title;prepLevels();if(!PRAK())buildQuizLevel();calcInit();setBodyCls();sachInit();
   $('#bNext').onclick=()=>{const L=LEVELS[cur.li];if(cur.si<L.steps.length-1){cur.si++;renderStep();return}
     if(bossFree(cur.li)&&!state.teacher){const td=bossTodo(cur.li);if(td.length){toast(`Noch offen: ${td.map(i=>plain(L.steps[i].title||'Aufgabe')).join(', ')}`);goStep(td[0]);return}}
     finishLevel()};
@@ -2651,7 +2698,7 @@ const QUIZ=[
 /* ==== INHALT ENDE ==== */
 
 CONFIG.ueben=[{"level": 2, "aufgaben": "Teilaufgabe a)", "text": "Baumdiagramm ohne Zurücklegen zeichnen und beschriften"}, {"level": 4, "aufgaben": "Teilaufgabe b)", "text": "Pfadwahrscheinlichkeit mit der ersten Pfadregel"}, {"level": 4, "aufgaben": "Teilaufgabe c)", "text": "Laplace-Ansatz mit Binomialkoeffizient"}, {"level": 6, "aufgaben": "Teilaufgabe d)", "text": "Mindestens ein roter Ball über das Gegenereignis"}, {"level": 4, "aufgaben": "Teilaufgabe e)", "text": "Dritte Stufe und Pfad GGR"}, {"level": 7, "aufgaben": "Teilaufgabe f)", "text": "Toms Baumdiagramm beurteilen (mit oder ohne Zurücklegen)"}];
-CONFIG.code="13PF-ADVX";
+CONFIG.codeHash="1141535e2aedaa71c97fb7c7dbcbba25deae87e3978a4fe51841eb5c4210a191";delete CONFIG.code;
 start();
 </script>
 </body>

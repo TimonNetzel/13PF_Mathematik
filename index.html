@@ -12,6 +12,49 @@
        Im Browser lässt sich über „Etappe wählen“ jede andere Etappe zur aktuellen machen.
        ============================================================== -->
   <script>var AKTUELLE_WOCHE = 3;</script>
+  <script>var LK_HASH = "1141535e2aedaa71c97fb7c7dbcbba25deae87e3978a4fe51841eb5c4210a191";</script>
+  <script>/* Lehrkraft-Zugang: ein Code für alle Seiten (Übersichtsseite, Lernabenteuer, Projekt-App).
+   Die Seiten enthalten nur den SHA-256-Fingerabdruck des Codes (CONFIG.codeHash), nie den Code selbst.
+   Der eingegebene Code wird im Browser unter 'lk-code' gemerkt (localStorage, gilt für alle Seiten desselben Ursprungs,
+   bei GitHub Pages also für alle Klassen-Repos). Abmelden löscht ihn wieder.
+   Einzige Quelle dieser Datei: .claude/skills/mint-lernabenteuer/assets/lk_zugang.js (wird von build_sim.py,
+   projekt_bauen.py und index_bauen.py eingebettet, nicht abschreiben). */
+var LKZ=(function(){
+  var KEY='lk-code';
+  function norm(c){return String(c||'').toUpperCase().replace(/[^A-Z0-9]/g,'')}
+  function sha256(msg){
+    var K=[],i,j,n=2;
+    function frac(x){return((x-Math.floor(x))*4294967296)|0}
+    for(var c=0;K.length<64;n++){var p=true;for(i=2;i*i<=n;i++)if(n%i===0){p=false;break}if(p){K.push(frac(Math.cbrt(n)))}}
+    var H=[],m=2,cnt=0;for(;H.length<8;m++){var q=true;for(i=2;i*i<=m;i++)if(m%i===0){q=false;break}if(q)H.push(frac(Math.sqrt(m)))}
+    var b=[];for(i=0;i<msg.length;i++){var cp=msg.charCodeAt(i);if(cp<128)b.push(cp);else if(cp<2048)b.push(192|cp>>6,128|cp&63);else b.push(224|cp>>12,128|cp>>6&63,128|cp&63)}
+    var l=b.length*8;b.push(128);while(b.length%64!==56)b.push(0);
+    b.push(0,0,0,0,l>>>24&255,l>>>16&255,l>>>8&255,l&255);
+    var W=new Array(64);
+    for(var o=0;o<b.length;o+=64){
+      for(i=0;i<16;i++)W[i]=b[o+4*i]<<24|b[o+4*i+1]<<16|b[o+4*i+2]<<8|b[o+4*i+3];
+      for(i=16;i<64;i++){var a=W[i-15],d=W[i-2];
+        var s0=(a>>>7|a<<25)^(a>>>18|a<<14)^(a>>>3),s1=(d>>>17|d<<15)^(d>>>19|d<<13)^(d>>>10);
+        W[i]=(W[i-16]+s0+W[i-7]+s1)|0}
+      var h=H.slice();
+      for(i=0;i<64;i++){
+        var e=h[4],S1=(e>>>6|e<<26)^(e>>>11|e<<21)^(e>>>25|e<<7),ch=(e&h[5])^(~e&h[6]);
+        var t1=(h[7]+S1+ch+K[i]+W[i])|0,a2=h[0],S0=(a2>>>2|a2<<30)^(a2>>>13|a2<<19)^(a2>>>22|a2<<10);
+        var mj=(a2&h[1])^(a2&h[2])^(h[1]&h[2]),t2=(S0+mj)|0;
+        h=[(t1+t2)|0,h[0],h[1],h[2],(h[3]+t1)|0,h[4],h[5],h[6]]}
+      for(i=0;i<8;i++)H[i]=(H[i]+h[i])|0}
+    return H.map(function(x){return('00000000'+(x>>>0).toString(16)).slice(-8)}).join('')}
+  function hash(code){return sha256('lk1|'+norm(code))}
+  function gemerkt(){try{return localStorage.getItem(KEY)||''}catch(e){return ''}}
+  /* true, wenn der eingegebene Code zum Fingerabdruck passt */
+  function stimmt(eingabe,fingerabdruck){return !!fingerabdruck&&norm(eingabe).length>=8&&hash(eingabe)===fingerabdruck}
+  /* true, wenn auf diesem Gerät schon ein passender Code gemerkt ist */
+  function angemeldet(fingerabdruck){var g=gemerkt();return !!g&&stimmt(g,fingerabdruck)}
+  function merken(code){try{localStorage.setItem(KEY,norm(code))}catch(e){}}
+  function abmelden(){try{localStorage.removeItem(KEY)}catch(e){}}
+  return {norm:norm,hash:hash,stimmt:stimmt,angemeldet:angemeldet,merken:merken,abmelden:abmelden,gemerkt:gemerkt};
+})();
+</script>
 
   <!-- Alles Weitere erzeugt _werkzeuge/index_bauen.py. Bitte nicht von Hand ändern. -->
   <style>
@@ -180,6 +223,15 @@ h2 { margin: 0 0 4px; font-size: 1.45rem; letter-spacing: -.02em; }
 h3.gruppe { margin: 0 0 10px; color: var(--leise); font-size: .85rem; letter-spacing: .05em; text-transform: uppercase; }
 .spalten .karten { grid-template-columns: 1fr; }
 
+footer { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px; }
+.zahnrad { min-height: 44px; min-width: 44px; justify-content: center; padding: 8px; font-size: 1.1rem; }
+#lk-dialog { max-width: min(92vw, 380px); padding: 20px; color: var(--tinte); background: var(--flaeche); border: 1px solid var(--linie-stark); border-radius: 14px; }
+#lk-dialog::backdrop { background: rgba(0, 0, 0, .45); }
+#lk-dialog h2 { margin: 0 0 8px; font-size: 1.1rem; }
+#lk-dialog p { margin: 0 0 12px; color: var(--leise); font-size: .9rem; }
+#lk-dialog input { width: 100%; min-height: 44px; margin-bottom: 10px; padding: 8px 12px; color: var(--tinte); background: var(--flaeche-2); border: 1px solid var(--linie-stark); border-radius: 10px; font-size: 1rem; }
+#lk-dialog .reihe { display: flex; gap: 8px; }
+#lk-meldung { min-height: 1.3em; color: var(--klausur); }
 footer { margin: 44px 0 0; padding: 18px 0 max(28px, env(safe-area-inset-bottom)); color: var(--leise); border-top: 1px solid var(--linie); font-size: .85rem; }
 
 /* Beamer */
@@ -205,7 +257,7 @@ body.beamer .beamer-aus { display: inline-flex; position: fixed; top: 16px; righ
   * { transition: none !important; }
 }
 @media print {
-  .sprung, .suche, .leiste, .knopf-leise, .wahl, .oben-zeigen, .zurueck-aktuell { display: none !important; }
+  .sprung, .suche, .leiste, .knopf-leise, #lk-dialog, .wahl, .oben-zeigen, .zurueck-aktuell { display: none !important; }
   body { background: #fff; }
   .woche, .karte, .aktuell { break-inside: avoid; box-shadow: none; }
 }
@@ -302,7 +354,23 @@ body.beamer .beamer-aus { display: inline-flex; position: fixed; top: 16px; righ
       <div class="karten" id="planung-karten"></div>
     </section>
 
-    <footer id="fuss"></footer>
+    <footer>
+      <span id="fuss"></span>
+      <button class="knopf-leise zahnrad" id="lk-an" type="button" aria-label="Einstellungen für die Lehrkraft" title="Einstellungen für die Lehrkraft" hidden>⚙️</button>
+    </footer>
+    <dialog id="lk-dialog">
+      <h2>⚙️ Einstellungen</h2>
+      <div id="lk-aus">
+        <p>Für die Lehrkraft: Der Code schaltet in allen Lernabenteuern und der Projekt-App den Lehrkraft-Modus frei, solange er auf diesem Gerät gespeichert ist.</p>
+        <input id="lk-code" type="password" placeholder="Lehrkraft-Code" autocomplete="off" autocapitalize="characters" spellcheck="false">
+        <p id="lk-meldung" role="status"></p>
+        <div class="reihe"><button class="knopf-leise" id="lk-ok" type="button">Anmelden</button><button class="knopf-leise" data-zu type="button">Schließen</button></div>
+      </div>
+      <div id="lk-ein" hidden>
+        <p>Der Lehrkraft-Modus ist auf diesem Gerät aktiv. Er gilt in allen Lernabenteuern und in der Projekt-App dieser Klassen.</p>
+        <div class="reihe"><button class="knopf-leise" id="lk-ab" type="button">Abmelden</button><button class="knopf-leise" data-zu type="button">Schließen</button></div>
+      </div>
+    </dialog>
   </main>
 
   <button class="knopf-leise beamer-aus" id="beamer-aus" type="button">Beamer beenden</button>
@@ -314,7 +382,7 @@ body.beamer .beamer-aus { display: inline-flex; position: fixed; top: 16px; righ
  "klasse": "13PF",
  "fach": "Mathematik",
  "schuljahr": "2026/27",
- "erzeugt": "2026-11-14",
+ "erzeugt": "2026-11-17",
  "wochen": [
   {
    "nr": 1,
@@ -751,6 +819,31 @@ body.beamer .beamer-aus { display: inline-flex; position: fixed; top: 16px; righ
 
     document.getElementById("fuss").textContent = [d.klasse, d.fach, d.schuljahr ? "Schuljahr " + d.schuljahr : "", "Stand " +
       new Date(d.erzeugt + "T12:00:00").toLocaleDateString("de-DE")].filter(Boolean).join(" · ");
+
+    // ---------- Lehrkraft-Zugang (Zahnrad): Code einmal eingeben, gilt dann auf diesem Gerät überall ----------
+    (function () {
+      var an = document.getElementById("lk-an"), dlg = document.getElementById("lk-dialog");
+      if (!LK_HASH || !dlg || typeof dlg.showModal !== "function") return;
+      an.hidden = false;
+      var aus = document.getElementById("lk-aus"), ein = document.getElementById("lk-ein");
+      var feld = document.getElementById("lk-code"), meldung = document.getElementById("lk-meldung");
+      function zeige() {
+        var drin = LKZ.angemeldet(LK_HASH);
+        aus.hidden = drin; ein.hidden = !drin;
+        an.textContent = drin ? "🔓" : "⚙️";
+        meldung.textContent = "";
+      }
+      function anmelden() {
+        if (LKZ.stimmt(feld.value, LK_HASH)) { LKZ.merken(feld.value); feld.value = ""; zeige(); }
+        else { meldung.textContent = "Code falsch."; feld.select(); }
+      }
+      an.addEventListener("click", function () { zeige(); dlg.showModal(); });
+      document.getElementById("lk-ok").addEventListener("click", anmelden);
+      feld.addEventListener("keydown", function (e) { if (e.key === "Enter") anmelden(); });
+      document.getElementById("lk-ab").addEventListener("click", function () { LKZ.abmelden(); zeige(); });
+      dlg.addEventListener("click", function (e) { if (e.target === dlg || e.target.hasAttribute("data-zu")) dlg.close(); });
+      zeige();
+    })();
     document.getElementById("wochen-zahl").textContent = "Antippen öffnet das Material hier, „PDF“ zum Ausdrucken.";
 
     // ---------- Suche & Sprungleiste ----------
