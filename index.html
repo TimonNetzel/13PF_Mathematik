@@ -294,6 +294,14 @@ body.beamer .beamer-aus { display: inline-flex; position: fixed; top: 16px; righ
       <div class="lerncoach-knoepfe" id="lerncoach-knoepfe"></div>
     </section>
 
+    <section class="lerncoach-box" id="werkstatt" aria-labelledby="werkstatt-titel" hidden>
+      <div>
+        <h2 id="werkstatt-titel">KI-Werkstatt</h2>
+        <p>Baue mit KI deine eigene Mappe mit Werkzeugen zum Unterricht. Anleitung in drei Stufen.</p>
+      </div>
+      <div class="lerncoach-knoepfe" id="werkstatt-knoepfe"></div>
+    </section>
+
     <section class="lerncoach-box" id="projekte" aria-labelledby="projekte-titel" hidden>
       <div>
         <h2 id="projekte-titel">Projekt</h2>
@@ -539,7 +547,11 @@ body.beamer .beamer-aus { display: inline-flex; position: fixed; top: 16px; righ
    "dauer": "",
    "nr": 7
   }
- ]
+ ],
+ "werkstatt": {
+  "html": "werkstatt/index.html",
+  "start": "werkstatt/mappe_start.html"
+ }
 };
 
     var ICON = {
@@ -639,6 +651,7 @@ body.beamer .beamer-aus { display: inline-flex; position: fixed; top: 16px; righ
     var sprung = [];
     if (aktuell) sprung.push('<a href="#aktuell">Diese Etappe</a>');
     if (d.lerncoach) sprung.push('<a href="#lerncoach">Lerncoach</a>');
+    if (d.werkstatt) sprung.push('<a href="#werkstatt">KI-Werkstatt</a>');
     var projekte = d.projekte || [];
     if (projekte.length) sprung.push('<a href="#projekte">Projekt</a>');
     sprung.push('<a href="#wochen">Alle Etappen</a>');
@@ -657,6 +670,13 @@ body.beamer .beamer-aus { display: inline-flex; position: fixed; top: 16px; righ
         '<a class="haupt" href="' + esc(d.lerncoach.html) + '">Lerncoach öffnen</a>' +
         (d.lerncoach.hintergrund ? '<a href="' + esc(d.lerncoach.hintergrund) + '">Warum so?</a>' : "");
       document.getElementById("lerncoach").hidden = false;
+    }
+
+    if (d.werkstatt) {
+      document.getElementById("werkstatt-knoepfe").innerHTML =
+        '<a class="haupt" href="' + esc(d.werkstatt.html) + '">KI-Werkstatt öffnen</a>' +
+        (d.werkstatt.start ? '<a href="' + esc(d.werkstatt.start) + '" download="mappe_start.html">Startdatei</a>' : "");
+      document.getElementById("werkstatt").hidden = false;
     }
 
     if (projekte.length) {

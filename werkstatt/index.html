@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="werkstatt" content="13PF">
+<title>KI-Werkstatt 13PF</title>
+<style>
+  :root {
+    --grund: #f5f6fa; --flaeche: #ffffff; --text: #1c2230; --leise: #586176; --rand: #d8dde8;
+    --akzent: #2e59cf; --akzent-weich: #e5ecff; --warn: #8a5300; --warn-weich: #fff2dc;
+    --gut: #1e7744; --gut-weich: #e2f3e9; --code: #f0f2f7;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --grund: #11141b; --flaeche: #1a1f29; --text: #e7eaf1; --leise: #a1a9bb; --rand: #2d3443;
+      --akzent: #8eaeff; --akzent-weich: #222f4e; --warn: #ffc56b; --warn-weich: #3a2c12;
+      --gut: #70d09b; --gut-weich: #163525; --code: #232937;
+    }
+  }
+  :root[data-theme="dark"] {
+    --grund: #11141b; --flaeche: #1a1f29; --text: #e7eaf1; --leise: #a1a9bb; --rand: #2d3443;
+    --akzent: #8eaeff; --akzent-weich: #222f4e; --warn: #ffc56b; --warn-weich: #3a2c12;
+    --gut: #70d09b; --gut-weich: #163525; --code: #232937;
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body { margin: 0; background: var(--grund); color: var(--text); font: 16px/1.55 system-ui, -apple-system, "Segoe UI", sans-serif; }
+  .rahmen { max-width: 960px; margin: 0 auto; padding: 0 16px 48px; }
+  header.kopf { padding: 24px 0 8px; }
+  header.kopf h1 { margin: 0; font-size: 1.9rem; }
+  header.kopf p { margin: 4px 0 0; color: var(--leise); }
+  .leiste { position: sticky; top: 0; z-index: 5; background: var(--grund); padding: 10px 0; border-bottom: 1px solid var(--rand); display: flex; flex-wrap: wrap; gap: 10px 24px; }
+  .wahl { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; }
+  .wahl span { font-weight: 700; margin-right: 4px; }
+  .wahl button { border: 1px solid var(--akzent); color: var(--akzent); background: var(--flaeche); border-radius: 999px; padding: 5px 14px; font: inherit; font-weight: 600; cursor: pointer; }
+  .wahl button[aria-pressed="true"] { background: var(--akzent); color: var(--flaeche); }
+  nav.sprung { display: flex; flex-wrap: wrap; gap: 6px; margin: 14px 0 4px; }
+  nav.sprung a { color: var(--akzent); background: var(--akzent-weich); padding: 3px 12px; border-radius: 999px; text-decoration: none; font-weight: 600; font-size: 0.95rem; }
+  section.karte { background: var(--flaeche); border: 1px solid var(--rand); border-radius: 16px; padding: 18px 20px; margin: 18px 0; }
+  section.karte > h2 { margin: 0 0 10px; font-size: 1.4rem; }
+  h3 { margin: 18px 0 6px; font-size: 1.1rem; }
+  .knoepfe { display: flex; flex-wrap: wrap; gap: 8px; margin: 10px 0; }
+  .knopf, button.knopf { display: inline-flex; align-items: center; gap: 6px; padding: 8px 16px; border-radius: 10px; border: 1px solid var(--akzent); background: var(--flaeche); color: var(--akzent); font: inherit; font-weight: 700; text-decoration: none; cursor: pointer; }
+  .knopf.haupt { background: var(--akzent); color: var(--flaeche); }
+  .hinweis { background: var(--warn-weich); color: var(--text); border-left: 4px solid var(--warn); padding: 10px 14px; border-radius: 8px; margin: 10px 0; }
+  .gut { background: var(--gut-weich); border-left: 4px solid var(--gut); padding: 10px 14px; border-radius: 8px; margin: 10px 0; }
+  .leise { color: var(--leise); }
+  table { border-collapse: collapse; width: 100%; }
+  th, td { border-bottom: 1px solid var(--rand); padding: 6px 8px; text-align: left; vertical-align: top; }
+  .tabelle { overflow-x: auto; }
+  ol.schritte { padding-left: 22px; }
+  ol.schritte li { margin: 8px 0; }
+  .prompt { position: relative; background: var(--code); border: 1px solid var(--rand); border-radius: 10px; padding: 12px 14px 44px; margin: 8px 0 14px; white-space: pre-wrap; font: 0.95rem/1.5 ui-monospace, "SFMono-Regular", Consolas, monospace; }
+  .prompt button { position: absolute; right: 10px; bottom: 8px; }
+  .prompt-titel { font-weight: 700; margin-top: 12px; }
+  details { border: 1px solid var(--rand); border-radius: 12px; padding: 8px 14px; margin: 8px 0; background: var(--flaeche); }
+  details > summary { cursor: pointer; font-weight: 700; }
+  details[open] > summary { margin-bottom: 8px; }
+  .etappe { border: 1px solid var(--rand); border-radius: 14px; margin: 12px 0; background: var(--flaeche); }
+  .etappe > summary { padding: 6px 0; font-size: 1.1rem; }
+  .etappe .werkzeugname { color: var(--akzent); }
+  .marke { display: inline-block; font-size: 0.8rem; font-weight: 700; padding: 1px 8px; border-radius: 999px; background: var(--akzent-weich); color: var(--akzent); margin-left: 6px; vertical-align: middle; }
+  .test { font-family: ui-monospace, Consolas, monospace; font-size: 0.95rem; overflow-wrap: anywhere; }
+  section.karte, .prompt { overflow-wrap: anywhere; }
+  .fertig label { display: block; margin: 4px 0; }
+  .ideen { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 12px; }
+  .ideen > div { background: var(--akzent-weich); border-radius: 10px; padding: 8px 14px; }
+  .ideen ul { margin: 4px 0; padding-left: 20px; }
+  textarea#code { width: 100%; min-height: 260px; font: 0.9rem/1.45 ui-monospace, Consolas, monospace; padding: 10px; border: 1px solid var(--rand); border-radius: 10px; background: var(--code); color: var(--text); }
+  input[type="text"], select { font: inherit; padding: 6px 8px; border: 1px solid var(--rand); border-radius: 8px; background: var(--flaeche); color: var(--text); }
+  iframe#vorschau { width: 100%; height: 640px; border: 1px solid var(--rand); border-radius: 12px; background: #ffffff; margin-top: 10px; }
+  #meldung { min-height: 1.5em; font-weight: 600; }
+  .kiwahl-box { border: 1px solid var(--rand); border-radius: 12px; padding: 4px 16px; }
+  .kiwahl-box dt { font-weight: 700; margin-top: 8px; }
+  .kiwahl-box dd { margin: 0 0 4px; }
+  body:not([data-stufe="e"]) .nur-e, body:not([data-stufe="f"]) .nur-f, body:not([data-stufe="p"]) .nur-p,
+  body[data-stufe="e"] .ab-f, body[data-stufe="p"] .bis-f { display: none; }
+  body:not([data-ki="chatgpt"]) .ki-chatgpt, body:not([data-ki="gemini"]) .ki-gemini, body:not([data-ki="claude"]) .ki-claude { display: none; }
+  footer { color: var(--leise); font-size: 0.9rem; padding-top: 8px; }
+  @media (max-width: 600px) {
+    header.kopf h1 { font-size: 1.5rem; }
+    .leiste { gap: 6px 14px; padding: 6px 0; }
+    .wahl { gap: 4px; }
+    .wahl span { font-size: 0.85rem; margin-right: 0; }
+    .wahl button { padding: 3px 9px; font-size: 0.85rem; }
+    section.karte { padding: 14px; }
+    iframe#vorschau { height: 520px; }
+  }
+</style>
+</head>
+<body data-stufe="e" data-ki="chatgpt">
+<div class="rahmen">
+
+<header class="kopf">
+  <h1>KI-Werkstatt 13PF</h1>
+  <p>Mathematik. Baue mit KI deine eigene Mappe mit Werkzeugen zum Unterricht.</p>
+</header>
+
+<div class="leiste" role="group" aria-label="Einstellungen">
+  <div class="wahl" id="wahl-stufe">
+    <span>Stufe:</span>
+    <button type="button" data-stufe="e" aria-pressed="true">Einsteiger</button>
+    <button type="button" data-stufe="f" aria-pressed="false">Fortgeschritten</button>
+    <button type="button" data-stufe="p" aria-pressed="false">Profi</button>
+  </div>
+  <div class="wahl" id="wahl-ki">
+    <span>Meine KI:</span>
+    <button type="button" data-ki="chatgpt" aria-pressed="true">ChatGPT</button>
+    <button type="button" data-ki="gemini" aria-pressed="false">Gemini</button>
+    <button type="button" data-ki="claude" aria-pressed="false">Claude</button>
+  </div>
+</div>
+
+<nav class="sprung" aria-label="Abschnitte">
+  <a href="#start">Start</a>
+  <a href="#regeln">Regeln</a>
+  <a href="#bewertung">Bewertung</a>
+  <a href="#ablauf">So arbeitest du</a>
+  <a href="#etappen">Etappen</a>
+  <a href="#werkstatt">Werkstatt</a>
+  <a href="#prompts">Prompts</a>
+  <a href="#hilfe">Hilfe</a>
+  <a href="#messe">Werkzeugmesse</a>
+</nav>
+
+<section class="karte" id="start">
+  <h2>Worum geht es?</h2>
+  <p>Du baust über das Halbjahr eine eigene HTML-Datei: <strong>Mein Zufalls-Werkzeugkasten</strong>. In jeder Etappe kommt etwas zum Unterricht dazu, zum Beispiel ein Rechner, eine Tabelle oder ein Diagramm. Die KI schreibt den Code. Du entscheidest, was gebaut wird, und prüfst, ob es richtig rechnet.</p>
+  <p>Etappe 1 und 2 sind ein geführter Einstieg. Ab Etappe 3 entscheidest du selbst, was du baust. Jede Woche kommt etwas dazu. Am Ende des Schuljahres wird die Mappe bewertet, nach den Bausteinen im Abschnitt <a href="#bewertung">Bewertung</a> und in einem kurzen Gespräch.</p>
+  <p>Deine Mappe gibt es so nur einmal. Du kannst sie in einem Praktikum, an der Uni oder in einem Vorstellungsgespräch zeigen und erklären, wie du die KI geprüft hast.</p>
+  <div class="knoepfe">
+    <a class="knopf haupt" href="mappe_start.html" download="mappe_start.html">Startdatei herunterladen</a>
+    <a class="knopf" href="#werkstatt" id="start-in-werkstatt">Startdatei in der Werkstatt öffnen</a>
+  </div>
+  <h3>Welche Stufe passt zu mir?</h3>
+  <div class="tabelle">
+    <table>
+      <thead><tr><th>Stufe</th><th>Für wen?</th><th>Wie viel Hilfe du bekommst</th></tr></thead>
+      <tbody>
+        <tr><td>Einsteiger</td><td>Du hast noch nie mit KI programmiert.</td><td>Im Einstieg fertige Prompts für jeden Schritt. Ab Etappe 3 eine Vorlage für deinen Ideen-Prompt.</td></tr>
+        <tr><td>Fortgeschritten</td><td>Du hast schon ein Werkzeug gebaut.</td><td>Tipps. Den Prompt schreibst du selbst.</td></tr>
+        <tr><td>Profi</td><td>Du willst mehr als die Aufgabe.</td><td>Nur Anforderungen. Du arbeitest mit Teiländerungen und schreibst die Tests selbst.</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="leise">Du kannst die Stufe oben jederzeit wechseln, auch von Etappe zu Etappe.</p>
+</section>
+
+<section class="karte" id="regeln">
+  <h2>Bevor du startest</h2>
+  <ol class="schritte">
+    <li><strong>Erst selbst rechnen, dann die KI.</strong> In einer Studie lösten Schüler mit freiem KI-Zugang die Übungen besser. In der Prüfung ohne KI schnitten sie danach schlechter ab. Wer zuerst selbst rechnet, lernt mehr und erkennt die Fehler der KI.</li>
+    <li><strong>Jedes Ergebnis prüfen.</strong> Deine Mappe hat ein Testfeld. Ein Werkzeug ist erst fertig, wenn alle Tests grün sind und ein eigenes Beispiel stimmt.</li>
+    <li><strong>Keine persönlichen Daten.</strong> Nutze einen Spitznamen. Keine echten Namen, keine Adresse, keine Noten und keine Fotos von Personen, weder in der Datei noch im Chat.</li>
+    <li><strong>Ehrlich protokollieren.</strong> Schreibe ins Protokoll, was die KI gemacht hat und welchen Fehler du gefunden hast. Gerade die Fehler zeigen, was du kannst.</li>
+    <li><strong>Einen Test nie verbiegen.</strong> Ist ein Test rot, prüfst du zuerst deine Handrechnung und dann den Code. Den Test zu ändern, nur damit er grün wird, ist geschummelt.</li>
+  </ol>
+
+  <h3>Deine KI</h3>
+  <p class="leise">Oben unter „Meine KI“ wählst du aus. Alle drei gibt es kostenlos mit Konto.</p>
+  <div class="kiwahl-box ki-chatgpt">
+    <dl>
+      <dt>Adresse</dt><dd>chatgpt.com</dd>
+      <dt>Alter</dt><dd>ab 13 Jahren, unter 18 nur mit Zustimmung der Eltern</dd>
+      <dt>Datei übergeben</dt><dd>Im Eingabefeld auf „+“ tippen und die Datei hochladen. Klappt das nicht, kopierst du den Code aus der Werkstatt und fügst ihn in den Chat ein.</dd>
+      <dt>Vorschau</dt><dd>Bei Code öffnet ChatGPT oft eine Ansicht namens Canvas. Fehlt dort eine Vorschau, nutzt du die Werkstatt auf dieser Seite.</dd>
+      <dt>Gratis-Version</dt><dd>Die Zahl der Nachrichten ist begrenzt. Danach antwortet ein schwächeres Modell, oder du musst warten.</dd>
+      <dt>Datenschutz</dt><dd>In den Einstellungen unter „Datenkontrollen“ kannst du ausschalten, dass deine Chats zum Training genutzt werden.</dd>
+    </dl>
+  </div>
+  <div class="kiwahl-box ki-gemini">
+    <dl>
+      <dt>Adresse</dt><dd>gemini.google.com</dd>
+      <dt>Alter</dt><dd>Du brauchst ein Google-Konto. In Deutschland geht ein eigenes Konto ab 16 Jahren, jüngere Schüler nur über die Eltern.</dd>
+      <dt>Datei übergeben</dt><dd>Im Eingabefeld auf „+“ tippen und die Datei hochladen. Klappt das nicht, kopierst du den Code aus der Werkstatt und fügst ihn in den Chat ein.</dd>
+      <dt>Vorschau</dt><dd>Wähle im Eingabefeld „Canvas“. Dann zeigt Gemini Code und Vorschau nebeneinander.</dd>
+      <dt>Gratis-Version</dt><dd>Die Zahl der Anfragen an das stärkste Modell ist begrenzt.</dd>
+      <dt>Datenschutz</dt><dd>In den Einstellungen unter „Aktivität“ kannst du das Speichern deiner Chats ausschalten.</dd>
+    </dl>
+  </div>
+  <div class="kiwahl-box ki-claude">
+    <dl>
+      <dt>Adresse</dt><dd>claude.ai</dd>
+      <dt>Alter</dt><dd>erst ab 18 Jahren</dd>
+      <dt>Datei übergeben</dt><dd>Im Eingabefeld auf „+“ oder die Büroklammer tippen und die Datei hochladen. Klappt das nicht, kopierst du den Code aus der Werkstatt und fügst ihn in den Chat ein.</dd>
+      <dt>Vorschau</dt><dd>Claude zeigt HTML oft als Artefakt neben dem Chat mit fertiger Vorschau.</dd>
+      <dt>Gratis-Version</dt><dd>Die Zahl der Nachrichten ist begrenzt. Danach musst du einige Stunden warten.</dd>
+      <dt>Datenschutz</dt><dd>In den Einstellungen unter „Datenschutz“ kannst du ausschalten, dass deine Chats zum Training genutzt werden.</dd>
+    </dl>
+  </div>
+  <p class="leise">Stand November 2026. Die Anbieter ändern ihre Seiten oft. Heißt ein Knopf anders, frag die KI selbst: „Wie lade ich hier eine Datei hoch?“</p>
+</section>
+
+<section class="karte" id="bewertung">
+  <h2>Bewertung</h2>
+  <p>Deine Mappe wird am Ende des Schuljahres bewertet. In jeder Etappe kommt etwas dazu. Die Bewertung hat drei Teile.</p>
+  <h3>1. Bausteine in jeder Etappe</h3>
+  <div class="tabelle">
+    <table>
+      <thead><tr><th>Baustein</th><th>Nachweis in der Mappe</th><th>Punkte</th></tr></thead>
+      <tbody>
+        <tr><td>B1 Fachbezug</td><td>Das Neue passt zum Thema der Etappe und rechnet richtig.</td><td>2</td></tr>
+        <tr><td>B2 Prüfnachweis</td><td>Mindestens zwei Tests im Testfeld, deren Werte du vorher von Hand gerechnet hast</td><td>2</td></tr>
+        <tr><td>B3 KI-Kritik</td><td>Ein Protokolleintrag mit deinem Prompt und dem, was die KI falsch oder schlecht gemacht hat</td><td>2</td></tr>
+        <tr><td>B4 Eigenständigkeit</td><td>Eine Idee, die über die Anregungen hinausgeht</td><td>1</td></tr>
+        <tr><td>B5 Weiterentwicklung</td><td>Ein früheres Werkzeug verbessert und im Protokoll begründet (freiwillig)</td><td>+1</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p>Je Etappe gibt es höchstens 7 Punkte. B5 gleicht fehlende Punkte aus. Es zählen deine besten 10 Etappen. Trage im Bereich BAUSTEINE deiner Mappe ein, wo man jeden Baustein findet.</p>
+  <h3>2. Gesamteindruck</h3>
+  <ul>
+    <li>Die Mappe ist lesbar und funktioniert auch auf dem Handy.</li>
+    <li>Sie hat eine eigene Gestaltung, die zum Inhalt passt.</li>
+    <li>Navigation, Protokoll und Bausteine sind vollständig.</li>
+  </ul>
+  <h3>3. Kolloquium</h3>
+  <p>Am Ende zeigst du deine Mappe in einem Gespräch von 5 bis 10 Minuten. Du führst zwei Werkzeuge vor und erklärst, wozu sie dienen. Du zeigst eine Formel im Code und erklärst sie. Deine Lehrkraft gibt dir einen Testwert, und du prüfst dein Werkzeug damit. Zum Schluss nennst du eine Grenze der KI an einem eigenen Beispiel.</p>
+  <p class="hinweis">Die KI darf den Code schreiben. Bewertet wird, was du entschieden, geprüft und verstanden hast. Im Gespräch zeigt sich, ob du deine Mappe erklären kannst.</p>
+  <p class="leise">Wie stark die drei Teile zählen, sagt dir deine Lehrkraft vorher.</p>
+</section>
+
+<section class="karte" id="ablauf">
+  <h2>So arbeitest du in jeder Etappe</h2>
+  <ol class="schritte">
+    <li><strong>Selbst lösen.</strong> Rechne zuerst Aufgaben der Etappe von Hand. Diese Werte brauchst du später für deine Tests. <span class="nur-e">Schreibe deine Ergebnisse auf einen Zettel.</span></li>
+    <li><strong>Datei übergeben.</strong> Gib der KI deine neueste Datei, in Etappe 1 die Startdatei. <span class="nur-e">Öffne einen neuen Chat. Lade die Datei hoch oder kopiere ihren ganzen Inhalt aus der Werkstatt in den Chat.</span></li>
+    <li><strong>Wunsch beschreiben.</strong> <span class="nur-e">Im Einstieg kopierst du den ersten Prompt der Etappe. Ab Etappe 3 nimmst du den Ideen-Prompt und setzt deine Idee ein.</span><span class="ab-f">Schreibe deinen Prompt selbst. Nenne Eingabe, Ausgabe, die Namen der Funktionen und was sich nicht ändern darf.</span></li>
+    <li><strong>Code übernehmen.</strong> Kopiere die Antwort der KI in die Werkstatt und tippe auf „Vorschau“. <span class="nur-e">Es macht nichts, wenn du Text vor oder nach dem Code mitkopierst. Die Werkstatt behält nur den Teil von &lt;!DOCTYPE html&gt; bis &lt;/html&gt;.</span></li>
+    <li><strong>Testen.</strong> Sind alle Tests im Testfeld grün? Stimmt dein eigenes Beispiel von Hand? <span class="nur-e">Ist etwas rot, nimm den Prompt „Reparieren“ aus dem Abschnitt Prompts.</span></li>
+    <li><strong>Sichern und belegen.</strong> Speichere die Datei als neue Version, zum Beispiel <code>mappe_e03.html</code>. Trage ins Protokoll deinen Prompt ein und welchen Fehler die KI gemacht hat. Trage im Bereich BAUSTEINE ein, wo man jeden Baustein findet.</li>
+  </ol>
+  <p class="gut">Gib nach jeder Etappe die neue Datei weiter, nie eine alte. Sonst gehen Werkzeuge verloren.</p>
+</section>
+
+<section class="karte" id="etappen">
+  <h2>Etappen</h2>
+  <p class="leise">Jede Etappe passt zum Unterricht. Was du zusätzlich einbaust, entscheidest du selbst.</p>
+  <div id="etappenliste"></div>
+</section>
+
+<section class="karte" id="werkstatt">
+  <h2>Werkstatt</h2>
+  <p>Hier fügst du den Code aus der KI ein, siehst die Vorschau und speicherst deine Datei. Das klappt auch auf Handy und iPad. Dein Entwurf bleibt auf diesem Gerät gespeichert.</p>
+  <div class="knoepfe">
+    <button type="button" class="knopf" id="k-start">Startdatei einsetzen</button>
+    <label class="knopf" for="k-laden">Datei laden</label>
+    <input type="file" id="k-laden" accept=".html,.htm,text/html" hidden>
+    <button type="button" class="knopf" id="k-kopieren">Code kopieren</button>
+  </div>
+  <textarea id="code" spellcheck="false" aria-label="HTML-Code deiner Mappe" placeholder="Füge hier den Code aus der KI ein oder tippe auf „Startdatei einsetzen“."></textarea>
+  <div class="knoepfe">
+    <button type="button" class="knopf haupt" id="k-vorschau">Vorschau</button>
+    <input type="text" id="dateiname" value="mappe_e01.html" aria-label="Dateiname">
+    <button type="button" class="knopf" id="k-speichern">Datei speichern</button>
+    <button type="button" class="knopf" id="k-version">Version sichern</button>
+    <select id="versionen" aria-label="Gesicherte Versionen"><option value="">Gesicherte Versionen</option></select>
+    <button type="button" class="knopf" id="k-zurueck">Wiederherstellen</button>
+  </div>
+  <p id="meldung" role="status"></p>
+  <iframe id="vorschau" title="Vorschau deiner Mappe" sandbox="allow-scripts allow-modals"></iframe>
+  <p class="leise">Die Vorschau läuft abgeschottet. Sie kann auf deinem Gerät nichts verändern. Gesicherte Versionen liegen nur in diesem Browser. Speichere deshalb nach jeder Etappe zusätzlich eine Datei.</p>
+</section>
+
+<section class="karte" id="prompts">
+  <h2>Prompts für jede Etappe</h2>
+  <p class="leise">Ein Prompt ist dein Auftrag an die KI. Diese Prompts helfen in jeder Etappe. Ersetze die Teile in eckigen Klammern.</p>
+  <div id="promptliste"></div>
+  <div class="ab-f">
+    <h3>So schreibst du einen guten Prompt</h3>
+    <ol>
+      <li>Was soll das Werkzeug tun? Nenne Eingabe und Ausgabe mit Beispiel.</li>
+      <li>Welche Rechnungen werden eigene Funktionen, und wie heißen sie?</li>
+      <li>Was darf sich nicht ändern? Zum Beispiel: „Die anderen Werkzeuge bleiben unverändert.“</li>
+      <li>Was willst du zurück? Die ganze Datei oder nur den geänderten Teil mit Angabe, wo er hingehört.</li>
+    </ol>
+  </div>
+</section>
+
+<section class="karte" id="hilfe">
+  <h2>Hilfe bei Problemen</h2>
+  <details><summary>Die KI gibt nur einen Teil der Datei zurück.</summary>
+    <p>Schreibe: „Gib mir bitte die komplette Datei von &lt;!DOCTYPE html&gt; bis &lt;/html&gt;.“ <span class="ab-f">Oder setze den Teil selbst ein: Suche in der Werkstatt die Stelle, die die KI nennt, und ersetze sie.</span></p></details>
+  <details><summary>Die Antwort bricht mitten im Code ab.</summary>
+    <p>Gratis-Versionen schneiden lange Antworten manchmal ab. Schreibe: „Mach genau an der Stelle weiter, an der du aufgehört hast.“ Wird die Datei sehr lang, nimm den Prompt „Nur die Änderung“.</p></details>
+  <details><summary>Die Vorschau bleibt weiß oder leer.</summary>
+    <p>Prüfe, ob der Code mit &lt;!DOCTYPE html&gt; beginnt und mit &lt;/html&gt; endet. Steht oben in der Vorschau eine rote Fehlermeldung, kopiere sie in den Prompt „Reparieren“.</p></details>
+  <details><summary>Ein Test ist rot.</summary>
+    <p>Rechne zuerst noch einmal von Hand. Stimmt deine Rechnung, liegt der Fehler im Code. Nimm den Prompt „Reparieren“ und nenne den Namen des roten Tests. Das ist schon ein Beleg für Baustein B3.</p></details>
+  <details><summary>Ein altes Werkzeug ist plötzlich verschwunden.</summary>
+    <p>Lade deine letzte gespeicherte Datei oder stelle in der Werkstatt eine gesicherte Version wieder her. Schreibe im Prompt ausdrücklich: „Die anderen Werkzeuge bleiben unverändert.“</p></details>
+  <details><summary>Ich habe das Nachrichtenlimit erreicht.</summary>
+    <p>Speichere deinen Stand als Datei. Mach später weiter oder nimm eine andere KI. Deine Datei funktioniert mit jeder KI.</p></details>
+  <details><summary>Wie speichere ich auf Handy oder iPad?</summary>
+    <p>Tippe in der Werkstatt auf „Datei speichern“. Die Datei landet in deinen Downloads oder in der App „Dateien“. Von dort öffnest du sie im Browser oder lädst sie wieder in die KI.</p></details>
+  <details><summary>Muss ich den Code verstehen?</summary>
+    <p>Nicht jede Zeile. Du solltest aber zeigen können, wo deine Formel steht und was sie rechnet. Der Prompt „Erklären“ hilft dabei. In einem Gespräch ist genau das die spannende Frage.</p></details>
+</section>
+
+<section class="karte" id="messe">
+  <h2>Werkzeugmesse</h2>
+  <p>Am Ende des Halbjahres testet ihr gegenseitig eure Mappen. So läuft es:</p>
+  <ol class="schritte">
+    <li>Du gibst deine Datei einem Mitschüler.</li>
+    <li>Er testet zwei deiner Werkzeuge mit einem Beispiel, das er vorher von Hand gerechnet hat.</li>
+    <li>Er schreibt dir eine Rückmeldung: Was funktioniert? Was ist unklar? Was fehlt?</li>
+    <li>Du verbesserst eine Sache und trägst sie ins Protokoll ein.</li>
+  </ol>
+  <p>So übst du, was im Beruf zählt: Jemand anderes nutzt dein Werkzeug, und du stehst dafür gerade.</p>
+</section>
+
+<footer>KI-Werkstatt 13PF, Mathematik. Diese Seite speichert deine Einstellungen und Entwürfe nur auf diesem Gerät.</footer>
+</div>
+
+<script type="application/json" id="daten">{"klasse": "13PF", "fach": "Mathematik", "titel_mappe": "Mein Zufalls-Werkzeugkasten", "etappen": [{"art": "gefuehrt", "nr": 1, "titel": "Zufall beobachten: absolute und relative Häufigkeit", "werkzeug": "Trefferquoten-Vergleich", "ziel": "Du trägst für mehrere Gruppen die Zahl der Versuche n und die Zahl der Treffer H ein. Das Werkzeug zeigt eine Tabelle mit der relativen Häufigkeit h = H / n als Dezimalzahl und in Prozent. Es markiert die Gruppe mit dem höchsten Anteil. Ungültige Eingaben meldet es, zum Beispiel mehr Treffer als Versuche.", "erst_selbst": "Vergleiche Kurs A mit 24 Treffern bei 40 Würfen und Kurs B mit 27 Treffern bei 50 Würfen von Hand. Welcher Kurs ist besser?", "tests": [{"aufruf": "relHaeufigkeit(24, 40)", "soll": "0,6"}, {"aufruf": "relHaeufigkeit(27, 50)", "soll": "0,54"}, {"aufruf": "eingabeGueltig(55, 50)", "soll": "false", "hinweis": "mehr Treffer als Versuche"}, {"aufruf": "eingabeGueltig(0, 10)", "soll": "true"}, {"aufruf": "eingabeGueltig(3, 0)", "soll": "false", "hinweis": "keine Versuche"}], "ki_falle": "KIs vergleichen gern die absoluten Treffer. Kurs B hat mehr Treffer, nämlich 27, aber den kleineren Anteil mit 54 % statt 60 %. Prüfe, dass dein Werkzeug die Anteile vergleicht.", "einsteiger": [{"schritt": "Werkzeug bauen", "prompt": "Ich gebe dir meine Datei mappe.html. Baue im Bereich WERKZEUGE ein Werkzeug „Trefferquoten-Vergleich“ ein und ersetze dabei den Platzhalter „Noch leer“.\nIch trage für bis zu fünf Gruppen einen Namen, die Zahl der Versuche n und die Zahl der Treffer H ein.\nDas Werkzeug zeigt eine Tabelle mit n, H, relativer Häufigkeit als Dezimalzahl auf drei Stellen und in Prozent.\nDie Gruppe mit dem höchsten Anteil wird markiert. Ist H größer als n, ist n gleich 0 oder ist eine Zahl negativ, erscheint eine Fehlermeldung in dieser Zeile.\nSchreibe im Bereich RECHENFUNKTIONEN eigene Funktionen: relHaeufigkeit(treffer, versuche) und eingabeGueltig(treffer, versuche).\nNutze nur HTML, CSS und JavaScript ohne Internet. Ändere nichts anderes und gib mir die komplette Datei zurück."}, {"schritt": "Tests eintragen", "prompt": "Füge im Bereich TESTS diese Tests hinzu. Der Beispieltest bleibt stehen.\nrelHaeufigkeit(24, 40) soll 0.6 ergeben.\nrelHaeufigkeit(27, 50) soll 0.54 ergeben.\neingabeGueltig(55, 50) soll false ergeben.\neingabeGueltig(0, 10) soll true ergeben.\neingabeGueltig(3, 0) soll false ergeben.\nGib mir die komplette Datei zurück."}, {"schritt": "Protokoll und Bausteine", "prompt": "Füge im Bereich PROTOKOLL einen Eintrag hinzu: Datum [heutiges Datum], Etappe 1, KI [Name deiner KI], Prompt: [dein wichtigster Prompt in einem Satz], neu: Trefferquoten-Vergleich, Fehler der KI: [dein Fund oder „keiner“].\nFüge im Bereich BAUSTEINE zwei Einträge hinzu: Etappe 1, Baustein B2, wo: „Testfeld, Tests zu Trefferquoten-Vergleich“ und Etappe 1, Baustein B3, wo: „Protokoll, Eintrag von heute“.\nTrage im Bereich KOPF meinen Spitznamen [Spitzname] ein. Gib mir die komplette Datei zurück."}], "fortgeschritten": ["Nenne im Prompt die Wertebereiche aus dem Skript: 0 ≤ H ≤ n und 0 ≤ h ≤ 1.", "Lege fest, dass der Vergleich über den Anteil läuft und nicht über die Trefferzahl.", "Teste auch mit Fehlversuchen, also mit H = 0."], "profi": ["Säulendiagramm der Anteile mit Achse von 0 % bis 100 %.", "Gruppen hinzufügen und löschen, ohne die Seite neu zu laden.", "Hinweis, dass ein beobachteter Anteil noch keine sichere Wahrscheinlichkeit ist, besonders bei kleinem n.", "Eigener Test für zwei Gruppen mit genau gleichem Anteil. Lege vorher fest, was das Werkzeug dann markiert."], "ideen_inhalt": ["Prozentwerte zurück in Dezimalzahlen umrechnen", "Eine Strichliste, mit der du Treffer live mitzählst", "Gesamtanteil über alle Gruppen"], "ideen_gestaltung": ["Großer Zählknopf für das Handy", "Gewinner mit Pokal-Symbol", "Farbverlauf je nach Anteil"]}, {"art": "gefuehrt", "nr": 2, "titel": "Simulation und empirisches Gesetz der großen Zahlen", "werkzeug": "Münz-Simulator", "ziel": "Du wählst die Trefferwahrscheinlichkeit p und die Zahl der Würfe n. Das Werkzeug simuliert die Würfe mit einer Zufallszahl u zwischen 0 und 1. Ein Treffer liegt vor, wenn u < p ist. Es zeichnet den kumulierten Trefferanteil über der Versuchszahl und eine waagerechte Linie bei p. Mehrere Serien lassen sich übereinander zeichnen.", "erst_selbst": "Berechne den Trefferanteil nach 20 Würfen mit 13 Köpfen und nach 200 Würfen mit 104 Köpfen von Hand. Wie weit liegen beide von p = 0,5 entfernt?", "tests": [{"aufruf": "relHaeufigkeit(13, 20)", "soll": "0,65"}, {"aufruf": "simuliere(0, 100)", "soll": "0", "hinweis": "Zahl der Treffer bei p = 0"}, {"aufruf": "simuliere(1, 100)", "soll": "100", "hinweis": "Zahl der Treffer bei p = 1"}, {"aufruf": "simuliere(0.5, 10000) / 10000", "soll": "0,5", "hinweis": "Toleranz 0,03"}], "ki_falle": "Manche KIs prüfen u ≤ p statt u < p oder bauen einen „Ausgleich“ ein, der nach vielen Fehlversuchen Treffer wahrscheinlicher macht. Das wäre genau der Denkfehler aus dem Einstieg. Die Tests mit p = 0 und p = 1 decken den ersten Fehler auf. Für den zweiten liest du die Funktion simuliere mit dem Prompt „Erklären“.", "einsteiger": [{"schritt": "Werkzeug bauen", "prompt": "Ich gebe dir meine Datei mappe.html. Baue im Bereich WERKZEUGE unter dem Trefferquoten-Vergleich ein zweites Werkzeug „Münz-Simulator“ ein. Der Trefferquoten-Vergleich bleibt unverändert.\nIch wähle p zwischen 0 und 1 und die Zahl der Würfe n bis 10 000.\nFür jeden Wurf zieht das Werkzeug eine Zufallszahl u mit Math.random(). Ein Treffer liegt genau dann vor, wenn u < p. Frühere Würfe beeinflussen spätere nicht.\nEs zeichnet den kumulierten Trefferanteil über der Versuchszahl als Linie und eine waagerechte Linie bei p. Ein Knopf fügt eine weitere Serie in einer anderen Farbe hinzu.\nSchreibe im Bereich RECHENFUNKTIONEN eine eigene Funktion simuliere(p, n), die die Zahl der Treffer zurückgibt, und eine Funktion verlauf(p, n), die die Liste der kumulierten Anteile zurückgibt. Nutze die vorhandene Funktion relHaeufigkeit.\nGib mir die komplette Datei zurück."}, {"schritt": "Tests eintragen", "prompt": "Füge im Bereich TESTS diese Tests hinzu. Die alten Tests bleiben stehen.\nrelHaeufigkeit(13, 20) soll 0.65 ergeben.\nsimuliere(0, 100) soll 0 ergeben.\nsimuliere(1, 100) soll 100 ergeben.\nsimuliere(0.5, 10000) / 10000 soll 0.5 ergeben, Toleranz 0.03.\nGib mir die komplette Datei zurück."}, {"schritt": "Erklären lassen", "prompt": "Erkläre mir die Funktion simuliere Zeile für Zeile. Zeige mir die Stelle, an der entschieden wird, ob ein Wurf ein Treffer ist. Gibt es irgendeine Stelle, an der frühere Würfe spätere beeinflussen? Ändere nichts am Code."}], "fortgeschritten": ["Nenne im Prompt die Regel u < p aus dem Skript und verlange ausdrücklich unabhängige Würfe.", "Lege fest, dass die Rechnung in simuliere und verlauf steckt und das Zeichnen getrennt davon.", "Überlege, warum der letzte Test eine Toleranz braucht und warum er trotzdem fast nie rot wird."], "profi": ["Diagramm mit Canvas oder SVG und logarithmischer Achse für die Versuchszahl.", "Anzeige der Abweichung vom Modellwert in Prozentpunkten für n = 20, 200 und 2000.", "Option für einen Würfel mit p = 1/6 und Ereignissen wie „Sechs“.", "Eigener Test für p = 0,3, bei dem du die Toleranz selbst begründest."], "ideen_inhalt": ["Viele Serien gleichzeitig und die Spannweite der Endanteile", "Längste Serie gleicher Ergebnisse anzeigen", "Prüfung der Behauptung „Nach vielen Zahlwürfen muss jetzt Kopf kommen“ mit den simulierten Daten"], "ideen_gestaltung": ["Jede Serie in eigener Farbe mit Legende", "Animation, die Wurf für Wurf zeichnet", "Münze, die sich bei jedem Wurf dreht"]}, {"nr": 3, "art": "offen", "titel": "Ergebnisraum, Ereignis und Zufallsgröße", "thema": "Der Ergebnisraum Ω enthält alle möglichen Ausgänge, ein Ereignis ist eine Teilmenge davon. Eine Zufallsgröße X ordnet jedem Ergebnis eine Zahl zu.", "anregungen": ["Ein Ergebnisraum-Generator für Münze, Würfel oder Glücksrad mit mehreren Stufen", "Ein Werkzeug, das zu jedem Ergebnis den Wert einer Zufallsgröße wie „Anzahl Kopf“ zeigt", "Ein Quiz: Ergebnis, Ereignis oder Zufallsgröße?"], "ki_falle": "Beim zweifachen Münzwurf schreiben KIs oft Ω = {KK, KZ, ZZ}. Dabei fehlt ZK, denn KZ und ZK sind verschiedene Ergebnisse. Richtig hat Ω vier Elemente."}, {"nr": 4, "art": "offen", "titel": "Ereignisoperationen und Laplace-Wahrscheinlichkeiten", "thema": "Es gelten P(Ā) = 1 − P(A) und P(A ∪ B) = P(A) + P(B) − P(A ∩ B). Laplace mit P(A) = |A|/|Ω| ist nur bei gleich wahrscheinlichen Ergebnissen erlaubt.", "anregungen": ["Ein Mengenrechner mit Venn-Diagramm für zwei Ereignisse beim Würfel", "Eine Laplace-Prüfung, die bei ungleichen Glücksradsektoren warnt", "Ein Vergleich von Abzählen und Simulation"], "ki_falle": "KIs vergessen bei „A oder B“ gern, die Schnittmenge abzuziehen. Beim Würfel mit A = gerade Zahl und B = mindestens 4 ergibt das 6/6 statt 4/6."}, {"nr": 5, "art": "offen", "titel": "Produktregel, Fakultät und geordnete Anordnungen", "thema": "Bei mehreren Auswahlstufen multiplizierst du die Anzahlen. Für k geordnete Plätze aus n gilt ohne Wiederholung n!/(n − k)!, mit Wiederholung n^k.", "anregungen": ["Ein Zählrechner, der vor der Rechnung fragt: Reihenfolge wichtig? Wiederholung erlaubt?", "Ein Generator, der kleine Fälle vollständig auflistet, damit man die Formel prüfen kann", "Ein Rechner für Zahlenschlösser und PINs"], "ki_falle": "Bei einer PIN mit 4 Ziffern rechnen KIs manchmal 10!/6! = 5040, als dürfte keine Ziffer doppelt vorkommen. Richtig sind 10⁴ = 10 000 Möglichkeiten."}, {"nr": 6, "art": "offen", "titel": "Kombinationen und der Binomialkoeffizient", "thema": "Ohne Rollen zählt nur, wer in der Gruppe ist. Der Binomialkoeffizient „n über k“ = n!/(k! · (n − k)!) zählt die Gruppen mit k Elementen.", "anregungen": ["Ein Rechner für den Binomialkoeffizienten, der vor dem Rechnen kürzt", "Ein Lotto-Rechner für die Wahrscheinlichkeit von „3 Richtigen“", "Ein Pascal-Dreieck zum Anklicken"], "ki_falle": "KIs rechnen bei Gruppen ohne Rollen oft mit n!/(n − k)!. Für 3 aus 10 ergibt das 720 statt 120 Gruppen."}, {"nr": 7, "art": "offen", "titel": "Baumdiagramme für mehrstufige Experimente", "thema": "Ein Baumdiagramm zeigt alle Stufen und Fortsetzungen. Die Wahrscheinlichkeit eines Pfads ist das Produkt seiner Zweige. Ohne Zurücklegen ändern sich die Zahlen auf der zweiten Stufe.", "anregungen": ["Ein Baumdiagramm-Zeichner für zwei Stufen mit und ohne Zurücklegen", "Ein Pfadrechner, der prüft, ob die Zweige an jedem Knoten zusammen 1 ergeben", "Eine Simulation, die das Ergebnis des Baums bestätigt"], "ki_falle": "KIs rechnen ohne Zurücklegen oft mit den alten Zahlen weiter. Aus einer Urne mit 3 roten und 2 blauen Kugeln sind zwei rote Kugeln mit 3/5 · 2/4 = 0,3 wahrscheinlich und nicht mit 3/5 · 3/5 = 0,36."}]}</script>
+<script type="application/json" id="startdatei">"<!DOCTYPE html>\n<html lang=\"de\">\n<head>\n<meta charset=\"utf-8\">\n<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\n<title>Mein Zufalls-Werkzeugkasten<\/title>\n<!--\n  KI-WERKSTATT: Startdatei deiner Mappe (13PF, Mathematik)\n  So ist die Datei aufgebaut. Jeder Bereich ist mit \"BEREICH:\" markiert.\n    KOPF               Überschrift und dein Spitzname\n    WERKZEUGE          deine Werkzeuge, jedes in einem eigenen <section class=\"werkzeug\">\n    RECHENFUNKTIONEN   jede Rechnung als eigene Funktion, damit das Testfeld sie prüfen kann\n    WERKZEUG-SKRIPTE   Knöpfe, Eingaben und Diagramme der Werkzeuge\n    TESTS              Liste der Tests für das Testfeld\n    PROTOKOLL          was du wann mit welcher KI und welchem Prompt geändert hast\n    BAUSTEINE          wo man jeden Baustein einer Etappe findet (Grundlage der Bewertung)\n    ANZEIGE            zeigt Tests, Protokoll und Bausteine an (nicht ändern)\n  Regeln: nur HTML, CSS und JavaScript in dieser einen Datei, nichts aus dem Internet laden.\n  Kein echter Name, keine Adresse, keine Fotos von Personen.\n-->\n<script>\n  /* Fehlermelder: zeigt Fehler im Skript oben auf der Seite an. Die Meldung kannst du der KI geben. */\n  window.addEventListener(\"error\", function (e) {\n    var box = document.getElementById(\"fehlermeldung\");\n    if (box) {\n      box.hidden = false;\n      box.textContent = \"Fehler im Skript: \" + e.message + \" (Zeile \" + e.lineno + \"). Kopiere diese Meldung in deinen Reparatur-Prompt.\";\n    }\n  });\n<\/script>\n<style>\n  :root {\n    --grund: #f6f7fb; --flaeche: #ffffff; --text: #1d2433; --leise: #5b6478;\n    --akzent: #2f5bd3; --akzent-weich: #e6edff; --gut: #1f7a45; --gut-weich: #e3f4ea;\n    --schlecht: #b3261e; --schlecht-weich: #fde7e5; --rand: #d9deea;\n  }\n  @media (prefers-color-scheme: dark) {\n    :root {\n      --grund: #12151c; --flaeche: #1b2029; --text: #e8ebf2; --leise: #a3abbd;\n      --akzent: #8fb0ff; --akzent-weich: #22304f; --gut: #6fd19a; --gut-weich: #173726;\n      --schlecht: #ff9a91; --schlecht-weich: #3d1d1b; --rand: #2e3544;\n    }\n  }\n  * { box-sizing: border-box; }\n  body { margin: 0; background: var(--grund); color: var(--text); font: 16px/1.5 system-ui, sans-serif; }\n  header, main, footer { max-width: 900px; margin: 0 auto; padding: 16px; }\n  header h1 { margin: 8px 0 4px; font-size: 1.7rem; }\n  header p { margin: 0; color: var(--leise); }\n  nav { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }\n  nav a { color: var(--akzent); background: var(--akzent-weich); padding: 4px 12px; border-radius: 999px; text-decoration: none; font-weight: 600; }\n  section.block { background: var(--flaeche); border: 1px solid var(--rand); border-radius: 14px; padding: 16px; margin: 16px 0; }\n  section.werkzeug { border-top: 1px solid var(--rand); padding-top: 12px; margin-top: 12px; }\n  section.werkzeug:first-of-type { border-top: 0; margin-top: 0; padding-top: 0; }\n  h2 { margin: 0 0 8px; font-size: 1.3rem; }\n  h3 { margin: 0 0 6px; font-size: 1.1rem; }\n  input, select, button { font: inherit; }\n  input, select { padding: 6px 8px; border: 1px solid var(--rand); border-radius: 8px; background: var(--flaeche); color: var(--text); }\n  button { padding: 8px 14px; border: 0; border-radius: 8px; background: var(--akzent); color: var(--flaeche); font-weight: 600; cursor: pointer; }\n  table { border-collapse: collapse; width: 100%; }\n  th, td { border-bottom: 1px solid var(--rand); padding: 6px 8px; text-align: left; vertical-align: top; }\n  .tabelle { overflow-x: auto; }\n  #testliste { list-style: none; padding: 0; margin: 0; }\n  #testliste li { padding: 6px 10px; border-radius: 8px; margin: 4px 0; }\n  #testliste li.gruen { background: var(--gut-weich); color: var(--gut); }\n  #testliste li.rot { background: var(--schlecht-weich); color: var(--schlecht); }\n  #fehlermeldung { background: var(--schlecht-weich); color: var(--schlecht); padding: 10px 14px; border-radius: 10px; font-weight: 600; }\n  .leise { color: var(--leise); }\n  footer { color: var(--leise); font-size: 0.9rem; }\n<\/style>\n<\/head>\n<body>\n\n<!-- ===== BEREICH: KOPF ===== -->\n<header>\n  <h1>Mein Zufalls-Werkzeugkasten<\/h1>\n  <p>13PF, Mathematik. Gebaut von: <strong id=\"spitzname\">Spitzname eintragen<\/strong><\/p>\n  <nav>\n    <a href=\"#werkzeuge\">Werkzeuge<\/a>\n    <a href=\"#tests\">Testfeld<\/a>\n    <a href=\"#protokoll\">Protokoll<\/a>\n    <a href=\"#bausteine\">Bausteine<\/a>\n  <\/nav>\n<\/header>\n\n<main>\n  <p id=\"fehlermeldung\" hidden><\/p>\n\n  <!-- ===== BEREICH: WERKZEUGE =====\n       Jedes Werkzeug bekommt einen eigenen Abschnitt <section class=\"werkzeug\" id=\"...\">.\n       Ein neues Werkzeug kommt unter das letzte. Den Platzhalter \"Noch leer\" darf die KI ersetzen. -->\n  <section class=\"block\" id=\"werkzeuge\">\n    <h2>Meine Werkzeuge<\/h2>\n    <section class=\"werkzeug\" id=\"platzhalter\">\n      <h3>Noch leer<\/h3>\n      <p class=\"leise\">Hier baut deine KI in Etappe 1 dein erstes Werkzeug ein.<\/p>\n    <\/section>\n  <\/section>\n\n  <section class=\"block\" id=\"tests\">\n    <h2>Testfeld<\/h2>\n    <p id=\"testsumme\"><\/p>\n    <ul id=\"testliste\"><\/ul>\n  <\/section>\n\n  <section class=\"block\" id=\"protokoll\">\n    <h2>Änderungsprotokoll<\/h2>\n    <div class=\"tabelle\">\n      <table>\n        <thead><tr><th>Datum<\/th><th>Etappe<\/th><th>KI<\/th><th>Prompt<\/th><th>Was ist neu?<\/th><th>Fehler der KI<\/th><\/tr><\/thead>\n        <tbody id=\"protokollzeilen\"><\/tbody>\n      <\/table>\n    <\/div>\n  <\/section>\n\n  <section class=\"block\" id=\"bausteine\">\n    <h2>Bausteine<\/h2>\n    <p class=\"leise\">B1 Fachbezug, B2 Prüfnachweis, B3 KI-Kritik, B4 Eigenständigkeit, B5 Weiterentwicklung<\/p>\n    <div class=\"tabelle\">\n      <table>\n        <thead><tr><th>Etappe<\/th><th>Baustein<\/th><th>Wo man es findet<\/th><\/tr><\/thead>\n        <tbody id=\"bausteinzeilen\"><\/tbody>\n      <\/table>\n    <\/div>\n  <\/section>\n<\/main>\n\n<footer>Mit KI gebaut und selbst geprüft. KI-Werkstatt 13PF.<\/footer>\n\n<script>\n/* ===== BEREICH: RECHENFUNKTIONEN =====\n   Jede Rechnung ist eine eigene Funktion mit Eingabe und Rückgabewert.\n   Beispiel: function anstiegProzent(alt, neu) { return (neu - alt) / alt * 100; } */\n\n\n/* ===== BEREICH: WERKZEUG-SKRIPTE =====\n   Hier stehen Knöpfe, Eingaben und Diagramme. Sie rufen die Rechenfunktionen auf. */\n\n\n/* ===== BEREICH: TESTS =====\n   Ein Test sieht so aus:\n   { name: \"Was wird geprüft?\", ist: function () { return meineFunktion(2, 3); }, soll: 5, toleranz: 0.01 }\n   soll darf eine Zahl, ein Text, true/false oder eine Liste von Zahlen sein.\n   toleranz ist nur bei Zahlen nötig. Ohne Angabe gilt 0.000001. */\nvar TESTS = [\n  { name: \"Beispieltest: 2 + 2 ergibt 4\", ist: function () { return 2 + 2; }, soll: 4 }\n];\n\n/* ===== BEREICH: PROTOKOLL =====\n   Neue Einträge kommen unten dazu. */\nvar PROTOKOLL = [\n  { datum: \"\", etappe: \"Start\", ki: \"\", prompt: \"\", neu: \"Startdatei aus der KI-Werkstatt geöffnet\", fehler: \"noch keiner\" }\n];\n\n/* ===== BEREICH: BAUSTEINE =====\n   Je Etappe ein Eintrag pro Baustein, zum Beispiel:\n   { etappe: 3, baustein: \"B2\", wo: \"Testfeld: Tests zu steigung, Werte von Hand gerechnet\" } */\nvar BAUSTEINE = [\n];\n\n/* ===== BEREICH: ANZEIGE (nicht ändern) ===== */\n(function () {\n  function text(wert) {\n    if (Array.isArray(wert)) return \"[\" + wert.join(\", \") + \"]\";\n    return String(wert);\n  }\n  function gleich(ist, soll, tol) {\n    var t = (typeof tol === \"number\") ? tol : 0.000001;\n    if (Array.isArray(soll)) {\n      if (!Array.isArray(ist) || ist.length !== soll.length) return false;\n      for (var i = 0; i < soll.length; i++) { if (!gleich(ist[i], soll[i], t)) return false; }\n      return true;\n    }\n    if (typeof soll === \"number\") return typeof ist === \"number\" && Math.abs(ist - soll) <= t;\n    return ist === soll;\n  }\n  function esc(s) {\n    return String(s).replace(/[&<>\"]/g, function (z) { return { \"&\": \"&amp;\", \"<\": \"&lt;\", \">\": \"&gt;\", '\"': \"&quot;\" }[z]; });\n  }\n  var liste = document.getElementById(\"testliste\");\n  var gruen = 0;\n  TESTS.forEach(function (t) {\n    var li = document.createElement(\"li\");\n    var ok = false, meldung = \"\";\n    try {\n      var ist = t.ist();\n      ok = gleich(ist, t.soll, t.toleranz);\n      meldung = ok ? \"\" : \" Ergebnis: \" + text(ist) + \", erwartet: \" + text(t.soll) + \".\";\n    } catch (e) {\n      meldung = \" Fehler: \" + e.message;\n    }\n    if (ok) gruen++;\n    li.className = ok ? \"gruen\" : \"rot\";\n    li.textContent = (ok ? \"✔ \" : \"✘ \") + t.name + meldung;\n    liste.appendChild(li);\n  });\n  document.getElementById(\"testsumme\").textContent = gruen + \" von \" + TESTS.length + \" Tests bestanden\";\n\n  function zelle(w) { return \"<td>\" + esc(w === undefined ? \"\" : w) + \"<\/td>\"; }\n  document.getElementById(\"protokollzeilen\").innerHTML = PROTOKOLL.map(function (p) {\n    return \"<tr>\" + zelle(p.datum) + zelle(p.etappe) + zelle(p.ki) + zelle(p.prompt) + zelle(p.neu) + zelle(p.fehler) + \"<\/tr>\";\n  }).join(\"\");\n  document.getElementById(\"bausteinzeilen\").innerHTML = BAUSTEINE.length ? BAUSTEINE.map(function (b) {\n    return \"<tr>\" + zelle(b.etappe) + zelle(b.baustein) + zelle(b.wo) + \"<\/tr>\";\n  }).join(\"\") : '<tr><td colspan=\"3\" class=\"leise\">Noch keine Einträge<\/td><\/tr>';\n})();\n<\/script>\n<\/body>\n<\/html>\n"</script>
+<script>
+(function () {
+  "use strict";
+  var D = JSON.parse(document.getElementById("daten").textContent) || { etappen: [] };
+  var START = JSON.parse(document.getElementById("startdatei").textContent) || "";
+  var SCHLUESSEL = "ki-werkstatt-" + (D.klasse || "klasse");
+
+  function lies(k, ersatz) { try { var w = localStorage.getItem(SCHLUESSEL + "-" + k); return w === null ? ersatz : w; } catch (e) { return ersatz; } }
+  function schreib(k, w) { try { localStorage.setItem(SCHLUESSEL + "-" + k, w); return true; } catch (e) { return false; } }
+  function esc(s) {
+    return String(s).replace(/[&<>"]/g, function (z) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[z]; });
+  }
+  function zwei(n) { return (n < 10 ? "0" : "") + n; }
+
+  /* ---------- Stufe und KI ---------- */
+  function setze(art, wert) {
+    document.body.setAttribute("data-" + art, wert);
+    var knoepfe = document.querySelectorAll("#wahl-" + art + " button");
+    for (var i = 0; i < knoepfe.length; i++) {
+      knoepfe[i].setAttribute("aria-pressed", knoepfe[i].getAttribute("data-" + art) === wert ? "true" : "false");
+    }
+    schreib(art, wert);
+  }
+  ["stufe", "ki"].forEach(function (art) {
+    document.getElementById("wahl-" + art).addEventListener("click", function (e) {
+      var b = e.target.closest("button");
+      if (b) setze(art, b.getAttribute("data-" + art));
+    });
+  });
+  setze("stufe", lies("stufe", "e"));
+  setze("ki", lies("ki", "chatgpt"));
+
+  /* ---------- Kopieren ---------- */
+  function kopiere(text, knopf) {
+    function fertig() { if (knopf) { var alt = knopf.textContent; knopf.textContent = "Kopiert"; setTimeout(function () { knopf.textContent = alt; }, 1500); } }
+    function ersatz() {
+      var t = document.createElement("textarea");
+      t.value = text; document.body.appendChild(t); t.select();
+      try { document.execCommand("copy"); fertig(); } catch (e) { /* nichts */ }
+      document.body.removeChild(t);
+    }
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(text).then(fertig, ersatz);
+    } else { ersatz(); }
+  }
+  function promptBox(titel, text) {
+    return (titel ? '<p class="prompt-titel">' + esc(titel) + "</p>" : "") +
+      '<div class="prompt">' + esc(text) + '<button type="button" class="knopf kopier">Kopieren</button></div>';
+  }
+  document.addEventListener("click", function (e) {
+    var b = e.target.closest("button.kopier");
+    if (b) kopiere(b.parentNode.firstChild.textContent, b);
+  });
+
+  /* ---------- Etappen ---------- */
+  function liste(eintraege, klasse) {
+    if (!eintraege || !eintraege.length) return "";
+    return "<ul" + (klasse ? ' class="' + klasse + '"' : "") + ">" + eintraege.map(function (x) { return "<li>" + esc(x) + "</li>"; }).join("") + "</ul>";
+  }
+  var NEUESTE = (D.etappen || []).reduce(function (m, e) { return Math.max(m, e.nr); }, 0);
+  var BAUSTEINE = [
+    "B1 Fachbezug: Das Neue passt zum Thema und rechnet richtig.",
+    "B2 Prüfnachweis: mindestens zwei Tests mit Werten, die ich von Hand gerechnet habe",
+    "B3 KI-Kritik: Protokolleintrag mit meinem Prompt und dem Fehler der KI",
+    "B4 Eigenständigkeit: eine eigene Idee über die Anregungen hinaus",
+    "B5 Weiterentwicklung (freiwillig): ein früheres Werkzeug verbessert und begründet"
+  ];
+  function bausteineHtml(et) {
+    var punkte = BAUSTEINE.concat(["Alles im Bereich BAUSTEINE eingetragen und die Datei als mappe_e" + zwei(et.nr) + ".html gespeichert"]);
+    return '<h3>Meine Bausteine</h3><div class="fertig">' + punkte.map(function (p, i) {
+      var id = "baustein-" + et.nr + "-" + i;
+      return '<label><input type="checkbox" data-merk="' + id + '"' + (lies(id, "") === "1" ? " checked" : "") + "> " + esc(p) + "</label>";
+    }).join("") + "</div>";
+  }
+  function kopfHtml(et, marke) {
+    return '<details class="etappe" id="etappe-' + et.nr + '"' + (et.nr === NEUESTE ? " open" : "") + ">" +
+      "<summary>Etappe " + et.nr + ": " + esc(et.titel) + ' <span class="marke">' + esc(marke) + "</span></summary>";
+  }
+  function offenHtml(et) {
+    var h = kopfHtml(et, "eigene Idee");
+    h += "<h3>Thema der Etappe</h3><p>" + esc(et.thema) + "</p>";
+    h += '<div class="gut"><strong>Dein Auftrag:</strong> Ergänze deine Mappe um etwas, das dir oder anderen bei diesem Thema hilft. Was es ist, entscheidest du. Rechne vorher Aufgaben der Etappe von Hand, damit du dein Werkzeug prüfen kannst.</div>';
+    h += '<h3>Anregungen <span class="marke">nur wenn dir nichts einfällt</span></h3>' + liste(et.anregungen);
+    h += '<div class="nur-e"><h3>Ideen-Prompt</h3>' +
+      promptBox("1. Idee beschreiben", "Ich gebe dir meine Datei mappe.html. Ich möchte sie um etwas zum Thema „" + et.titel + "“ ergänzen. Meine Idee: [deine Idee in zwei Sätzen, mit Eingabe und Ausgabe]. Stelle mir zuerst drei Rückfragen, bevor du Code schreibst.") +
+      promptBox("2. Bauen lassen", "Baue es jetzt im Bereich WERKZEUGE unter dem letzten Werkzeug ein. Jede Rechnung kommt als eigene Funktion in den Bereich RECHENFUNKTIONEN. Die anderen Werkzeuge bleiben unverändert. Gib mir die komplette Datei zurück.") +
+      promptBox("3. Tests eintragen", "Füge im Bereich TESTS diese Tests hinzu. Die alten Tests bleiben stehen. [Funktion mit Eingabe] soll [dein Ergebnis von Hand] ergeben. [zweiter Test]. Gib mir die komplette Datei zurück.") +
+      '<div class="hinweis"><strong>Achtung, KI-Falle:</strong> ' + esc(et.ki_falle) + "</div></div>";
+    h += '<div class="nur-f"><h3>Tipps</h3><ul><li>Beschreibe deine Idee mit Eingabe, Ausgabe und Einheiten.</li><li>Lass die KI zuerst Rückfragen stellen, bevor sie Code schreibt.</li><li>Nimm für die Tests Werte, die du von Hand gerechnet hast.</li></ul>' +
+      "<details><summary>KI-Falle aufdecken</summary><p>" + esc(et.ki_falle) + "</p></details></div>";
+    h += '<div class="nur-p"><h3>Anforderungen</h3><ul><li>Plane Aufbau und Funktionen zuerst auf Papier.</li><li>Arbeite mit Teiländerungen statt mit der ganzen Datei.</li><li>Schreibe die Tests selbst, darunter mindestens einen Grenzfall.</li></ul>' +
+      "<details><summary>KI-Falle aufdecken</summary><p>" + esc(et.ki_falle) + "</p></details></div>";
+    return h + bausteineHtml(et) + "</details>";
+  }
+  function etappeHtml(et) {
+    if (et.art === "offen") return offenHtml(et);
+    var h = kopfHtml(et, "geführter Einstieg");
+    h += '<p>Werkzeug: <span class="werkzeugname">' + esc(et.werkzeug) + "</span></p>";
+    h += "<h3>Ziel</h3><p>" + esc(et.ziel) + "</p>";
+    h += '<div class="gut"><strong>Erst selbst:</strong> ' + esc(et.erst_selbst) + "</div>";
+    h += "<h3>Testfälle</h3><ul>" + et.tests.map(function (t) {
+      return '<li><span class="test">' + esc(t.aufruf) + "</span> ergibt <strong>" + esc(t.soll) + "</strong>" +
+        (t.hinweis ? ' <span class="leise">(' + esc(t.hinweis) + ")</span>" : "") + "</li>";
+    }).join("") + "</ul>";
+
+    h += '<div class="nur-e"><h3>Schritt für Schritt</h3>';
+    et.einsteiger.forEach(function (s, i) { h += promptBox((i + 1) + ". " + s.schritt, s.prompt); });
+    h += '<div class="hinweis"><strong>Achtung, KI-Falle:</strong> ' + esc(et.ki_falle) + "</div></div>";
+
+    h += '<div class="nur-f"><h3>Tipps</h3>' + liste(et.fortgeschritten) +
+      "<p>Lass danach die Testfälle von oben ins Testfeld eintragen. Den Prompt dafür schreibst du selbst.</p>" +
+      "<details><summary>KI-Falle aufdecken</summary><p>" + esc(et.ki_falle) + "</p></details></div>";
+
+    h += '<div class="nur-p"><h3>Anforderungen</h3>' + liste(et.profi) +
+      "<p>Arbeite mit Teiländerungen und schreibe die Tests selbst in den Bereich TESTS. Ergänze mindestens einen eigenen Test.</p>" +
+      "<details><summary>KI-Falle aufdecken</summary><p>" + esc(et.ki_falle) + "</p></details></div>";
+
+    h += '<h3>Weiter ausbauen <span class="marke">freiwillig</span></h3><div class="ideen">' +
+      "<div><strong>Inhalt</strong>" + liste(et.ideen_inhalt) + "</div>" +
+      "<div><strong>Gestaltung</strong>" + liste(et.ideen_gestaltung) + "</div></div>";
+
+    return h + bausteineHtml(et) + "</details>";
+  }
+  document.getElementById("etappenliste").innerHTML = (D.etappen || []).map(etappeHtml).join("") +
+    '<p class="leise">Jede Woche kommt eine neue Etappe dazu.</p>';
+  document.getElementById("etappenliste").addEventListener("change", function (e) {
+    var id = e.target.getAttribute("data-merk");
+    if (id) schreib(id, e.target.checked ? "1" : "");
+  });
+
+  /* ---------- Prompts für jede Etappe ---------- */
+  var ALLGEMEIN = [
+    ["Datei übergeben", "Dies ist meine Datei mappe.html aus der KI-Werkstatt. Lies sie zuerst. Die Bereiche sind mit BEREICH markiert. Antworte nur mit „Bereit“. Danach bekommst du meinen Auftrag."],
+    ["Reparieren", "In meiner Datei funktioniert Folgendes nicht: [Was hast du angeklickt, und was ist passiert?]. Im Testfeld ist dieser Test rot: [Name des Tests]. Finde die Ursache und erkläre sie mir in zwei Sätzen. Gib mir dann die komplette korrigierte Datei zurück. Die anderen Werkzeuge bleiben unverändert."],
+    ["Nur die Änderung", "Meine Datei ist lang. Gib mir nur den Teil zurück, den du änderst. Sag mir genau, in welchem BEREICH und nach welcher Zeile er hingehört."],
+    ["Erklären", "Erkläre mir die Funktion [Name der Funktion] Zeile für Zeile so, dass ich sie einem Mitschüler erklären kann. Ändere nichts am Code."],
+    ["Test eintragen", "Füge im Bereich TESTS diesen Test hinzu: [Funktion mit Eingabe, zum Beispiel mittelwert([2, 4])] soll [Ergebnis] ergeben. Gib mir die komplette Datei zurück."],
+    ["Gegenprüfen", "Hier ist meine Rechnung von Hand: [deine Rechnung]. Liefert mein Werkzeug dasselbe Ergebnis? Sag mir ehrlich, wenn eins von beiden falsch ist, und begründe es."],
+    ["Protokoll", "Füge im Bereich PROTOKOLL unten einen Eintrag hinzu: Datum [Datum], Etappe [Nummer], KI [Name], Prompt: [dein wichtigster Prompt in einem Satz], neu: [Was ist neu?], Fehler der KI: [Was war falsch oder schlecht?]. Gib mir die komplette Datei zurück."],
+    ["Baustein belegen", "Füge im Bereich BAUSTEINE einen Eintrag hinzu: Etappe [Nummer], Baustein [B1 bis B5], wo: [Wo in der Mappe sieht man es?]. Gib mir die komplette Datei zurück."],
+    ["Gestalten", "Ändere nur das Aussehen meiner Datei: [dein Wunsch, zum Beispiel dunkelblaue Kopfzeile, runde Ecken, große Knöpfe für das Handy]. Rechenfunktionen, Tests und Protokoll bleiben unverändert."]
+  ];
+  document.getElementById("promptliste").innerHTML = ALLGEMEIN.map(function (p) { return promptBox(p[0], p[1]); }).join("");
+
+  /* ---------- Werkstatt ---------- */
+  var feld = document.getElementById("code");
+  var meldung = document.getElementById("meldung");
+  var rahmen = document.getElementById("vorschau");
+  function melde(t) { meldung.textContent = t; }
+
+  function bereinige(t) {
+    var klein = t.toLowerCase();
+    var a = klein.indexOf("<!doctype");
+    if (a < 0) a = klein.indexOf("<html");
+    var b = klein.lastIndexOf("</html>");
+    if (a >= 0 && b > a) return t.slice(a, b + 7);
+    return t.replace(/^\s*```[a-z]*\s*\n/i, "").replace(/\n```\s*$/, "");
+  }
+  function uebernehme() {
+    var roh = feld.value;
+    var sauber = bereinige(roh);
+    if (sauber !== roh) { feld.value = sauber; return true; }
+    return false;
+  }
+  function vorschau() {
+    var gekuerzt = uebernehme();
+    if (!feld.value.trim()) { melde("Die Werkstatt ist leer. Tippe auf „Startdatei einsetzen“ oder füge Code ein."); return; }
+    rahmen.srcdoc = feld.value;
+    schreib("entwurf", feld.value);
+    var klein = feld.value.toLowerCase();
+    var warn = klein.indexOf("</html>") < 0 ? " Achtung: Am Ende fehlt </html>. Vielleicht ist die Antwort der KI abgebrochen." : "";
+    melde((gekuerzt ? "Text vor und nach dem Code wurde entfernt. " : "") + "Vorschau aktualisiert." + warn);
+  }
+  document.getElementById("k-vorschau").addEventListener("click", vorschau);
+  function startEinsetzen() {
+    if (feld.value.trim() && !confirm("Die Werkstatt ist nicht leer. Soll die Startdatei den Inhalt ersetzen? Sichere vorher eine Version, wenn du ihn behalten willst.")) return;
+    feld.value = START;
+    document.getElementById("dateiname").value = "mappe_e01.html";
+    vorschau();
+  }
+  document.getElementById("k-start").addEventListener("click", startEinsetzen);
+  document.getElementById("start-in-werkstatt").addEventListener("click", function () { if (!feld.value.trim()) { feld.value = START; vorschau(); } });
+
+  document.getElementById("k-laden").addEventListener("change", function (e) {
+    var datei = e.target.files && e.target.files[0];
+    if (!datei) return;
+    var leser = new FileReader();
+    leser.onload = function () { feld.value = String(leser.result); document.getElementById("dateiname").value = datei.name; vorschau(); };
+    leser.readAsText(datei, "utf-8");
+    e.target.value = "";
+  });
+  document.getElementById("k-kopieren").addEventListener("click", function (e) { kopiere(feld.value, e.currentTarget); });
+
+  document.getElementById("k-speichern").addEventListener("click", function () {
+    uebernehme();
+    if (!feld.value.trim()) { melde("Es gibt noch nichts zu speichern."); return; }
+    var name = document.getElementById("dateiname").value.trim() || "mappe.html";
+    if (!/\.html?$/i.test(name)) name += ".html";
+    var blob = new Blob([feld.value], { type: "text/html" });
+    var a = document.createElement("a");
+    a.href = URL.createObjectURL(blob); a.download = name;
+    document.body.appendChild(a); a.click(); document.body.removeChild(a);
+    setTimeout(function () { URL.revokeObjectURL(a.href); }, 2000);
+    schreib("entwurf", feld.value);
+    melde("Gespeichert als " + name + ". Du findest die Datei in deinen Downloads.");
+  });
+
+  function versionen() { try { return JSON.parse(lies("versionen", "[]")) || []; } catch (e) { return []; } }
+  function zeigeVersionen() {
+    var v = versionen();
+    document.getElementById("versionen").innerHTML = '<option value="">Gesicherte Versionen (' + v.length + ")</option>" +
+      v.map(function (x, i) { return '<option value="' + i + '">' + esc(x.zeit) + "</option>"; }).join("");
+  }
+  document.getElementById("k-version").addEventListener("click", function () {
+    uebernehme();
+    if (!feld.value.trim()) { melde("Es gibt noch nichts zu sichern."); return; }
+    var v = versionen();
+    var d = new Date();
+    v.unshift({ zeit: zwei(d.getDate()) + "." + zwei(d.getMonth() + 1) + ". " + zwei(d.getHours()) + ":" + zwei(d.getMinutes()), code: feld.value });
+    v = v.slice(0, 10);
+    if (schreib("versionen", JSON.stringify(v))) { zeigeVersionen(); melde("Version gesichert. Es bleiben die letzten 10 Versionen."); }
+    else melde("Dieser Browser erlaubt kein Sichern. Speichere stattdessen eine Datei.");
+  });
+  document.getElementById("k-zurueck").addEventListener("click", function () {
+    var i = document.getElementById("versionen").value;
+    if (i === "") { melde("Wähle zuerst eine Version aus."); return; }
+    var x = versionen()[Number(i)];
+    if (x) { feld.value = x.code; vorschau(); melde("Version vom " + x.zeit + " wiederhergestellt."); }
+  });
+  feld.addEventListener("input", function () { schreib("entwurf", feld.value); });
+
+  zeigeVersionen();
+  var entwurf = lies("entwurf", "");
+  if (entwurf) { feld.value = entwurf; rahmen.srcdoc = entwurf; melde("Dein letzter Entwurf ist wieder da."); }
+})();
+</script>
+</body>
+</html>
