@@ -12,7 +12,7 @@
        Im Browser lässt sich über „Etappe wählen“ jede andere Etappe zur aktuellen machen.
        ============================================================== -->
   <script>var AKTUELLE_WOCHE = 3;</script>
-  <script>var LK_HASH = "1141535e2aedaa71c97fb7c7dbcbba25deae87e3978a4fe51841eb5c4210a191";</script>
+  <script>var LK_HASH = "1141535e2aedaa71c97fb7c7dbcbba25deae87e3978a4fe51841eb5c4210a191", VERLAUF_URL = "https://github.com/TimonNetzel/claude-unterricht/blob/main/13PF/verlauf.md";</script>
   <script>/* Lehrkraft-Zugang: ein Code für alle Seiten (Übersichtsseite, Lernabenteuer, Projekt-App).
    Die Seiten enthalten nur den SHA-256-Fingerabdruck des Codes (CONFIG.codeHash), nie den Code selbst.
    Der eingegebene Code wird im Browser unter 'lk-code' gemerkt (localStorage, gilt für alle Seiten desselben Ursprungs,
@@ -364,6 +364,7 @@ body.beamer .beamer-aus { display: inline-flex; position: fixed; top: 16px; righ
 
     <footer>
       <span id="fuss"></span>
+      <a class="knopf-leise" id="lk-verlauf" href="#" target="_blank" rel="noopener" hidden>📋 Verlauf</a>
       <button class="knopf-leise zahnrad" id="lk-an" type="button" aria-label="Einstellungen für die Lehrkraft" title="Einstellungen für die Lehrkraft" hidden>⚙️</button>
     </footer>
     <dialog id="lk-dialog">
@@ -390,7 +391,7 @@ body.beamer .beamer-aus { display: inline-flex; position: fixed; top: 16px; righ
  "klasse": "13PF",
  "fach": "Mathematik",
  "schuljahr": "2026/27",
- "erzeugt": "2026-11-17",
+ "erzeugt": "2026-11-20",
  "wochen": [
   {
    "nr": 1,
@@ -851,6 +852,8 @@ body.beamer .beamer-aus { display: inline-flex; position: fixed; top: 16px; righ
         var drin = LKZ.angemeldet(LK_HASH);
         aus.hidden = drin; ein.hidden = !drin;
         an.textContent = drin ? "🔓" : "⚙️";
+        var vl = document.getElementById("lk-verlauf");
+        if (vl) { vl.hidden = !(drin && VERLAUF_URL); if (VERLAUF_URL) vl.href = VERLAUF_URL; }
         meldung.textContent = "";
       }
       function anmelden() {
