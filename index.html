@@ -55,6 +55,7 @@ var LKZ=(function(){
   return {norm:norm,hash:hash,stimmt:stimmt,angemeldet:angemeldet,merken:merken,abmelden:abmelden,gemerkt:gemerkt};
 })();
 </script>
+  <script>var SEITEN_VERSION = "6e9a0fc38cb9";</script>
 
   <!-- Alles Weitere erzeugt _werkzeuge/index_bauen.py. Bitte nicht von Hand ändern. -->
   <style>
@@ -327,6 +328,11 @@ body.beamer .beamer-aus { display: inline-flex; position: fixed; top: 16px; righ
       <p class="leer" id="leer" hidden>Keine passende Etappe gefunden.</p>
     </section>
 
+    <section id="praktikum" aria-labelledby="praktikum-titel" hidden>
+      <div class="abschnitt-kopf"><div><h2 id="praktikum-titel">Praktikum</h2><p>Begleitend zum echten Versuch und zum Zeichnen: Anleitungen, Vordrucke und Auswertung.</p></div></div>
+      <div class="karten" id="praktikum-karten"></div>
+    </section>
+
     <section id="skripte" aria-labelledby="skripte-titel" hidden>
       <div class="abschnitt-kopf"><div><h2 id="skripte-titel">Skripte &amp; Anleitungen</h2><p>Begleitmaterial für das ganze Halbjahr.</p></div></div>
       <div class="karten" id="skript-karten"></div>
@@ -345,11 +351,6 @@ body.beamer .beamer-aus { display: inline-flex; position: fixed; top: 16px; righ
     <section id="simulationen" aria-labelledby="simulationen-titel" hidden>
       <div class="abschnitt-kopf"><div><h2 id="simulationen-titel">Lernsimulationen</h2><p>Versuche virtuell vorbereiten. Dazu gibt es das Laborheft für den echten Versuch.</p></div></div>
       <div class="karten" id="simulation-karten"></div>
-    </section>
-
-    <section id="praktikum" aria-labelledby="praktikum-titel" hidden>
-      <div class="abschnitt-kopf"><div><h2 id="praktikum-titel">Praktikum</h2><p>Begleitend zum echten Versuch: Sicherheit, Aufbau, Messen und Auswerten in 45 Minuten.</p></div></div>
-      <div class="karten" id="praktikum-karten"></div>
     </section>
 
     <section id="modelle" aria-labelledby="modelle-titel" hidden>
@@ -391,7 +392,7 @@ body.beamer .beamer-aus { display: inline-flex; position: fixed; top: 16px; righ
  "klasse": "13PF",
  "fach": "Mathematik",
  "schuljahr": "2026/27",
- "erzeugt": "2026-11-20",
+ "erzeugt": "2026-11-22",
  "wochen": [
   {
    "nr": 1,
@@ -529,6 +530,8 @@ body.beamer .beamer-aus { display: inline-flex; position: fixed; top: 16px; righ
  "praktikum": [],
  "projekte": [],
  "modelle": [],
+ "probe_hilfen": [],
+ "praktikum_material": [],
  "planung": [
   {
    "pdf": "planung/woche-05.pdf",
@@ -550,8 +553,7 @@ body.beamer .beamer-aus { display: inline-flex; position: fixed; top: 16px; righ
   }
  ],
  "werkstatt": {
-  "html": "werkstatt/index.html",
-  "start": "werkstatt/mappe_start.html"
+  "html": "werkstatt/index.html"
  }
 };
 
@@ -591,6 +593,10 @@ body.beamer .beamer-aus { display: inline-flex; position: fixed; top: 16px; righ
         "<span>" + esc(label) + (unterzeile ? "<small>" + esc(unterzeile) + "</small>" : "") + "</span></a>";
       if (satz.html && satz.pdf) {
         html += '<a class="mat-neben" href="' + esc(satz.pdf) + '" target="_blank" rel="noopener" aria-label="' + esc(label) + ' als PDF">PDF</a>';
+      }
+      var v = satz.vordruck;
+      if (v && v.pdf) {
+        html += '<a class="mat-neben" href="' + esc(v.pdf) + '" target="_blank" rel="noopener">Vordruck</a>';
       }
       var l = satz.loesung;
       if (l && (l.html || l.pdf)) {
@@ -643,7 +649,9 @@ body.beamer .beamer-aus { display: inline-flex; position: fixed; top: 16px; righ
     if (geschrieben.length) zahlen.push("<b>" + geschrieben.length + "</b> Klausuren");
     var simulationen = d.simulationen || [];
     if (simulationen.length) zahlen.push("<b>" + simulationen.length + "</b> Lernsimulationen");
-    var praktikum = d.praktikum || [];
+    var praktikum = (d.praktikum || []).concat([]);
+    var praktikumMaterial = d.praktikum_material || [];
+    var probeHilfen = d.probe_hilfen || [];
     if (praktikum.length) zahlen.push("<b>" + praktikum.length + "</b> Praktikumseinheiten");
     var modelle = d.modelle || [];
     if (modelle.length) zahlen.push("<b>" + modelle.length + "</b> 3D-Modelle");
@@ -660,7 +668,7 @@ body.beamer .beamer-aus { display: inline-flex; position: fixed; top: 16px; righ
     if (klausuren) sprung.push('<a href="#klausuren">Probeklausuren</a>');
     if (geschrieben.length) sprung.push('<a href="#geschrieben">Klausuren</a>');
     if (simulationen.length) sprung.push('<a href="#simulationen">Lernsimulationen</a>');
-    if (praktikum.length) sprung.push('<a href="#praktikum">Praktikum</a>');
+    if (praktikum.length || praktikumMaterial.length) sprung.push('<a href="#praktikum">Praktikum</a>');
     if (modelle.length) sprung.push('<a href="#modelle">3D-Modelle</a>');
     var planung = d.planung || [];
     if (planung.length) sprung.push('<a href="#planung">Unterrichtsplanung</a>');
@@ -779,7 +787,7 @@ body.beamer .beamer-aus { display: inline-flex; position: fixed; top: 16px; righ
     zeigeOben(Number(new URLSearchParams(location.search).get("woche")) || gespeichert() || 0);
 
     function klausurKarte(k, art, label) {
-      var meta = [k.wochen ? "Etappen " + k.wochen : "", k.dauer].filter(Boolean).join(" · ");
+      var meta = [k.meta, k.wochen ? "Etappen " + k.wochen : "", k.dauer].filter(Boolean).join(" · ");
       return '<div class="karte"><div><h3>' + esc(k.titel) + "</h3>" +
         (meta ? '<div class="woche-meta">' + esc(meta) + "</div>" : "") + "</div>" +
         '<div class="materialien">' + knopf(art, k, label || (art === "klausur" ? "Klausur öffnen" : art === "planung" ? "Planung öffnen" : "Öffnen"), "") + "</div></div>";
@@ -791,7 +799,8 @@ body.beamer .beamer-aus { display: inline-flex; position: fixed; top: 16px; righ
     }
     if (klausuren) {
       document.getElementById("klausur-karten").innerHTML =
-        d.probeklausuren.map(function (k) { return klausurKarte(k, "klausur"); }).join("");
+        d.probeklausuren.map(function (k) { return klausurKarte(k, "klausur"); }).join("") +
+        probeHilfen.map(function (m) { return klausurKarte(m, "skript"); }).join("");
       document.getElementById("klausuren").hidden = false;
     }
     if (geschrieben.length) {
@@ -812,7 +821,7 @@ body.beamer .beamer-aus { display: inline-flex; position: fixed; top: 16px; righ
       document.getElementById("simulationen").hidden = false;
     }
     // Praktikum: Lernabenteuer zum Versuch (volle Seite), Versuchsauswertung (PDF mit Lösung), Planung
-    if (praktikum.length) {
+    if (praktikum.length || praktikumMaterial.length) {
       document.getElementById("praktikum-karten").innerHTML = praktikum.map(function (s) {
         return '<div class="karte"><div><h3>' + esc(s.titel) + "</h3>" +
           (s.dauer ? '<div class="woche-meta">' + esc(s.dauer) + "</div>" : "") + "</div>" +
@@ -820,7 +829,7 @@ body.beamer .beamer-aus { display: inline-flex; position: fixed; top: 16px; righ
           knopf("lernen", s.lernen, "Lernabenteuer starten", "begleitend zum Versuch") +
           knopf("laborheft", s.auswertung, "Versuchsauswertung", "PDF zum Ausfüllen") +
           knopf("planung", s.planung, "Planung", "Ablauf der Stunde") + "</div></div>";
-      }).join("");
+      }).join("") + praktikumMaterial.map(function (m) { return klausurKarte(m, "skript"); }).join("");
       document.getElementById("praktikum").hidden = false;
     }
     // 3D-Modelle: eine HTML-Seite je Modell, zugeordnet zu einer Etappe
@@ -907,6 +916,39 @@ body.beamer .beamer-aus { display: inline-flex; position: fixed; top: 16px; righ
     document.addEventListener("keydown", function (e) {
       if (e.key === "Escape" && document.body.classList.contains("beamer")) beamer(false);
     });
+
+    // ---------- Neue Version erkennen ----------
+    // version.json liegt neben der Seite. Weicht sie ab, erscheint ein Hinweis zum Aktualisieren.
+    (function () {
+      if (!/^https?:/.test(location.protocol) || !window.SEITEN_VERSION || !window.fetch) return;
+      var geprueft = 0;
+      function pruefen() {
+        var jetzt = Date.now();
+        if (jetzt - geprueft < 30000) return;
+        geprueft = jetzt;
+        fetch("version.json?t=" + jetzt, { cache: "no-store" })
+          .then(function (r) { return r.ok ? r.json() : null; })
+          .then(function (d) {
+            if (!d || !d.version || d.version === window.SEITEN_VERSION) return;
+            if (document.getElementById("neue-version")) return;
+            var b = document.createElement("button");
+            b.id = "neue-version";
+            b.type = "button";
+            b.textContent = "Neue Inhalte verfügbar. Tippen zum Aktualisieren";
+            b.setAttribute("style", "position:fixed;left:50%;bottom:16px;transform:translateX(-50%);z-index:9999;padding:12px 18px;border:0;border-radius:999px;background:#1a56db;color:#fff;font:600 15px system-ui,sans-serif;box-shadow:0 4px 16px rgba(0,0,0,.3);cursor:pointer;max-width:92vw");
+            b.addEventListener("click", function () {
+              location.replace(location.pathname + "?v=" + d.version + location.hash);
+            });
+            document.body.appendChild(b);
+          })
+          .catch(function () { /* offline, nichts tun */ });
+      }
+      pruefen();
+      document.addEventListener("visibilitychange", function () {
+        if (document.visibilityState === "visible") pruefen();
+      });
+      window.addEventListener("pageshow", function (e) { if (e.persisted) pruefen(); });
+    }());
 
     // ---------- Alte Links ----------
     // Früher öffnete HTML-Material in einem Betrachter über der Übersicht (#material=<pfad>).
